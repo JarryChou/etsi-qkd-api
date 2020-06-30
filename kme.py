@@ -1,30 +1,7 @@
-import numpy as np
 import os
-import convert
+import numpy as np
+import helper
 
-
-def concat_keys(key_array, size_of_key):
-
-    # if size_of_key == 1:
-    #     concatenated_keys = [convert.int_to_base64(x) for x in key_array]
-    # else:
-    concatenated_keys = []
-    for i in range(len(key_array)):
-        if i%size_of_key == 0:
-            key1 = key_array[i]
-            for j in range(1, size_of_key):
-                key2 = key_array[i+j]
-                key1 = convert.concat_two_int(key1, key2)
-            concatenated_keys.append(convert.int_to_base64(key1))
-
-    keys_array = []
-    for key_ID, key in enumerate(concatenated_keys):
-        temp_dict = {"key_ID": key_ID, "key": key}
-        keys_array.append(temp_dict)
-
-    key_container = {'keys': keys_array}
-
-    return key_container
 
 class kme:
     """
@@ -56,10 +33,10 @@ class kme:
 
     def get_key(self, number, size):
         """
-        Returns a single 32-bit key along with the index
+        Master function that returns the key container of keys from master KME.
         :param: number: type STRING. number of keys requested
         :param: size: type STRING. size of key in bits requested
-        :return: key container containing a single key
+        :return: key container containing the specified keys and key_IDs stored in a dictionary
         """
 
         if number is None:
@@ -86,25 +63,27 @@ class kme:
         :return:
         """
 
-        keys_array = []
-        index_of_keys_arr = []
-        for dict_iter in key_ids:
-            key_index = dict_iter["key_ID"]
-            index_of_keys_arr.append(key_index)
-            key = self.df['keys'][key_index]
-            temp_dict = {"key_ID": key_index, "key": key}
-            keys_array.append(temp_dict)
 
-        key_container = {"keys": keys_array}
-
-        # delete keys that were retrieved in slave SAE
-        self.df.drop(index_of_keys_arr, inplace=True)
+        #
+        # keys_array = []
+        # index_of_keys_arr = []
+        # for dict_iter in key_ids:
+        #     key_index = dict_iter["key_ID"]
+        #     index_of_keys_arr.append(key_index)
+        #     key = self.df['keys'][key_index]
+        #     temp_dict = {"key_ID": key_index, "key": key}
+        #     keys_array.append(temp_dict)
+        #
+        # key_container = {"keys": keys_array}
+        #
+        # # delete keys that were retrieved in slave SAE
+        # self.df.drop(index_of_keys_arr, inplace=True)
 
         return key_container
 
     def get_multiple_keys(self, number, size):
         """
-        Retrieves multiple keys of varying sizes
+        Helper function that calculates the logic of how many keys is needed.
 
         :param number: number of keys requested
         :param size: size of each key in bits
@@ -121,40 +100,16 @@ class kme:
         if num_of_entries > self.stored_key_count:
             raise ValueError
 
+        # Pass to helper function to retrieve key from the qcrypto binary key files
+        keys_retrieved = helper.retrieve_keys_from_file(num_of_entries)
         self.stored_key_count -= num_of_entries
-        keys_retrieved = np.array([])
 
-        while num_of_entries > 0:
+        # Each key in keys_retrieved in 32bits, so if you want longer keys then pass to helper function to
+        # concatenate the keys
+        key_container = helper.concat_keys(keys_retrieved, num_of_keys_to_concat)
 
-            sorted_key_files = sorted(os.listdir('key_files'))
-            key_file_name = sorted_key_files[0] # Retrieve first key file in sorted list
-            key_file_path = os.path.join('key_files', key_file_name)
+        return key_container
 
-            with open(key_file_path, 'rb') as f:
-                key_file = np.fromfile(file=f, dtype='<u4')
-            os.remove(key_file_path)  # Delete the file. Rewrite back modified file later
-
-            header = key_file[:4]  # Header has 4 elements. The rest are key material.
-            keys_available = key_file[4:]
-            len_of_key_file = len(keys_available)
-
-            if len_of_key_file >= num_of_entries:  # Sufficient keys in this file alone
-                keys_retrieved = np.concatenate([keys_retrieved, keys_available[:num_of_entries]])
-                keys_available = keys_available[num_of_entries:]  # Remaining keys
-                num_of_entries = 0
-                header[3] -= num_of_entries  # Update header about number of keys in this file left
-
-                # Write updated file back with the same name
-                key_file = np.concatenate([header, keys_available])
-                key_file.tofile(key_file_path)
-
-            else:
-                keys_retrieved = np.concatenate([keys_retrieved, keys_available[:]])
-                num_of_entries -= len_of_key_file
-
-            keys_retrieved = np.array(keys_retrieved, dtype=int) # Cast type to integer
-            key_container = concat_keys(keys_retrieved, num_of_keys_to_concat)
-            return key_container
 
     def get_status(self):
 
