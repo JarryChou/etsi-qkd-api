@@ -5,10 +5,10 @@ import numpy as np
 
 def concat_keys(key_array, size_of_key):
     """
-    Helper function to concatenate keys, and convert them to base64.
+    Helper function to concatenate keys.
     :param key_array: array of keys in decimal (int) form
     :param size_of_key: how many keys to concatenate together (eg. if 64bit, then size_of_key=2)
-    :return: key container of keys as a dictionary.
+    :return: Array of concatenated keys in int type.
     """
     concatenated_keys = []
     for i in range(len(key_array)):
@@ -16,17 +16,10 @@ def concat_keys(key_array, size_of_key):
             key1 = key_array[i]
             for j in range(1, size_of_key):
                 key2 = key_array[i+j]
-                key1 = concat_two_int(key1, key2)
-            concatenated_keys.append(int_to_base64(key1))
+                key_concat = concat_two_int(key1, key2)
+            concatenated_keys.append(key_concat)
 
-    keys_array = []
-    for key_ID, key in enumerate(concatenated_keys):
-        temp_dict = {"key_ID": key_ID, "key": key}
-        keys_array.append(temp_dict)
-
-    key_container = {'keys': keys_array, 'key_container_extension': }
-
-    return key_container
+    return concatenated_keys
 
 
 def retrieve_keys_from_file(num_of_keys_to_retrieve):

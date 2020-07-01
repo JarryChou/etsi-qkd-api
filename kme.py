@@ -30,10 +30,9 @@ class kme:
 
         self.max_key_count = self.stored_key_count
 
-
     def get_key(self, number, size):
         """
-        Master function that returns the key container of keys from master KME.
+        Master function that returns the key container of keys from KME.
         :param: number: type STRING. number of keys requested
         :param: size: type STRING. size of key in bits requested
         :return: key container containing the specified keys and key_IDs stored in a dictionary
@@ -56,28 +55,16 @@ class kme:
 
         return key_container
 
-    def get_key_with_id(self, key_ids):
+    def get_key_with_id(self, key_ids, size):
         """
 
         :param key_ids: array of dictionaries with key_ids
+        :param size: size of each key in bits
         :return:
         """
 
-
-        #
-        # keys_array = []
-        # index_of_keys_arr = []
-        # for dict_iter in key_ids:
-        #     key_index = dict_iter["key_ID"]
-        #     index_of_keys_arr.append(key_index)
-        #     key = self.df['keys'][key_index]
-        #     temp_dict = {"key_ID": key_index, "key": key}
-        #     keys_array.append(temp_dict)
-        #
-        # key_container = {"keys": keys_array}
-        #
-        # # delete keys that were retrieved in slave SAE
-        # self.df.drop(index_of_keys_arr, inplace=True)
+        number = len(key_ids)
+        key_container = self.get_key(number, size)
 
         return key_container
 
@@ -106,10 +93,21 @@ class kme:
 
         # Each key in keys_retrieved in 32bits, so if you want longer keys then pass to helper function to
         # concatenate the keys
-        key_container = helper.concat_keys(keys_retrieved, num_of_keys_to_concat)
+        concatenated_keys = helper.concat_keys(keys_retrieved, num_of_keys_to_concat)
+
+        # convert each key to base64
+        concatenated_keys = [helper.int_to_base64(x) for x in concatenated_keys]
+
+        # create the keys object as per key container specification in API
+        keys_array = []
+        for key_ID, key in enumerate(concatenated_keys):
+            temp_dict = {"key_ID": key_ID, "key": key}
+            keys_array.append(temp_dict)
+
+        # add the size of each key as parameter under 'key_container_extension'
+        key_container = {'keys': keys_array, 'key_container_extension': size}
 
         return key_container
-
 
     def get_status(self):
 

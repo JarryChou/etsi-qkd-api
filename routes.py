@@ -14,6 +14,9 @@ def get_key(id):
             number = request.args.get('number')
             size = request.args.get('size')
 
+        if size % 32 != 0:
+            return 'Key size not multiple of 32 bits', 400
+
         key_container = app.config['kme'].get_key(number, size)
 
     except KeyError:
@@ -31,12 +34,19 @@ def get_status(id):
 
 @app.route('/api/v1/keys/<id>/dec_keys', methods=['GET', 'POST'])
 def get_key_with_id(id):
-    if request.method == 'POST':
-        key_id = request.args.get('key_ID')
-    else:
-        req_data = request.get_json()
-        key_id = req_data['keys_IDs']
 
-    key_container = app.config['kme'].get_key_with_id(key_id)
+    try:
+        if request.method == 'POST':
+            req_data = request.get_json()
+            key_id = req_data['keys_IDs']
+            key_IDs_extension = req_data['key_IDs_extension']
+        else:
+            key_id = request.args.get('key_ID')
+
+        key_container = app.config['kme'].get_key_with_id(key_id, key_IDs_extension)
+
+    except KeyError:
+        return 'Bad Request Format: Missing parameters in POST request', 400
+
     return jsonify(key_container)
 
