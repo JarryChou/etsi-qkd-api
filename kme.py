@@ -1,6 +1,8 @@
 import os
 import numpy as np
 import helper
+import random
+import uuid
 
 
 class kme:
@@ -30,6 +32,9 @@ class kme:
 
         self.max_key_count = self.stored_key_count
 
+        self.rd = random.Random()
+        self.rd.seed(0) # fix initial seed to be 0 for both master and slave
+
     def get_key(self, number, size):
         """
         Master function that returns the key container of keys from KME.
@@ -55,7 +60,7 @@ class kme:
 
         return key_container
 
-    def get_key_with_id(self, key_ids, size):
+    def get_key_with_id(self, key_ids):
         """
 
         :param key_ids: array of dictionaries with key_ids
@@ -64,6 +69,13 @@ class kme:
         """
 
         number = len(key_ids)
+
+        first_key_ID = key_ids[0]["key_ID"]
+        num_keys_concatenated = len(first_key_ID.split("+"))
+        size = num_keys_concatenated*self.key_size
+
+        print(number, size)
+
         key_container = self.get_key(number, size)
 
         return key_container
@@ -100,12 +112,19 @@ class kme:
 
         # create the keys object as per key container specification in API
         keys_array = []
-        for key_ID, key in enumerate(concatenated_keys):
+        for key in concatenated_keys:
+
+            key_ID = ""
+            for num_key in range(num_of_keys_to_concat):
+                key_ID += str(uuid.UUID(int=self.rd.getrandbits(128))) # UUID requires 128 random bits to generate
+                if num_key < num_of_keys_to_concat-1: # add a '+' delimiter to link UUIDs of concatenated keys
+                    key_ID += "+"
+
             temp_dict = {"key_ID": key_ID, "key": key}
             keys_array.append(temp_dict)
 
         # add the size of each key as parameter under 'key_container_extension'
-        key_container = {'keys': keys_array, 'key_container_extension': size}
+        key_container = {'keys': keys_array}
 
         return key_container
 

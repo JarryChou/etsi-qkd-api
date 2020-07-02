@@ -39,11 +39,11 @@ def get_key_with_id(id):
         if request.method == 'POST':
             req_data = request.get_json()
             key_id = req_data['keys_IDs']
-            key_IDs_extension = req_data['key_IDs_extension']
+            # key_IDs_extension = req_data['key_IDs_extension']
         else:
             key_id = request.args.get('key_ID')
 
-        key_container = app.config['kme'].get_key_with_id(key_id, key_IDs_extension)
+        key_container = app.config['kme'].get_key_with_id(key_id)
 
     except KeyError:
         return 'Bad Request Format: Missing parameters in POST request', 400
