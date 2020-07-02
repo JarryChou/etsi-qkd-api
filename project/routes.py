@@ -1,4 +1,4 @@
-from __main__ import app
+from project import app
 from flask import jsonify, request
 
 
