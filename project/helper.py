@@ -16,15 +16,16 @@ def concat_keys(key_array, size_of_key):
             key1 = key_array[i]
             for j in range(1, size_of_key):
                 key2 = key_array[i+j]
-                key_concat = concat_two_int(key1, key2)
-            concatenated_keys.append(key_concat)
+                key1 = concat_two_int(key1, key2)
+            concatenated_keys.append(key1)
 
     return concatenated_keys
 
 
-def retrieve_keys_from_file(num_of_keys_to_retrieve):
+def retrieve_keys_from_file(num_of_keys_to_retrieve: int, key_file_path: str):
     """
     Helper function to retrieve keys from the actual qcrypto binary key files.
+    :param key_file_path:
     :param num_of_keys_to_retrieve: total number of keys to retrieve
     :return: array of keys in decimal (int) form.
     """
@@ -32,9 +33,9 @@ def retrieve_keys_from_file(num_of_keys_to_retrieve):
 
     while num_of_keys_to_retrieve > 0:
 
-        sorted_key_files = sorted(os.listdir('key_files'))
+        sorted_key_files = sorted(os.listdir(key_file_path))
         key_file_name = sorted_key_files[0]  # Retrieve first key file in sorted list
-        key_file_path = os.path.join('key_files', key_file_name)
+        key_file_path = os.path.join(key_file_path, key_file_name)
 
         with open(key_file_path, 'rb') as f:
             key_file = np.fromfile(file=f, dtype='<u4')

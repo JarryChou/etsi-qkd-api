@@ -5,7 +5,7 @@ import random
 import uuid
 
 
-class kme:
+class KME:
     """
     Class for the KME on each node. This class also defines the related methods for manipulating the keys.
     """
@@ -21,11 +21,12 @@ class kme:
     max_SAE_ID_count = 0
     status_extension = ''
 
-    def __init__(self):
+    def __init__(self, key_file_path: str):
         self.stored_key_count = 0
+        self.key_file_path = key_file_path
 
-        for filename in os.listdir('key_files'):
-            file_path = os.path.join('key_files', filename)
+        for filename in os.listdir(key_file_path):
+            file_path = os.path.join(key_file_path, filename)
             with open(file_path, 'rb') as f:
                 data = np.fromfile(file=f, dtype='<u4')
                 self.stored_key_count += len(data) - 4 # minus 4 due to header information
@@ -74,8 +75,6 @@ class kme:
         num_keys_concatenated = len(first_key_ID.split("+"))
         size = num_keys_concatenated*self.key_size
 
-        print(number, size)
-
         key_container = self.get_key(number, size)
 
         return key_container
@@ -100,7 +99,7 @@ class kme:
             raise ValueError
 
         # Pass to helper function to retrieve key from the qcrypto binary key files
-        keys_retrieved = helper.retrieve_keys_from_file(num_of_entries)
+        keys_retrieved = helper.retrieve_keys_from_file(num_of_entries, self.key_file_path)
         self.stored_key_count -= num_of_entries
 
         # Each key in keys_retrieved in 32bits, so if you want longer keys then pass to helper function to
