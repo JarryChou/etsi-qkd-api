@@ -39,8 +39,6 @@ class BasicHelperTest(unittest.TestCase):
         concat_two_int(789, 987) == 3388729197531
         concat_two_int(654, 321) == 2808908611905
         So we expect concat_keys to return [528280977864, 3388729197531, 2808908611905]
-        :param self:
-        :return:
         """
         keys_to_concat = [123, 456, 789, 987, 654, 321]
         correct_answer = [528280977864, 3388729197531, 2808908611905]
