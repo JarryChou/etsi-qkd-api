@@ -1,5 +1,5 @@
-from project import app
 from flask import jsonify, request
+from project import app
 
 
 @app.route('/api/v1/keys/<id>/enc_keys', methods=['GET', 'POST'])
@@ -14,7 +14,7 @@ def get_key(id):
             number = request.args.get('number')
             size = request.args.get('size')
 
-        if size % 32 != 0:
+        if size is not None and size % 32 != 0:
             return 'Key size not multiple of 32 bits', 400
 
         key_container = app.config['kme'].get_key(number, size)

@@ -1,21 +1,22 @@
+import random
+import uuid
 import os
 import numpy as np
 from project import helper
-import random
-import uuid
 
 
 class KME:
     """
-    Class for the KME on each node. This class also defines the related methods for manipulating the keys.
+    Class for the KME on each node. This class also defines the related methods for manipulating
+    the keys.
     """
 
-    source_KME_ID = 'a'
-    target_KME_ID = 'b'
-    master_SAE_ID = 'a'
-    slave_SAE_ID = 'b'
+    source_KME_ID = '10.0.1.30'
+    target_KME_ID = '10.0.1.40'
+    master_SAE_ID = '10.0.1.10'
+    slave_SAE_ID = '10.0.1.20'
     key_size = 32
-    max_key_per_request = 128
+    max_key_per_request = 10
     max_key_size = 1024
     min_key_size = 32
     max_SAE_ID_count = 0
@@ -102,8 +103,8 @@ class KME:
         keys_retrieved = helper.retrieve_keys_from_file(num_of_entries, self.key_file_path)
         self.stored_key_count -= num_of_entries
 
-        # Each key in keys_retrieved in 32bits, so if you want longer keys then pass to helper function to
-        # concatenate the keys
+        # Each key in keys_retrieved in 32bits, so if you want longer keys then pass to
+        # helper function to concatenate the keys
         concatenated_keys = helper.concat_keys(keys_retrieved, num_of_keys_to_concat)
 
         # convert each key to base64
@@ -128,7 +129,10 @@ class KME:
         return key_container
 
     def get_status(self):
-
+        """
+        Returns status of KME
+        :return: dictionary of status properties of KME
+        """
         status = {
             "source_KME_ID": self.source_KME_ID,
             "target_KME_ID": self.target_KME_ID,

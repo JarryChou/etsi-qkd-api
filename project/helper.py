@@ -11,7 +11,7 @@ def concat_keys(key_array, size_of_key):
     :return: Array of concatenated keys in int type.
     """
     concatenated_keys = []
-    for i in range(len(key_array)):
+    for i, _ in enumerate(key_array):
         if i % size_of_key == 0:
             key1 = key_array[i]
             for j in range(1, size_of_key):
@@ -64,14 +64,37 @@ def retrieve_keys_from_file(num_of_keys_to_retrieve: int, key_file_path: str):
 
 
 def int_to_32_bin(x: int) -> str:
+    """
+    Conert an integer to a 32-bit binary string.
+    :param x: integer
+    :return: string of 32-bit binary
+    """
     return '{:032b}'.format(x)
 
 
 def bin_to_int(x: str) -> int:
+    """
+    Convert from a 32-bit binary string to a integer
+    :param x: 32-bit binary string
+    :return: corresponding integer
+    """
     return int(x, 2)
 
 
 def concat_two_int(x: int, y: int) -> int:
+    """
+    Concatenate two integers in their 32-bit binary form.
+
+    For example:
+    123 in 32-bit binary is 00000000000000000000000001111011.
+    456 in 32-bit binary is 00000000000000000000000111001000.
+    The binary concatenated form is
+    0000000000000000000000000111101100000000000000000000000111001000,
+    which in base 10 is 528280977864.
+    :param x: base 10 integer
+    :param y: base 10 integer
+    :return: concatenated integers in base 10
+    """
     x_bin = int_to_32_bin(x)
     y_bin = int_to_32_bin(y)
     concat = x_bin + y_bin
@@ -79,6 +102,11 @@ def concat_two_int(x: int, y: int) -> int:
 
 
 def int_to_base64(x: int) -> str:
+    """
+    Converts an integer to base64 string
+    :param x: integer to convert to base 54
+    :return: corresponding string in base64
+    """
     base64_byte = base64.b64encode(str(x).encode('ascii'))  # byte object
     base64_str = base64_byte.decode('utf-8')  # convert from byte object to string
     return base64_str
