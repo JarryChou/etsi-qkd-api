@@ -2,6 +2,11 @@ from flask import jsonify, request
 from project import app
 
 
+@app.route('/')
+def home():
+    return "Hello World!"
+
+
 @app.route('/api/v1/keys/<id>/enc_keys', methods=['GET', 'POST'])
 def get_key(id):
 
