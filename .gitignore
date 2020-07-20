@@ -4,3 +4,5 @@ __pycache__
 /.ipynb_checkpoints/
 /key_files/
 *.ipynb
+*.pyc
+key_files/
