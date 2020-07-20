@@ -100,11 +100,13 @@ class KME:
             raise ValueError
 
         # Pass to helper function to retrieve key from the qcrypto binary key files
+        # keys_retrieved will be an array of 32-bit integers
         keys_retrieved = helper.retrieve_keys_from_file(num_of_entries, self.key_file_path)
         self.stored_key_count -= num_of_entries
 
-        # Each key in keys_retrieved in 32bits, so if you want longer keys then pass to
+        # Each key in keys_retrieved is 32bits, so if you want longer keys then pass to
         # helper function to concatenate the keys
+        # concatenated_keys will be an array of integers
         concatenated_keys = helper.concat_keys(keys_retrieved, num_of_keys_to_concat)
 
         # convert each key to base64

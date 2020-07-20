@@ -4,6 +4,10 @@ import sys, socket
 from _thread import *
 # from Crypto.Cipher import AES
 from AES_class import AESCipher
+import sys
+sys.path.insert(1,'/home/alvin/PycharmProjects/etsi-qkd-api')
+from project.kme import KME
+import base64
 
 def msg_box(title, data):
     w = QtWidgets.QWidget()
@@ -12,8 +16,6 @@ def msg_box(title, data):
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
-    #enc_key = 'This is a key123'
-    #init_vec = 'This is an IV456'
 
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -24,8 +26,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         # Add more functionality to UI elements
         self.send_button.clicked.connect(self.send_message)
 
-        #self.AES_obj = AES.new(self.enc_key, AES.MODE_CBC, self.init_vec)
-        self.AES_obj = AESCipher('This is a key123')
+        # Retrieve a 256-bit qcrypto key as symmetric key for AES256 for this chat session
+        KME_obj = KME('/home/alvin/PycharmProjects/etsi-qkd-api/key_files')
+        key_container = KME_obj.get_key(1, 256)
+        key = key_container['keys'][0]['key']
+        key = base64.b64decode(key)
+        self.AES_obj = AESCipher(key)
 
         self.start_server()
 
@@ -53,7 +59,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             else:
                 data = conn.recv(4096)
                 decrypted_msg = self.AES_obj.decrypt(data)
-                self.main_chat_box.append(decrypted_msg.decode('utf-8'))
+                self.main_chat_box.append(decrypted_msg)
                 conn.close()
         s.close()
 

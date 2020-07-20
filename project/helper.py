@@ -63,11 +63,12 @@ def retrieve_keys_from_file(num_of_keys_to_retrieve: int, key_file_path: str):
     return keys_retrieved
 
 
-def int_to_32_bin(x: int) -> str:
+def int_to_bitstring(x: int) -> str:
     """
-    Conert an integer to a 32-bit binary string.
+    Convert an integer to AT LEAST a 32-bit binary string (pad extra bits with 0). If the integer is greater than
+    32-bits, then return the binary representation with the minimum number of bits to represent the integer.
     :param x: integer
-    :return: string of 32-bit binary
+    :return: bitstring of AT LEAST 32-bit
     """
     return '{:032b}'.format(x)
 
@@ -95,8 +96,8 @@ def concat_two_int(x: int, y: int) -> int:
     :param y: base 10 integer
     :return: concatenated integers in base 10
     """
-    x_bin = int_to_32_bin(x)
-    y_bin = int_to_32_bin(y)
+    x_bin = int_to_bitstring(x)
+    y_bin = int_to_bitstring(y)
     concat = x_bin + y_bin
     return bin_to_int(concat)
 
@@ -104,9 +105,14 @@ def concat_two_int(x: int, y: int) -> int:
 def int_to_base64(x: int) -> str:
     """
     Converts an integer to base64 string
-    :param x: integer to convert to base 54
+    :param x: integer to convert to base 64
     :return: corresponding string in base64
     """
-    base64_byte = base64.b64encode(str(x).encode('ascii'))  # byte object
-    base64_str = base64_byte.decode('utf-8')  # convert from byte object to string
+
+    base64_byte = base64.b64encode(bitstring_to_bytes(int_to_bitstring(x)))  # returns a byte object encoded in base64
+    base64_str = base64_byte.decode()  # convert from byte object to string
     return base64_str
+
+
+def bitstring_to_bytes(s: str) -> bytes:
+    return int(s, 2).to_bytes((len(s)+7) // 8, byteorder='big')
