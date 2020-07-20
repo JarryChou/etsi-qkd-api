@@ -2,8 +2,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from gui_class import Ui_MainWindow
 import sys, socket
 from _thread import *
-from Crypto.Cipher import AES
-
+# from Crypto.Cipher import AES
+from AES_class import AESCipher
 
 def msg_box(title, data):
     w = QtWidgets.QWidget()
@@ -12,8 +12,8 @@ def msg_box(title, data):
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
-    enc_key = 'This is a key123'
-    init_vec = 'This is an IV456'
+    #enc_key = 'This is a key123'
+    #init_vec = 'This is an IV456'
 
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -24,7 +24,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         # Add more functionality to UI elements
         self.send_button.clicked.connect(self.send_message)
 
-        self.AES_obj = AES.new(self.enc_key, AES.MODE_CBC, self.init_vec)
+        #self.AES_obj = AES.new(self.enc_key, AES.MODE_CBC, self.init_vec)
+        self.AES_obj = AESCipher('This is a key123')
 
         self.start_server()
 
@@ -52,7 +53,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             else:
                 data = conn.recv(4096)
                 decrypted_msg = self.AES_obj.decrypt(data)
-                self.main_chat_box.append(decrypted_msg)
+                self.main_chat_box.append(decrypted_msg.decode('utf-8'))
                 conn.close()
         s.close()
 
