@@ -20,16 +20,16 @@ class BasicHelperTest(unittest.TestCase):
         """
         9999 as a 32 bit binary is 00000000000000000010011100001111
         """
-        self.assertEqual(helper.int_to_32_bin(9999), '00000000000000000010011100001111')
+        self.assertEqual(helper.int_to_bitstring(9999), '00000000000000000010011100001111')
 
     def test_bin_to_int(self):
         self.assertEqual(helper.bin_to_int('00000000000000000010011100001111'), 9999)
 
     def test_int_to_base64(self):
         """
-        9999 in base64 is OTk5OQ==
+        9999 when converted to 32-bit binary, then converted to base64 is AAAnDw==
         """
-        self.assertEqual(helper.int_to_base64(9999), 'OTk5OQ==')
+        self.assertEqual(helper.int_to_base64(9999), 'AAAnDw==')
 
     def test_concat_keys(self):
         """
