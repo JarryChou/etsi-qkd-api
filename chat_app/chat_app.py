@@ -12,8 +12,8 @@ def msg_box(title, data):
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
-    enc_key = 'ABC123'
-    init_vec = '123ABC'
+    enc_key = 'This is a key123'
+    init_vec = 'This is an IV456'
 
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -24,7 +24,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         # Add more functionality to UI elements
         self.send_button.clicked.connect(self.send_message)
 
-        self.AES_obj= AES.new(self.enc_key, AES.MODE_CBC, self.init_vec)
+        self.AES_obj = AES.new(self.enc_key, AES.MODE_CBC, self.init_vec)
 
         self.start_server()
 
@@ -51,9 +51,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 conn.close()
             else:
                 data = conn.recv(4096)
-                self.main_chat_box.append("encrypted data: " + data.decode('utf-8') + "\n")
-                decrypted_msg = self.AES_obj.decrypt(data.decode('utf-8'))
-                self.main_chat_box.append("decrypted data: " + decrypted_msg + "\n")
+                decrypted_msg = self.AES_obj.decrypt(data)
+                self.main_chat_box.append(decrypted_msg)
                 conn.close()
         s.close()
 
@@ -77,7 +76,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         
         try:
             encrypted_msg = self.AES_obj.encrypt(rmsg)
-            c.send(encrypted_msg.encode('utf-8'))
+            c.send(encrypted_msg)
             self.main_chat_box.append(rmsg)
         except Exception as e:
             msg_box("Failed to send", "Failed to send message, error msg is "+ str(e))
