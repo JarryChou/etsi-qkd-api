@@ -12,15 +12,17 @@ def get_key(id):
 
     try:
         if request.method == 'POST':
+            # POST returns number and size in int
             req_data = request.get_json()
             number = req_data['number']
             size = req_data['size']
         else:
+            # GET returns arguments in string format
             number = request.args.get('number')
             size = request.args.get('size')
 
-        if size is not None and size % 32 != 0:
-            return 'Key size not multiple of 32 bits', 400
+        # if size is not None and size % 32 != 0:
+        #     return 'Key size not multiple of 32 bits', 400
 
         key_container = app.config['kme'].get_key(number, size)
 

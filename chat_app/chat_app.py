@@ -1,13 +1,16 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtWidgets
 from gui_class import Ui_MainWindow
-import sys, socket
-from _thread import *
-# from Crypto.Cipher import AES
-from AES_class import AESCipher
 import sys
-sys.path.insert(1,'/home/alvin/PycharmProjects/etsi-qkd-api')
-from project.kme import KME
+import socket
+from _thread import *
+from AES_class import AESCipher
 import base64
+import requests
+import urllib3
+
+# disables annoying warning that method is soon to be deprecated when performing TLS handshake with ETSI QKD server
+urllib3.disable_warnings(urllib3.exceptions.SubjectAltNameWarning)
+
 
 def msg_box(title, data):
     w = QtWidgets.QWidget()
@@ -16,28 +19,33 @@ def msg_box(title, data):
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
-
     def __init__(self):
         super(MainWindow, self).__init__()
 
         # Set up the user interface from Designer.
         self.setupUi(self)
 
-        # Add more functionality to UI elements
+        # Add more functionality to UI elements. These are inherited from gui_class.py.
         self.send_button.clicked.connect(self.send_message)
 
-        # Retrieve a 256-bit qcrypto key as symmetric key for AES256 for this chat session
-        KME_obj = KME('/home/alvin/PycharmProjects/etsi-qkd-api/key_files')
-        key_container = KME_obj.get_key(1, 256)
+        # Retrieve a 256-bit qcrypto key as symmetric key for AES256 for this chat session from ETSI QKD API server
+        URL = 'https://10.0.1.30/api/v1/keys/1/enc_keys'
+
+        # AESCipher takes in a 32bytes (256bit) bytes object as private key
+        PARAMS = {'number': 1, 'size': 256}
+
+        # call GET request. include path to certificate file for TLS handshake to work
+        r = requests.get(url=URL, params=PARAMS, verify='/etc/ssl/certs/certA.pem')
+        key_container = r.json()
         key = key_container['keys'][0]['key']
-        key = base64.b64decode(key)
+        key = base64.b64decode(key)  # key is in base64 encoding (according to ETSI API), so decode to UTF8 bytes object
         self.AES_obj = AESCipher(key)
 
         self.start_server()
 
     def start_server(self):
         start_new_thread(self.server_socket, ())
-        msg_box("Success", "Server Started Succesfully")
+        msg_box("Success", "Server Started Successfully")
 
     def server_socket(self):
         try:
@@ -68,10 +76,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         nick = self.nick_line.text()
         nick = nick.replace("#>", "")
-        rmessage = self.compose_msg_box.text()
-        rmessage = rmessage.replace("#>", "")
+        raw_message = self.compose_msg_box.text()
+        raw_message = raw_message.replace("#>", "")
 
-        rmsg = nick + " #> " + rmessage
+        processed_message = nick + " #> " + raw_message
 
         c = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -82,11 +90,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             return
         
         try:
-            encrypted_msg = self.AES_obj.encrypt(rmsg)
+            encrypted_msg = self.AES_obj.encrypt(processed_message)
             c.send(encrypted_msg)
-            self.main_chat_box.append(rmsg)
+            self.main_chat_box.append(processed_message)
         except Exception as e:
-            msg_box("Failed to send", "Failed to send message, error msg is "+ str(e))
+            msg_box("Failed to send", "Failed to send message, error msg is " + str(e))
             
         c.close()
 

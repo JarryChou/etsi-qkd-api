@@ -1,7 +1,11 @@
+"""
+Wrapper class for PyCrypto library that implements standard cryptographic functions eg. AES256, SHA256, RSA etc.
+All credits for code goes to (with some slight modifications): https://stackoverflow.com/a/21928790
+"""
+
 import base64
 from Crypto import Random
 from Crypto.Cipher import AES
-import sys
 
 
 class AESCipher(object):
