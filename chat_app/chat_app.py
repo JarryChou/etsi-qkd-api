@@ -1,5 +1,5 @@
 from PyQt5 import QtWidgets
-from gui_class import Ui_MainWindow
+from chat_gui import Ui_MainWindow
 import sys
 import socket
 from _thread import *
@@ -18,6 +18,10 @@ def msg_box(title, data):
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
+    """
+    Inherits from GUI class chat_gui.py. The reason for inheritance is so that if changes need to be made to the UI from
+    QT Designer 5, the new .py file it generates will not erase all of the networking functionality implemented here.
+    """
 
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -25,7 +29,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         # Set up the user interface from Designer.
         self.setupUi(self)
 
-        # Add more functionality to UI elements. These are inherited from gui_class.py.
+        # Add more functionality to UI elements. These are inherited from chat_gui.py.
         self.send_button.clicked.connect(self.send_message)
 
         # Retrieve a 256-bit qcrypto key as symmetric key for AES256 for this chat session from ETSI QKD API server
@@ -65,9 +69,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             if incoming_ip != current_chat_ip:
                 conn.close()
             else:
-                data = conn.recv(4096)
-                decrypted_msg = self.AES_obj.decrypt(data)
-                self.main_chat_box.append(decrypted_msg)
+                encrypted_msg = conn.recv(4096)
+                decrypted_msg = self.AES_obj.decrypt(encrypted_msg)
+                self.decrypted_chat_box.append(decrypted_msg)
+                self.encrypted_chat_box.append(encrypted_msg.decode())
                 conn.close()
         s.close()
 
@@ -76,10 +81,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         nick = self.nick_line.text()
         nick = nick.replace("#>", "")
-        raw_message = self.compose_msg_box.text()
-        raw_message = raw_message.replace("#>", "")
+        raw_msg = self.compose_msg_box.text()
+        raw_msg = raw_msg.replace("#>", "")
 
-        processed_message = nick + " #> " + raw_message
+        processed_msg = nick + " #> " + raw_msg
 
         c = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -90,9 +95,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             return
         
         try:
-            encrypted_msg = self.AES_obj.encrypt(processed_message)
+            encrypted_msg = self.AES_obj.encrypt(processed_msg)
             c.send(encrypted_msg)
-            self.main_chat_box.append(processed_message)
+            self.encrypted_chat_box.append(encrypted_msg.decode())
+            self.decrypted_chat_box.append(processed_msg)
         except Exception as e:
             msg_box("Failed to send", "Failed to send message, error msg is " + str(e))
             

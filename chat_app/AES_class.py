@@ -1,5 +1,5 @@
 """
-Wrapper class for PyCrypto library that implements standard cryptographic functions eg. AES256, SHA256, RSA etc.
+Wrapper class for PyCrypto library, specifically wrapping the AES functionality.
 All credits for code goes to (with some slight modifications): https://stackoverflow.com/a/21928790
 """
 

@@ -45,9 +45,9 @@
     <widget class="QLineEdit" name="ip_addr_line">
      <property name="geometry">
       <rect>
-       <x>110</x>
+       <x>90</x>
        <y>0</y>
-       <width>181</width>
+       <width>291</width>
        <height>25</height>
       </rect>
      </property>
@@ -55,22 +55,22 @@
     <widget class="QLabel" name="nick_label">
      <property name="geometry">
       <rect>
-       <x>460</x>
+       <x>390</x>
        <y>0</y>
-       <width>67</width>
+       <width>81</width>
        <height>17</height>
       </rect>
      </property>
      <property name="text">
-      <string>Nick</string>
+      <string>Username</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="nick_line">
      <property name="geometry">
       <rect>
-       <x>540</x>
+       <x>460</x>
        <y>0</y>
-       <width>221</width>
+       <width>301</width>
        <height>25</height>
       </rect>
      </property>
@@ -91,13 +91,13 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QTextEdit" name="main_chat_box">
+    <widget class="QTextEdit" name="decrypted_chat_box">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>0</y>
-       <width>761</width>
-       <height>451</height>
+       <y>10</y>
+       <width>381</width>
+       <height>441</height>
       </rect>
      </property>
     </widget>
@@ -111,7 +111,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>compose your message here</string>
+      <string/>
      </property>
     </widget>
     <widget class="QPushButton" name="send_button">
@@ -125,6 +125,16 @@
      </property>
      <property name="text">
       <string>Send</string>
+     </property>
+    </widget>
+    <widget class="QTextEdit" name="main_chat_box_2">
+     <property name="geometry">
+      <rect>
+       <x>390</x>
+       <y>10</y>
+       <width>381</width>
+       <height>441</height>
+      </rect>
      </property>
     </widget>
    </widget>
