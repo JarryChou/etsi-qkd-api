@@ -127,7 +127,7 @@
       <string>Send</string>
      </property>
     </widget>
-    <widget class="QTextEdit" name="main_chat_box_2">
+    <widget class="QTextEdit" name="encrypted_chat_box">
      <property name="geometry">
       <rect>
        <x>390</x>
