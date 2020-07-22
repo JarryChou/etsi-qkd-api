@@ -48,7 +48,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.start_server()
 
     def start_server(self):
-        threading.Thread(target=self.server_socket, args=())
+        thread = threading.Thread(target=self.server_socket, args=())
+        thread.start()
         msg_box("Success", "Server Started Successfully")
 
     def server_socket(self):
