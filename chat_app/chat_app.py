@@ -2,7 +2,7 @@ from PyQt5 import QtWidgets
 from chat_gui import Ui_MainWindow
 import sys
 import socket
-from _thread import *
+import threading
 from AES_class import AESCipher
 import base64
 import requests
@@ -48,7 +48,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.start_server()
 
     def start_server(self):
-        start_new_thread(self.server_socket, ())
+        threading.Thread(target=self.server_socket, args=())
         msg_box("Success", "Server Started Successfully")
 
     def server_socket(self):
