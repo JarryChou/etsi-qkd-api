@@ -3,7 +3,7 @@ from chat_gui import Ui_MainWindow
 from connect_gui import Ui_ConnectWindow
 import sys
 import socket
-from _thread import *
+import threading
 from AES_class import AESCipher
 import base64
 import requests
@@ -52,7 +52,8 @@ class ConnectWindow(QtWidgets.QMainWindow, Ui_ConnectWindow):
 
 
     def start_connect_server(self):
-        start_new_thread(self.server_socket, ())
+        thread = threading.Thread(target=self.server_socket, args=())
+        thread.start()
         # msg_box("Success", "Server Started Successfully")
 
     def server_socket(self):
@@ -117,7 +118,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.start_chat_server()
 
     def start_chat_server(self):
-        start_new_thread(self.server_socket, ())
+        thread = threading.Thread(target=self.server_socket, args=())
+        thread.start()
         # msg_box("Success", "Server Started Successfully")
 
     def server_socket(self):
