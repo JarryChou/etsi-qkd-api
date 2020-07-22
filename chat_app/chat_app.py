@@ -22,10 +22,25 @@ class ConnectWindow(QtWidgets.QMainWindow, Ui_ConnectWindow):
 
     def __init__(self):
         super(ConnectWindow, self).__init__()
+
+        self.sent_username = False
+        self.received_username = False
+
         self.setupUi(self)
 
         self.connect_button.clicked.connect(self.connect_to)
         self.start_connect_server()
+        self.checker_thread()
+
+    def checker_thread(self):
+        thread = threading.Thread(target=self.check_usernames, args=())
+        thread.start()
+
+    def check_usernames(self):
+        while True:
+            if self.sent_username is True and self.received_username is True:
+                break
+        self.main_window.show()
 
     def connect_to(self):
 
@@ -48,8 +63,8 @@ class ConnectWindow(QtWidgets.QMainWindow, Ui_ConnectWindow):
                 continue
 
             c.close()
+            self.sent_username = True
             return
-
 
     def start_connect_server(self):
         thread = threading.Thread(target=self.server_socket, args=())
@@ -75,6 +90,7 @@ class ConnectWindow(QtWidgets.QMainWindow, Ui_ConnectWindow):
                 conn.close()
             else:
                 self.other_username = conn.recv(4096).decode()  # username of other user
+                self.received_username = True
                 conn.close()
                 break
         s.close()
