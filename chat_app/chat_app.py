@@ -1,5 +1,6 @@
 from PyQt5 import QtWidgets
 from chat_gui import Ui_MainWindow
+from connect_gui import Ui_ConnectWindow
 import sys
 import socket
 from _thread import *
@@ -17,17 +18,80 @@ def msg_box(title, data):
     QtWidgets.QMessageBox.information(w, title, data)
 
 
+class ConnectWindow(QtWidgets.QMainWindow, Ui_ConnectWindow):
+
+    def __init__(self):
+        super(ConnectWindow, self).__init__()
+        self.setupUi(self)
+
+        self.connect_button.clicked.connect(self.connect_to)
+        self.start_connect_server()
+
+    def connect_to(self):
+        self.other_ip_addr = self.ip_addr.text()
+        self.your_username = self.username.text()
+
+        c = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+        try:
+            c.connect((self.other_ip_addr, 6190))
+        except Exception as e:
+            msg_box("Connection Refused", "Failed to connect to IP " + self.other_ip_addr + ", error msg is " + str(e))
+            return
+
+        try:
+            c.send(self.your_username)
+        except Exception as e:
+            msg_box("Failed to send", "Failed to send message, error msg is " + str(e))
+
+        c.close()
+
+    def start_connect_server(self):
+        start_new_thread(self.server_socket, ())
+        # msg_box("Success", "Server Started Successfully")
+
+    def server_socket(self):
+        try:
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.bind(('', 6190))
+            s.listen(1)
+        except socket.error:
+            msg_box("Socket Error !!", "Unable to setup local socket. Port in use")
+            return
+
+        while True:
+            conn, addr = s.accept()
+
+            incoming_ip = str(addr[0])
+            current_ip = self.ip_addr.text()
+
+            if incoming_ip != current_ip:
+                conn.close()
+            else:
+                self.other_username = conn.recv(4096).decode()  # username of other user
+                conn.close()
+                break
+        s.close()
+
+    def show_main_window(self):
+        self.main_window = MainWindow(self.other_ip_addr, self.your_username, self.other_username)
+        self.main_window.show()
+
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     """
     Inherits from GUI class chat_gui.py. The reason for inheritance is so that if changes need to be made to the UI from
     QT Designer 5, the new .py file it generates will not erase all of the networking functionality implemented here.
     """
 
-    def __init__(self):
+    def __init__(self, other_ip_addr, your_username, other_username):
         super(MainWindow, self).__init__()
 
         # Set up the user interface from Designer.
         self.setupUi(self)
+
+        self.your_username = your_username
+        self.other_username = other_username
+        self.other_ip_addr = other_ip_addr
 
         # Add more functionality to UI elements. These are inherited from chat_gui.py.
         self.send_button.clicked.connect(self.send_message)
@@ -45,11 +109,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         key = base64.b64decode(key)  # key is in base64 encoding (according to ETSI API), so decode to UTF8 bytes object
         self.AES_obj = AESCipher(key)
 
-        self.start_server()
+        self.start_chat_server()
 
-    def start_server(self):
+    def start_chat_server(self):
         start_new_thread(self.server_socket, ())
-        msg_box("Success", "Server Started Successfully")
+        # msg_box("Success", "Server Started Successfully")
 
     def server_socket(self):
         try:
@@ -62,43 +126,29 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         
         while True:
             conn, addr = s.accept()
-
-            incoming_ip = str(addr[0])
-            current_chat_ip = self.ip_addr_line.text()
-
-            if incoming_ip != current_chat_ip:
-                conn.close()
-            else:
-                encrypted_msg = conn.recv(4096)
-                decrypted_msg = self.AES_obj.decrypt(encrypted_msg)
-                self.decrypted_chat_box.append(decrypted_msg)
-                self.encrypted_chat_box.append(encrypted_msg.decode())
-                conn.close()
+            encrypted_msg = conn.recv(4096)
+            decrypted_msg = self.AES_obj.decrypt(encrypted_msg)
+            self.decrypted_chat_box.append(self.other_username + ": " + decrypted_msg)
+            self.encrypted_chat_box.append(self.other_username + ": " + encrypted_msg.decode())
+            conn.close()
         s.close()
 
     def send_message(self):
-        ip_address = self.ip_addr_line.text()
-
-        nick = self.nick_line.text()
-        nick = nick.replace("#>", "")
-        raw_msg = self.compose_msg_box.text()
-        raw_msg = raw_msg.replace("#>", "")
-
-        processed_msg = nick + " #> " + raw_msg
+        msg = self.compose_msg_box.text()
 
         c = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
         try:
-            c.connect((ip_address, 6190))
+            c.connect((self.other_ip_addr, 6190))
         except Exception as e:
-            msg_box("Connection Refused", "Failed to connect to IP " + ip_address + ", error msg is " + str(e))
+            msg_box("Connection Refused", "Failed to connect to IP " + self.other_ip_addr + ", error msg is " + str(e))
             return
         
         try:
-            encrypted_msg = self.AES_obj.encrypt(processed_msg)
+            encrypted_msg = self.AES_obj.encrypt(msg)
             c.send(encrypted_msg)
-            self.encrypted_chat_box.append(encrypted_msg.decode())
-            self.decrypted_chat_box.append(processed_msg)
+            self.encrypted_chat_box.append(self.your_username + ": " + encrypted_msg.decode())
+            self.decrypted_chat_box.append(self.your_username + ": " + msg)
         except Exception as e:
             msg_box("Failed to send", "Failed to send message, error msg is " + str(e))
             
@@ -107,6 +157,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    window = MainWindow()
+    window = ConnectWindow()
     window.show()
     sys.exit(app.exec_())
