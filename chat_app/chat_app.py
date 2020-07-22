@@ -28,23 +28,28 @@ class ConnectWindow(QtWidgets.QMainWindow, Ui_ConnectWindow):
         self.start_connect_server()
 
     def connect_to(self):
-        self.other_ip_addr = self.ip_addr.text()
-        self.your_username = self.username.text()
 
-        c = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        while True:
+            self.other_ip_addr = self.ip_addr.text()
+            self.your_username = self.username.text()
 
-        try:
-            c.connect((self.other_ip_addr, 6190))
-        except Exception as e:
-            msg_box("Connection Refused", "Failed to connect to IP " + self.other_ip_addr + ", error msg is " + str(e))
+            c = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+            try:
+                c.connect((self.other_ip_addr, 6180))
+            except Exception as e:
+                msg_box("Connection Refused", "Failed to connect to IP " + self.other_ip_addr + ", error msg is " + str(e))
+                continue
+
+            try:
+                c.send(self.your_username.encode())
+            except Exception as e:
+                msg_box("Failed to send", "Failed to send message, error msg is " + str(e))
+                continue
+
+            c.close()
             return
 
-        try:
-            c.send(self.your_username)
-        except Exception as e:
-            msg_box("Failed to send", "Failed to send message, error msg is " + str(e))
-
-        c.close()
 
     def start_connect_server(self):
         start_new_thread(self.server_socket, ())
@@ -53,7 +58,7 @@ class ConnectWindow(QtWidgets.QMainWindow, Ui_ConnectWindow):
     def server_socket(self):
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            s.bind(('', 6190))
+            s.bind(('', 6180))
             s.listen(1)
         except socket.error:
             msg_box("Socket Error !!", "Unable to setup local socket. Port in use")
