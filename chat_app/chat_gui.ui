@@ -14,75 +14,13 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QFrame" name="upper_frame">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>781</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-    <widget class="QLabel" name="ip_addr_label">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>0</y>
-       <width>91</width>
-       <height>17</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>IP Address:</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="ip_addr_line">
-     <property name="geometry">
-      <rect>
-       <x>90</x>
-       <y>0</y>
-       <width>291</width>
-       <height>25</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="nick_label">
-     <property name="geometry">
-      <rect>
-       <x>390</x>
-       <y>0</y>
-       <width>81</width>
-       <height>17</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Username</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="nick_line">
-     <property name="geometry">
-      <rect>
-       <x>460</x>
-       <y>0</y>
-       <width>301</width>
-       <height>25</height>
-      </rect>
-     </property>
-    </widget>
-   </widget>
    <widget class="QFrame" name="main_frame">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>30</y>
+      <y>0</y>
       <width>781</width>
-      <height>531</height>
+      <height>551</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -95,9 +33,9 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>10</y>
+       <y>30</y>
        <width>381</width>
-       <height>441</height>
+       <height>451</height>
       </rect>
      </property>
     </widget>
@@ -105,9 +43,9 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>460</y>
+       <y>490</y>
        <width>661</width>
-       <height>61</height>
+       <height>51</height>
       </rect>
      </property>
      <property name="text">
@@ -118,9 +56,9 @@
      <property name="geometry">
       <rect>
        <x>680</x>
-       <y>460</y>
+       <y>490</y>
        <width>89</width>
-       <height>61</height>
+       <height>51</height>
       </rect>
      </property>
      <property name="text">
@@ -131,10 +69,36 @@
      <property name="geometry">
       <rect>
        <x>390</x>
-       <y>10</y>
+       <y>30</y>
        <width>381</width>
-       <height>441</height>
+       <height>451</height>
       </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>10</y>
+       <width>111</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Decrypted Chat</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>530</x>
+       <y>10</y>
+       <width>111</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Encrypted Chat</string>
      </property>
     </widget>
    </widget>

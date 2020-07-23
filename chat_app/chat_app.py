@@ -145,8 +145,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def print_msg(self, encrypted_msg):
         decrypted_msg = self.AES_obj.decrypt(encrypted_msg)
-        self.decrypted_chat_box.append(self.other_username + ": " + decrypted_msg)
-        self.encrypted_chat_box.append(self.other_username + ": " + encrypted_msg.decode())
+        self.decrypted_chat_box.append(self.other_username + ":\n" + decrypted_msg)
+        self.encrypted_chat_box.append(self.other_username + ":\n" + encrypted_msg.decode())
 
     def send_message(self):
         msg = self.compose_msg_box.text()
