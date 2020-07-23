@@ -113,13 +113,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.send_button.clicked.connect(self.send_message)
 
         # Retrieve a 256-bit qcrypto key as symmetric key for AES256 for this chat session from ETSI QKD API server
-        URL = 'https://10.0.1.40/api/v1/keys/1/enc_keys'
+        URL = 'https://10.0.1.30/api/v1/keys/1/enc_keys'
 
         # AESCipher takes in a 32bytes (256bit) bytes object as private key
         PARAMS = {'number': 1, 'size': 256}
 
         # call GET request. include path to certificate file for TLS handshake to work
-        r = requests.get(url=URL, params=PARAMS, verify='/etc/ssl/certs/certB.pem')
+        r = requests.get(url=URL, params=PARAMS, verify='/etc/ssl/certs/certA.pem')
         key_container = r.json()
         key = key_container['keys'][0]['key']
         key = base64.b64decode(key)  # key is in base64 encoding (according to ETSI API), so decode to UTF8 bytes object
