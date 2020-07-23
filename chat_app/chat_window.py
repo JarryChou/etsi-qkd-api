@@ -16,7 +16,7 @@ class ChatWindow(QtWidgets.QMainWindow, Ui_ChatWindow):
     """
 
     def __init__(self, other_ip_addr, your_username, other_username):
-        super(MainWindow, self).__init__()
+        super(ChatWindow, self).__init__()
 
         # Set up the user interface from Designer.
         self.setupUi(self)
