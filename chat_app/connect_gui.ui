@@ -6,21 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1008</width>
-    <height>600</height>
+    <width>486</width>
+    <height>324</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QFrame" name="main_frame">
+   <widget class="QFrame" name="frame">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>0</y>
-      <width>991</width>
-      <height>551</height>
+      <x>20</x>
+      <y>20</y>
+      <width>431</width>
+      <height>241</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -29,76 +29,63 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QTextEdit" name="decrypted_chat_box">
+    <widget class="QLineEdit" name="ip_addr">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>30</y>
-       <width>491</width>
-       <height>451</height>
+       <x>30</x>
+       <y>40</y>
+       <width>371</width>
+       <height>25</height>
       </rect>
      </property>
     </widget>
-    <widget class="QLineEdit" name="compose_msg_box">
+    <widget class="QLineEdit" name="username">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>490</y>
-       <width>811</width>
-       <height>51</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="send_button">
-     <property name="geometry">
-      <rect>
-       <x>838</x>
-       <y>490</y>
-       <width>141</width>
-       <height>51</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Send</string>
-     </property>
-    </widget>
-    <widget class="QTextEdit" name="encrypted_chat_box">
-     <property name="geometry">
-      <rect>
-       <x>500</x>
-       <y>30</y>
-       <width>481</width>
-       <height>451</height>
+       <x>30</x>
+       <y>120</y>
+       <width>371</width>
+       <height>25</height>
       </rect>
      </property>
     </widget>
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="ip_label">
      <property name="geometry">
       <rect>
-       <x>190</x>
-       <y>10</y>
-       <width>111</width>
+       <x>30</x>
+       <y>20</y>
+       <width>261</width>
        <height>17</height>
       </rect>
      </property>
      <property name="text">
-      <string>Decrypted Chat</string>
+      <string>IP Address to connect to</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_2">
+    <widget class="QLabel" name="username_label">
      <property name="geometry">
       <rect>
-       <x>720</x>
-       <y>10</y>
-       <width>111</width>
+       <x>30</x>
+       <y>100</y>
+       <width>71</width>
        <height>17</height>
       </rect>
      </property>
      <property name="text">
-      <string>Encrypted Chat</string>
+      <string>Username</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="connect_button">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>160</y>
+       <width>131</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Connect</string>
      </property>
     </widget>
    </widget>
@@ -108,7 +95,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1008</width>
+     <width>486</width>
      <height>22</height>
     </rect>
    </property>
