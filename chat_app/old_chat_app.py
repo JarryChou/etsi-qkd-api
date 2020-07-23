@@ -1,20 +1,21 @@
 from PyQt5 import QtWidgets
-from PyQt5.QtCore import QThread
 from chat_gui import Ui_MainWindow
 from connect_gui import Ui_ConnectWindow
 import sys
 import socket
+import threading
 from AES_class import AESCipher
 import base64
 import requests
 import urllib3
-from chat_worker import ChatWorker
-from connect_worker import ConnectWorker
-from checker_worker import CheckerWorker
-from msg_box import msg_box
 
 # disables annoying warning that method is soon to be deprecated when performing TLS handshake with ETSI QKD server
 urllib3.disable_warnings(urllib3.exceptions.SubjectAltNameWarning)
+
+
+def msg_box(title, data):
+    w = QtWidgets.QWidget()
+    QtWidgets.QMessageBox.information(w, title, data)
 
 
 class ConnectWindow(QtWidgets.QMainWindow, Ui_ConnectWindow):
@@ -22,23 +23,23 @@ class ConnectWindow(QtWidgets.QMainWindow, Ui_ConnectWindow):
     def __init__(self):
         super(ConnectWindow, self).__init__()
 
-        self.connect_worker = ConnectWorker()  # no parent!
-        self.connect_thread = QThread()  # no parent!
-
-        self.checker_worker = CheckerWorker()  # no parent!
-        self.checker_thread = QThread()  # no parent!
+        self.sent_username = False
+        self.received_username = False
 
         self.setupUi(self)
 
         self.connect_button.clicked.connect(self.connect_to)
-        self.setup_connect_server()
-        self.setup_checker_server()
+        self.start_connect_server()
+        self.checker_thread()
+
+    def checker_thread(self):
+        thread = threading.Thread(target=self.check_usernames, args=())
+        thread.start()
 
     def check_usernames(self):
         while True:
             if self.sent_username is True and self.received_username is True:
                 break
-        self.main_window = MainWindow(self.other_ip_addr, self.your_username, self.other_username)
         self.main_window.show()
 
     def connect_to(self):
@@ -52,46 +53,53 @@ class ConnectWindow(QtWidgets.QMainWindow, Ui_ConnectWindow):
             try:
                 c.connect((self.other_ip_addr, 6180))
             except Exception as e:
-                msg_box("Connection Refused", "Failed to connect to IP " + self.other_ip_addr + ", error msg is " + str(e))
-                return
+                msg_box("Connection Refused",
+                        "Failed to connect to IP " + self.other_ip_addr + ", error msg is " + str(e))
+                continue
 
             try:
                 c.send(self.your_username.encode())
             except Exception as e:
                 msg_box("Failed to send", "Failed to send message, error msg is " + str(e))
-                return
+                continue
 
             c.close()
-            self.checker_worker.sent_username = True
+            self.sent_username = True
             return
 
-    def setup_connect_server(self):
+    def start_connect_server(self):
+        thread = threading.Thread(target=self.server_socket, args=())
+        thread.start()
+        # msg_box("Success", "Server Started Successfully")
 
-        self.connect_worker.other_ip_addr.connect(self.set_other_ip)
-        self.connect_worker.other_username.connect(self.set_other_username)
-        self.connect_worker.moveToThread(self.connect_thread)
-        self.connect_thread.started.connect(self.connect_worker.connect_listening_server)
-        self.connect_thread.finished.connect(app.exit)
-        self.connect_thread.start()
+    def server_socket(self):
+        try:
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.bind(('', 6180))
+            s.listen(1)
+        except socket.error:
+            msg_box("Socket Error !!", "Unable to setup local socket. Port in use")
+            return
 
-    def setup_checker_server(self):
+        while True:
+            conn, addr = s.accept()
 
-        self.checker_worker.start_main_window.connect(self.start_main_window)
-        self.checker_worker.moveToThread(self.checker_thread)
-        self.checker_thread.started.connect(self.checker_worker.check_to_start_main)
-        self.checker_thread.finished.connect(app.exit)
-        self.checker_thread.start()
+            incoming_ip = str(addr[0])
+            current_ip = self.ip_addr.text()
 
-    def set_other_ip(self, other_ip_addr):
-        self.other_ip_addr = other_ip_addr
+            if incoming_ip != current_ip:
+                conn.close()
+            else:
+                self.other_username = conn.recv(4096).decode()  # username of other user
+                self.received_username = True
+                conn.close()
+                break
+        s.close()
 
-    def set_other_username(self, other_username):
-        self.other_username = other_username
-        self.checker_worker.received_username = True
-
-    def start_main_window(self):
+    def show_main_window(self):
         self.main_window = MainWindow(self.other_ip_addr, self.your_username, self.other_username)
         self.main_window.show()
+
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     """
@@ -128,25 +136,27 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.start_chat_server()
 
     def start_chat_server(self):
-        self.chat_worker = ChatWorker()  # no parent!
-        self.chat_thread = QThread()  # no parent!
+        thread = threading.Thread(target=self.server_socket, args=())
+        thread.start()
+        # msg_box("Success", "Server Started Successfully")
 
-        # Connect Worker`s signal to method to print message
-        self.chat_worker.encrypted_msg.connect(self.print_msg)
+    def server_socket(self):
+        try:
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.bind(('', 6190))
+            s.listen(1)
+        except socket.error:
+            msg_box("Socket Error !!", "Unable to setup local socket. Port in use")
+            return
 
-        # Move the Worker object to the Thread object
-        self.chat_worker.moveToThread(self.chat_thread)
-
-        # Connect Thread started signal to Worker operational slot method
-        self.chat_thread.started.connect(self.chat_worker.chat_listening_server)
-
-        # Start the thread
-        self.chat_thread.start()
-
-    def print_msg(self, encrypted_msg):
-        decrypted_msg = self.AES_obj.decrypt(encrypted_msg)
-        self.decrypted_chat_box.append(self.other_username + ": " + decrypted_msg)
-        self.encrypted_chat_box.append(self.other_username + ": " + encrypted_msg.decode())
+        while True:
+            conn, addr = s.accept()
+            encrypted_msg = conn.recv(4096)
+            decrypted_msg = self.AES_obj.decrypt(encrypted_msg)
+            self.decrypted_chat_box.append(self.other_username + ": " + decrypted_msg)
+            self.encrypted_chat_box.append(self.other_username + ": " + encrypted_msg.decode())
+            conn.close()
+        s.close()
 
     def send_message(self):
         msg = self.compose_msg_box.text()
@@ -158,7 +168,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         except Exception as e:
             msg_box("Connection Refused", "Failed to connect to IP " + self.other_ip_addr + ", error msg is " + str(e))
             return
-        
+
         try:
             encrypted_msg = self.AES_obj.encrypt(msg)
             c.send(encrypted_msg)
@@ -166,7 +176,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.decrypted_chat_box.append(self.your_username + ": " + msg)
         except Exception as e:
             msg_box("Failed to send", "Failed to send message, error msg is " + str(e))
-            
+
         c.close()
 
 
