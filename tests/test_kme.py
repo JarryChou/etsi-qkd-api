@@ -1,7 +1,7 @@
 import unittest
 import sys
 sys.path.append("..")
-from project import KME
+from api import KME
 from unittest.mock import patch
 
 
@@ -16,7 +16,7 @@ class BasicKmeTest(unittest.TestCase):
         status = self.kme.get_status()
         self.assertEqual(len(status), 11)
 
-    @patch('project.helper.retrieve_keys_from_file')
+    @patch('api.helper.retrieve_keys_from_file')
     def test_get_one_key(self, mock_retrieve_key_function):
         size = self.kme.key_size
         number = 1
@@ -30,7 +30,7 @@ class BasicKmeTest(unittest.TestCase):
         self.assertTrue("key" in key_container["keys"][0])
         self.assertTrue("key_ID" in key_container["keys"][0])
 
-    @patch('project.helper.retrieve_keys_from_file')
+    @patch('api.helper.retrieve_keys_from_file')
     def test_get_multiple_keys(self, mock_retrieve_key_function):
         size = self.kme.key_size
         number = 3
@@ -40,7 +40,7 @@ class BasicKmeTest(unittest.TestCase):
         key_container = self.kme.get_key(number, size)
         self.assertEqual(len(key_container["keys"]), 3)
 
-    @patch('project.helper.retrieve_keys_from_file')
+    @patch('api.helper.retrieve_keys_from_file')
     def test_get_concat_key(self, mock_retrieve_key_function):
         size = self.kme.key_size*3
         number = 1

@@ -1,7 +1,7 @@
 import unittest
 import sys
 sys.path.append("..")
-from project import helper
+from api import helper
 
 
 class BasicHelperTest(unittest.TestCase):

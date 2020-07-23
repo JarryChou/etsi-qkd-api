@@ -1,10 +1,10 @@
 from flask import Flask
-from project.kme import KME
+from api.kme import KME
 
 
 app = Flask(__name__)
 
-from project import routes
+from api import routes
 
 
 kme_instance = KME("/home/alvin/PycharmProjects/etsi-qkd-api/key_files")

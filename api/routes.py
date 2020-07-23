@@ -1,5 +1,5 @@
 from flask import jsonify, request
-from project import app
+from api import app
 
 
 @app.route('/')
