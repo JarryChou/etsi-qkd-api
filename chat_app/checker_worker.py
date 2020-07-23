@@ -3,7 +3,7 @@ from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot
 
 class CheckerWorker(QObject):
 
-    start_main_window = pyqtSignal(bool)
+    start_chat_window = pyqtSignal(bool)
     finished = pyqtSignal()
 
     def __init__(self):
@@ -15,6 +15,6 @@ class CheckerWorker(QObject):
     def check_to_start_main(self):
         while True:
             if self.sent_username is True and self.received_username is True:
-                self.start_main_window.emit(True)
+                self.start_chat_window.emit(True)
                 break
         self.finished.emit()
