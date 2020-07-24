@@ -9,11 +9,22 @@ class KME:
     """
     Class for the KME on each node. This class also defines the related methods for manipulating
     the keys.
+
+    Parameters
+    ----------
+    key_file_path : str
+        Relative file path to the directory storing qcrypto key files.
+
     """
 
     source_KME_ID = '10.0.1.30'
+    """IP address of the source (master) KME."""
+
     target_KME_ID = '10.0.1.40'
+    """IP address of the target (slave) KME."""
+
     master_SAE_ID = '10.0.1.10'
+
     slave_SAE_ID = '10.0.1.20'
     key_size = 32
     max_key_per_request = 10
@@ -38,13 +49,21 @@ class KME:
         self.rd.seed(0) # fix initial seed to be 0 for both master and slave
 
     def get_key(self, number, size):
-        """
-        Master function that returns the key container of keys from KME.
-        :param: number: type STRING. number of keys requested
-        :param: size: type STRING. size of key in bits requested
-        :return: key container containing the specified keys and key_IDs stored in a dictionary
-        """
+        """Master function that returns the key container of keys from KME.
 
+         Parameters
+         ----------
+         number : str
+             The number of keys requested.
+         size : str
+             The size of each key in bits.
+
+         Returns
+         -------
+         dict
+             Key container containing the keys requested.
+
+         """
         if number is None:
             number = 1
         else:
@@ -63,11 +82,20 @@ class KME:
         return key_container
 
     def get_key_with_id(self, key_ids):
-        """
+        """ Returns the key container of keys from KME given the key IDs.
 
-        :param key_ids: array of dictionaries with key_ids
-        :param size: size of each key in bits
-        :return:
+        Function will be called by the 'slave' application requesting for keys.
+
+        Parameters
+        ---------
+        key_ids: str
+            Array of dictionaries containing the key ids. Each dictionary contains one key id, in the format:
+            { "key_id": <key_id> }
+
+        Returns
+        -------
+        dict
+            Key container containing the keys requested.
         """
 
         number = len(key_ids)
@@ -131,10 +159,14 @@ class KME:
         return key_container
 
     def get_status(self):
+        """Returns status of KME according to the ETSI specification.
+
+        Returns
+        -------
+        dict
+            Dictionary containing status properties of KME.
         """
-        Returns status of KME
-        :return: dictionary of status properties of KME
-        """
+
         status = {
             "source_KME_ID": self.source_KME_ID,
             "target_KME_ID": self.target_KME_ID,
