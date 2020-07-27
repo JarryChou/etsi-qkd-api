@@ -158,15 +158,8 @@ def bin_to_int(x: str) -> int:
     return int(x, 2)
 
 
-def concat_two_int(int1: int, int2: int) -> int:
+def concat_two_int(int1, int2):
     """ Concatenate two integers `in their 32-bit binary form`.
-
-    For example:
-    123 in 32-bit binary is 00000000000000000000000001111011.
-    456 in 32-bit binary is 00000000000000000000000111001000.
-    The binary concatenated form is
-    0000000000000000000000000111101100000000000000000000000111001000,
-    which in base 10 is 528280977864.
 
     Parameters
     ----------

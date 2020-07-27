@@ -3,58 +3,87 @@ import uuid
 import os
 import numpy as np
 from api import helper
+import configparser
 
 
 class KME:
     """
     Class for the KME on each node. This class also defines the related methods for manipulating
-    the keys.
+    the keys. Most of the configurations for the KME, such as the IP address of the web server hosting the API,
+    IP address of the SAE etc. is stored in a `config.ini` file.
 
     Parameters
     ----------
     key_file_path : str
         Relative file path to the directory storing qcrypto key files.
 
+    Attributes
+    ----------
+    source_KME_ID: str
+        IP address of the source (master) KME.
+
+    target_KME_ID: str
+        IP address of the target (slave) KME
+
+    master_SAE_ID: str
+        IP address of the master SAE (user application that requests keys)
+
+    slave_SAE_ID: str
+        IP address of the slave SAE.
+
+    key_size: int
+        Size of each key in bits in the KME.
+
+    max_key_per_request: int
+        Maximum number of keys per request
+
+    max_key_size: int
+        Maximum size of each key in bits that can be requested.
+
+    min_key_size: int
+        Minimum size of each key in bits that can be requested.
+
+    max_SAE_ID_count: int
+        Maximum number of additional SAEs allowed (0 at the moment).
+
+    status_extension: str
+        Optional field for future use (unclear what it should be used for at the moment)
+
+    rd: random (object, from random Python library)
+        Object to initialize random seed and pass to UUID generator to generate UUIDs as the key IDs.
     """
 
-    source_KME_ID = '10.0.1.30'
-    """IP address of the source (master) KME."""
+    def __init__(self, key_file_path):
 
-    target_KME_ID = '10.0.1.40'
-    """IP address of the target (slave) KME."""
-
-    master_SAE_ID = '10.0.1.10'
-    """IP address of the master SAE (user application that requests keys)"""
-
-    slave_SAE_ID = '10.0.1.20'
-    """IP address of the slave SAE"""
-    key_size = 32
-    """Size of each key in bits in the KME"""
-
-    max_key_per_request = 10
-    """Maximum number of keys per request"""
-
-    max_key_size = 1024
-    """Maximum size of each key in bits that can be requested"""
-    min_key_size = 32
-    """Minimum size of each key in bits that can be requested"""
-    max_SAE_ID_count = 0
-    """Maximum number of additional SAEs allowed (0 at the moment)"""
-    status_extension = ''
-    """Optional field for future use (unclear what it should be used for at the moment)"""
-
-    def __init__(self, key_file_path: str):
-        self.stored_key_count = 0
         self.key_file_path = key_file_path
 
+        # read and count keys from qcrypto files available at key_file_path
+        self.stored_key_count = 0
         for filename in os.listdir(key_file_path):
             file_path = os.path.join(key_file_path, filename)
             with open(file_path, 'rb') as f:
                 data = np.fromfile(file=f, dtype='<u4')
                 self.stored_key_count += len(data) - 4  # minus 4 due to header information
 
-        self.max_key_count = self.stored_key_count
+        # read attributes from config file
+        config = configparser.ConfigParser()
+        config.read('config.ini')
+        default_section = config['DEFAULT']
 
+        # class attributes
+        self.max_key_count = self.stored_key_count
+        self.source_KME_ID = default_section.get('source_KME_ID')
+        self.target_KME_ID = default_section.get('target_KME_ID')
+        self.master_SAE_ID = default_section.get('master_SAE_ID')
+        self.slave_SAE_ID = default_section.get('source_SAE_ID')
+        self.key_size = default_section.getint('key_size')
+        self.max_key_per_request = default_section.getint('max_key_per_request')
+        self.max_key_size = default_section.getint('max_key_size')
+        self.min_key_size = default_section.getint('min_key_size')
+        self.max_SAE_ID_count = default_section.getint('max_SAE_ID_count')
+        self.status_extension = default_section.get('status_extension')
+
+        # set a random seed for generating UUIDs
         self.rd = random.Random()
         self.rd.seed(0)  # fix initial seed to be 0 for both master and slave
 
@@ -85,7 +114,7 @@ class KME:
             size = int(size)
 
         try:
-            key_container = self._get_keys(number, size) # Pass to helper function to actually retrieve keys
+            key_container = self.get_keys_helper(number, size) # Pass to helper function to actually retrieve keys
         except ValueError:
             raise
 
@@ -118,7 +147,7 @@ class KME:
 
         return key_container
 
-    def _get_keys(self, number, size):
+    def get_keys_helper(self, number, size):
         """ Helper function for get_key.
 
         Function that handles the logic for actually retrieving the keys from qcrypto files. If the size of each key
