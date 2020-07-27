@@ -24,14 +24,24 @@ class KME:
     """IP address of the target (slave) KME."""
 
     master_SAE_ID = '10.0.1.10'
+    """IP address of the master SAE (user application that requests keys)"""
 
     slave_SAE_ID = '10.0.1.20'
+    """IP address of the slave SAE"""
     key_size = 32
+    """Size of each key in bits in the KME"""
+
     max_key_per_request = 10
+    """Maximum number of keys per request"""
+
     max_key_size = 1024
+    """Maximum size of each key in bits that can be requested"""
     min_key_size = 32
+    """Minimum size of each key in bits that can be requested"""
     max_SAE_ID_count = 0
+    """Maximum number of additional SAEs allowed (0 at the moment)"""
     status_extension = ''
+    """Optional field for future use (unclear what it should be used for at the moment)"""
 
     def __init__(self, key_file_path: str):
         self.stored_key_count = 0
@@ -41,12 +51,12 @@ class KME:
             file_path = os.path.join(key_file_path, filename)
             with open(file_path, 'rb') as f:
                 data = np.fromfile(file=f, dtype='<u4')
-                self.stored_key_count += len(data) - 4 # minus 4 due to header information
+                self.stored_key_count += len(data) - 4  # minus 4 due to header information
 
         self.max_key_count = self.stored_key_count
 
         self.rd = random.Random()
-        self.rd.seed(0) # fix initial seed to be 0 for both master and slave
+        self.rd.seed(0)  # fix initial seed to be 0 for both master and slave
 
     def get_key(self, number, size):
         """Master function that returns the key container of keys from KME.
@@ -75,7 +85,7 @@ class KME:
             size = int(size)
 
         try:
-            key_container = self.get_multiple_keys(number, size)
+            key_container = self._get_keys(number, size) # Pass to helper function to actually retrieve keys
         except ValueError:
             raise
 
@@ -108,13 +118,23 @@ class KME:
 
         return key_container
 
-    def get_multiple_keys(self, number, size):
-        """
-        Helper function that calculates the logic of how many keys is needed.
+    def _get_keys(self, number, size):
+        """ Helper function for get_key.
 
-        :param number: number of keys requested
-        :param size: size of each key in bits
-        :return: dictionary, where key and values are tuples with the key IDs and keys
+        Function that handles the logic for actually retrieving the keys from qcrypto files. If the size of each key
+        is a multiple of 32, then the keys need to be concatenated.
+
+        Parameters
+        ----------
+        number: int
+            Number of keys requested
+        size: int
+            Size of each key in bits
+
+        Returns
+        -------
+        dict
+             Key container containing the keys requested.
         """
 
         # Number of keys you must concatenate to get key of desired size

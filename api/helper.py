@@ -4,12 +4,39 @@ import numpy as np
 
 
 def concat_keys(key_array, size_of_key):
+    """ Helper function to concatenate keys.
+
+    Parameters
+    ----------
+    key_array: array-like
+        Array of keys, where each key is in decimal (integer) form.
+
+    size_of_key: int
+        How many keys to concatenate together to one key at a time (eg. if 64bit and each key
+        is 32bit, then size_of_key=2)
+
+    Returns
+    -------
+    array
+        Array of concatenated keys in integer type. The number of keys will be ``len(key_array)/size_of_key``.
+
+    Notes
+    -----
+    This function takes in array of keys in their integer representation, and concatenates *consecutive* keys based on
+    ``size_of_key``. For example,
+
+    .. highlight:: python
+    .. code-block:: python
+
+        >>> arr = [1122334455, 2233445566, 3344556677, 4455667788]
+        >>> concat_keys(arr, 2)
+        [4820389781632429246, 28729523099122538572]
+
+    Notice that the output array has length ``len(key_array)/size_of_key``. As ``size_of_key`` is 2, keys are grouped
+    consecutively into groups of 2 and concatenated. For example, 4820389781632429246 is the integer result of
+    concatenating 1122334455 and 2233445566 with the function ``concat_two_int``.
     """
-    Helper function to concatenate keys.
-    :param key_array: array of keys in decimal (int) form
-    :param size_of_key: how many keys to concatenate together (eg. if 64bit, then size_of_key=2)
-    :return: Array of concatenated keys in int type.
-    """
+
     concatenated_keys = []
     for i, _ in enumerate(key_array):
         if i % size_of_key == 0:
@@ -23,11 +50,25 @@ def concat_keys(key_array, size_of_key):
 
 
 def retrieve_keys_from_file(num_of_keys_to_retrieve: int, key_file_path: str):
-    """
-    Helper function to retrieve keys from the actual qcrypto binary key files.
-    :param key_file_path:
-    :param num_of_keys_to_retrieve: total number of keys to retrieve
-    :return: array of keys in decimal (int) form.
+    """ Helper function to retrieve keys from the actual qcrypto binary key files.
+
+    This function will parse the qcrypto binary files appropriately and return the keys in integer representation.
+    It will also update the header files appropriately after consuming the keys.
+    See: `qcrypto github filespec.txt <https://github.com/kurtsiefer/qcrypto/blob/master/remotecrypto/filespec.txt>`_.
+
+    Parameters
+    ----------
+    key_file_path: str
+        Path to directory containing qcrypto key files.
+
+    num_of_keys_to_retrieve: int
+        Total number of keys to retrieve.
+
+    Returns
+    -------
+    array
+        Array of keys in decimal (integer) form.
+
     """
     keys_retrieved = np.array([])
 
@@ -64,27 +105,61 @@ def retrieve_keys_from_file(num_of_keys_to_retrieve: int, key_file_path: str):
 
 
 def int_to_bitstring(x: int) -> str:
-    """
-    Convert an integer to AT LEAST a 32-bit binary string (pad extra bits with 0). If the integer is greater than
-    32-bits, then return the binary representation with the minimum number of bits to represent the integer.
-    :param x: integer
-    :return: bitstring of AT LEAST 32-bit
+    """ Function to convert an integer to AT LEAST a 32-bit binary string.
+
+    For integer less than 32 bits, it will pad the integer with extra bits of 0s until it is of size 32bit.
+    If the integer is greater than 32-bits, then return the binary representation with the minimum number of bits to
+    represent the integer.
+
+    Parameters
+    ----------
+    x: int
+        Integer to convert to bitstring
+
+    Returns
+    -------
+    str
+        Bitstring of AT LEAST size 32-bits.
+
+    Notes
+    -----
+    Here are some example cases.
+
+    .. highlight:: python
+    .. code-block:: python
+
+        >>> int1 = 2
+        >>> int_to_bitstring(int1)
+        00000000000000000000000000000010
+        >>> int2 = 9999999999999
+        >>> int_to_bitstring(int2)
+        10010001100001001110011100101001111111111111
+
+    In the first example, the binary representation of 2 is simply 10. Hence, the function pads the bitstring with
+    30 0s on the left to return a 32-bit bitstring. In the second example, 9999999999999 in binary consist of > 32-bits,
+    hence the function returns the full binary representation.
     """
     return '{:032b}'.format(x)
 
 
 def bin_to_int(x: str) -> int:
-    """
-    Convert from a 32-bit binary string to a integer
-    :param x: 32-bit binary string
-    :return: corresponding integer
+    """ Convert from a binary string to a integer.
+
+    Parameters
+    ----------
+    x: str
+        Binary string to convert.
+
+    Returns
+    -------
+    int
+        Corresponding integer.
     """
     return int(x, 2)
 
 
-def concat_two_int(x: int, y: int) -> int:
-    """
-    Concatenate two integers in their 32-bit binary form.
+def concat_two_int(int1: int, int2: int) -> int:
+    """ Concatenate two integers `in their 32-bit binary form`.
 
     For example:
     123 in 32-bit binary is 00000000000000000000000001111011.
@@ -92,21 +167,47 @@ def concat_two_int(x: int, y: int) -> int:
     The binary concatenated form is
     0000000000000000000000000111101100000000000000000000000111001000,
     which in base 10 is 528280977864.
-    :param x: base 10 integer
-    :param y: base 10 integer
-    :return: concatenated integers in base 10
+
+    Parameters
+    ----------
+    int1, int2: int
+        Two integers to concatenate.
+
+    Returns
+    -------
+    int
+        Concatenated integer.
+
+    Notes
+    -----
+    For example:
+    123 in 32-bit binary is 00000000000000000000000001111011.
+    456 in 32-bit binary is 00000000000000000000000111001000.
+    The binary concatenated form is
+    0000000000000000000000000111101100000000000000000000000111001000,
+    which in base 10 is 528280977864.
     """
-    x_bin = int_to_bitstring(x)
-    y_bin = int_to_bitstring(y)
-    concat = x_bin + y_bin
+    int1_bin = int_to_bitstring(int1)
+    int2_bin = int_to_bitstring(int2)
+    concat = int1_bin + int2_bin
     return bin_to_int(concat)
 
 
 def int_to_base64(x: int) -> str:
-    """
-    Converts an integer to base64 string
-    :param x: integer to convert to base 64
-    :return: corresponding string in base64
+    """ Converts an integer to a base64 string.
+
+    This is helpful in converting the encryption key, often expressed as a large base 10 integer, into base64 as it
+    is the format required by the ETSI QKD API.
+
+    Parameters
+    ----------
+    x: int
+        Integer to convert to base 64
+
+    Returns
+    -------
+    str
+        Corresponding string in base64
     """
 
     base64_byte = base64.b64encode(bitstring_to_bytes(int_to_bitstring(x)))  # returns a byte object encoded in base64
@@ -115,4 +216,19 @@ def int_to_base64(x: int) -> str:
 
 
 def bitstring_to_bytes(s: str) -> bytes:
+    """ Converts a string to a byte object.
+
+    This function is necessary as certain libraries (specifically the base64 library) accepts byte objects, not strings
+    which are often expressed in UTF-8 or ASCII formats.
+
+    Parameters
+    ----------
+    s: str
+        String to be converted to bytes object.
+
+    Returns
+    -------
+    bytes
+        Corresponding string in bytes format.
+    """
     return int(s, 2).to_bytes((len(s)+7) // 8, byteorder='big')
