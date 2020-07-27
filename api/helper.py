@@ -1,3 +1,5 @@
+"""Collection of helper functions to handle the logic for the KME.
+"""
 import base64
 import os
 import numpy as np

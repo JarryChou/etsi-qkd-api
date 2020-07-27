@@ -9,12 +9,10 @@ Welcome to etsi-qkd-api's documentation!
 This is an implementation of the `ETSI QKD API <https://www.etsi.org/deliver/etsi_gs/QKD/001_099/014/01.01.01_60/gs_qkd014v010101p.pdf>`_.
 The API implementation is contained within the ``api`` module.
 
-.. autosummary::
-   :toctree: modules
+.. toctree:: ETSI QKD API
+   :maxdepth: 2
 
-    api.kme
-    api.helper
-    api.routes
+   api
 
 Indices and tables
 ==================
@@ -22,3 +20,6 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+.. autosummary::
+   :toctree: modules

@@ -1,3 +1,5 @@
+"""Functions that handle routing for the Flask web server hosting the API.
+"""
 from flask import jsonify, request
 from api import app
 

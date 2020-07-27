@@ -35,8 +35,7 @@
 
     
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Welcome to etsi-qkd-api’s documentation!" href="index.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -81,13 +80,10 @@
               
             
             
-              <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">api package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-api.helper">api.helper module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-api.kme">api.kme module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-api.routes">api.routes module</a></li>
-</ul>
-</li>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="modules/api.kme.html">api.kme</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/api.helper.html">api.helper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/api.routes.html">api.routes</a></li>
 </ul>
 
             
@@ -157,9 +153,10 @@
 <h1>api package<a class="headerlink" href="#api-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="module-api.helper">
 <span id="api-helper-module"></span><h2>api.helper module<a class="headerlink" href="#module-api.helper" title="Permalink to this headline">¶</a></h2>
+<p>Collection of helper functions to handle the logic for the KME.</p>
 <dl class="py function">
 <dt id="api.helper.bin_to_int">
-<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">bin_to_int</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.helper.bin_to_int" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">bin_to_int</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#api.helper.bin_to_int" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert from a binary string to a integer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -171,15 +168,12 @@
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>int</p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
-</dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt id="api.helper.bitstring_to_bytes">
-<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">bitstring_to_bytes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.helper.bitstring_to_bytes" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">bitstring_to_bytes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; bytes<a class="headerlink" href="#api.helper.bitstring_to_bytes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts a string to a byte object.</p>
 <p>This function is necessary as certain libraries (specifically the base64 library) accepts byte objects, not strings
 which are often expressed in UTF-8 or ASCII formats.</p>
@@ -192,9 +186,6 @@ which are often expressed in UTF-8 or ASCII formats.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>bytes</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -257,7 +248,7 @@ which in base 10 is 528280977864.</p>
 
 <dl class="py function">
 <dt id="api.helper.int_to_base64">
-<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">int_to_base64</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.helper.int_to_base64" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">int_to_base64</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#api.helper.int_to_base64" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts an integer to a base64 string.</p>
 <p>This is helpful in converting the encryption key, often expressed as a large base 10 integer, into base64 as it
 is the format required by the ETSI QKD API.</p>
@@ -271,15 +262,12 @@ is the format required by the ETSI QKD API.</p>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>str</p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
-</dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt id="api.helper.int_to_bitstring">
-<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">int_to_bitstring</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.helper.int_to_bitstring" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">int_to_bitstring</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#api.helper.int_to_bitstring" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to convert an integer to AT LEAST a 32-bit binary string.</p>
 <p>For integer less than 32 bits, it will pad the integer with extra bits of 0s until it is of size 32bit.
 If the integer is greater than 32-bits, then return the binary representation with the minimum number of bits to
@@ -308,16 +296,11 @@ represent the integer.</p>
 <p>In the first example, the binary representation of 2 is simply 10. Hence, the function pads the bitstring with
 30 0s on the left to return a 32-bit bitstring. In the second example, 9999999999999 in binary consist of &gt; 32-bits,
 hence the function returns the full binary representation.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt id="api.helper.retrieve_keys_from_file">
-<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">retrieve_keys_from_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num_of_keys_to_retrieve</span></em>, <em class="sig-param"><span class="n">key_file_path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.helper.retrieve_keys_from_file" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">retrieve_keys_from_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num_of_keys_to_retrieve</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">key_file_path</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.helper.retrieve_keys_from_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Helper function to retrieve keys from the actual qcrypto binary key files.</p>
 <p>This function will parse the qcrypto binary files appropriately and return the keys in integer representation.
 It will also update the header files appropriately after consuming the keys.
@@ -341,6 +324,7 @@ See: <a class="reference external" href="https://github.com/kurtsiefer/qcrypto/b
 </div>
 <div class="section" id="module-api.kme">
 <span id="api-kme-module"></span><h2>api.kme module<a class="headerlink" href="#module-api.kme" title="Permalink to this headline">¶</a></h2>
+<p>Class implementing the KME.</p>
 <dl class="py class">
 <dt id="api.kme.KME">
 <em class="property">class </em><code class="sig-prename descclassname">api.kme.</code><code class="sig-name descname">KME</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key_file_path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.kme.KME" title="Permalink to this definition">¶</a></dt>
@@ -554,6 +538,7 @@ is a multiple of 32, then the keys need to be concatenated.</p>
 </div>
 <div class="section" id="module-api.routes">
 <span id="api-routes-module"></span><h2>api.routes module<a class="headerlink" href="#module-api.routes" title="Permalink to this headline">¶</a></h2>
+<p>Functions that handle routing for the Flask web server hosting the API.</p>
 <dl class="py function">
 <dt id="api.routes.get_key">
 <code class="sig-prename descclassname">api.routes.</code><code class="sig-name descname">get_key</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.routes.get_key" title="Permalink to this definition">¶</a></dt>
@@ -582,13 +567,6 @@ is a multiple of 32, then the keys need to be concatenated.</p>
            
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-      
-        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to etsi-qkd-api’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>

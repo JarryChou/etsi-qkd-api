@@ -1,3 +1,5 @@
+"""Class implementing the KME.
+"""
 import random
 import uuid
 import os
