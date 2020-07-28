@@ -6,7 +6,7 @@ from api import app
 
 @app.route('/')
 def home():
-    return "Hello World!"
+    return "Hello World from SpeQtral's ETSI QKD API!"
 
 
 @app.route('/api/v1/keys/<id>/enc_keys', methods=['GET', 'POST'])
