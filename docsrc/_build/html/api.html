@@ -1,0 +1,612 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>api package &mdash; etsi-qkd-api v0.0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> etsi-qkd-api
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="modules/api.kme.html">api.kme</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/api.helper.html">api.helper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/api.routes.html">api.routes</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">etsi-qkd-api</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>api package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/api.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="api-package">
+<h1>api package<a class="headerlink" href="#api-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-api.helper">
+<span id="api-helper-module"></span><h2>api.helper module<a class="headerlink" href="#module-api.helper" title="Permalink to this headline">¶</a></h2>
+<p>Collection of helper functions to handle the logic for the KME.</p>
+<dl class="py function">
+<dt id="api.helper.bin_to_int">
+<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">bin_to_int</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#api.helper.bin_to_int" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert from a binary string to a integer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>str</em>) – Binary string to convert.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Corresponding integer.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="api.helper.bitstring_to_bytes">
+<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">bitstring_to_bytes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; bytes<a class="headerlink" href="#api.helper.bitstring_to_bytes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts a string to a byte object.</p>
+<p>This function is necessary as certain libraries (specifically the base64 library) accepts byte objects, not strings
+which are often expressed in UTF-8 or ASCII formats.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>s</strong> (<em>str</em>) – String to be converted to bytes object.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Corresponding string in bytes format.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bytes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="api.helper.concat_keys">
+<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">concat_keys</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key_array</span></em>, <em class="sig-param"><span class="n">size_of_key</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.helper.concat_keys" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function to concatenate keys.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key_array</strong> (<em>array-like</em>) – Array of keys, where each key is in decimal (integer) form.</p></li>
+<li><p><strong>size_of_key</strong> (<em>int</em>) – How many keys to concatenate together to one key at a time (eg. if 64bit and each key
+is 32bit, then size_of_key=2)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Array of concatenated keys in integer type. The number of keys will be <code class="docutils literal notranslate"><span class="pre">len(key_array)/size_of_key</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This function takes in array of keys in their integer representation, and concatenates <em>consecutive</em> keys based on
+<code class="docutils literal notranslate"><span class="pre">size_of_key</span></code>. For example,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1122334455</span><span class="p">,</span> <span class="mi">2233445566</span><span class="p">,</span> <span class="mi">3344556677</span><span class="p">,</span> <span class="mi">4455667788</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">concat_keys</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="go">[4820389781632429246, 28729523099122538572]</span>
+</pre></div>
+</div>
+<p>Notice that the output array has length <code class="docutils literal notranslate"><span class="pre">len(key_array)/size_of_key</span></code>. As <code class="docutils literal notranslate"><span class="pre">size_of_key</span></code> is 2, keys are grouped
+consecutively into groups of 2 and concatenated. For example, 4820389781632429246 is the integer result of
+concatenating 1122334455 and 2233445566 with the function <code class="docutils literal notranslate"><span class="pre">concat_two_int</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="api.helper.concat_two_int">
+<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">concat_two_int</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">int1</span></em>, <em class="sig-param"><span class="n">int2</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.helper.concat_two_int" title="Permalink to this definition">¶</a></dt>
+<dd><p>Concatenate two integers <cite>in their 32-bit binary form</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>int1, int2</strong> (<em>int</em>) – Two integers to concatenate.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Concatenated integer.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>For example:
+123 in 32-bit binary is 00000000000000000000000001111011.
+456 in 32-bit binary is 00000000000000000000000111001000.
+The binary concatenated form is
+0000000000000000000000000111101100000000000000000000000111001000,
+which in base 10 is 528280977864.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="api.helper.int_to_base64">
+<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">int_to_base64</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#api.helper.int_to_base64" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts an integer to a base64 string.</p>
+<p>This is helpful in converting the encryption key, often expressed as a large base 10 integer, into base64 as it
+is the format required by the ETSI QKD API.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>int</em>) – Integer to convert to base 64</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Corresponding string in base64</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="api.helper.int_to_bitstring">
+<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">int_to_bitstring</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#api.helper.int_to_bitstring" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to convert an integer to AT LEAST a 32-bit binary string.</p>
+<p>For integer less than 32 bits, it will pad the integer with extra bits of 0s until it is of size 32bit.
+If the integer is greater than 32-bits, then return the binary representation with the minimum number of bits to
+represent the integer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>int</em>) – Integer to convert to bitstring</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Bitstring of AT LEAST size 32-bits.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Here are some example cases.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">int1</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">int_to_bitstring</span><span class="p">(</span><span class="n">int1</span><span class="p">)</span>
+<span class="go">00000000000000000000000000000010</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">int2</span> <span class="o">=</span> <span class="mi">9999999999999</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">int_to_bitstring</span><span class="p">(</span><span class="n">int2</span><span class="p">)</span>
+<span class="go">10010001100001001110011100101001111111111111</span>
+</pre></div>
+</div>
+<p>In the first example, the binary representation of 2 is simply 10. Hence, the function pads the bitstring with
+30 0s on the left to return a 32-bit bitstring. In the second example, 9999999999999 in binary consist of &gt; 32-bits,
+hence the function returns the full binary representation.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="api.helper.retrieve_keys_from_file">
+<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">retrieve_keys_from_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num_of_keys_to_retrieve</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">key_file_path</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.helper.retrieve_keys_from_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function to retrieve keys from the actual qcrypto binary key files.</p>
+<p>This function will parse the qcrypto binary files appropriately and return the keys in integer representation.
+It will also update the header files appropriately after consuming the keys.
+See: <a class="reference external" href="https://github.com/kurtsiefer/qcrypto/blob/master/remotecrypto/filespec.txt">qcrypto github filespec.txt</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key_file_path</strong> (<em>str</em>) – Path to directory containing qcrypto key files.</p></li>
+<li><p><strong>num_of_keys_to_retrieve</strong> (<em>int</em>) – Total number of keys to retrieve.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Array of keys in decimal (integer) form.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-api.kme">
+<span id="api-kme-module"></span><h2>api.kme module<a class="headerlink" href="#module-api.kme" title="Permalink to this headline">¶</a></h2>
+<p>Class implementing the KME.</p>
+<dl class="py class">
+<dt id="api.kme.KME">
+<em class="property">class </em><code class="sig-prename descclassname">api.kme.</code><code class="sig-name descname">KME</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key_file_path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.kme.KME" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class for the KME on each node. This class also defines the related methods for manipulating
+the keys. Most of the configurations for the KME, such as the IP address of the web server hosting the API,
+IP address of the SAE etc. is stored in a <cite>config.ini</cite> file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>key_file_path</strong> (<em>str</em>) – Relative file path to the directory storing qcrypto key files.</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="api.kme.KME.source_KME_ID">
+<code class="sig-name descname">source_KME_ID</code><a class="headerlink" href="#api.kme.KME.source_KME_ID" title="Permalink to this definition">¶</a></dt>
+<dd><p>IP address of the source (master) KME.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="api.kme.KME.target_KME_ID">
+<code class="sig-name descname">target_KME_ID</code><a class="headerlink" href="#api.kme.KME.target_KME_ID" title="Permalink to this definition">¶</a></dt>
+<dd><p>IP address of the target (slave) KME</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="api.kme.KME.master_SAE_ID">
+<code class="sig-name descname">master_SAE_ID</code><a class="headerlink" href="#api.kme.KME.master_SAE_ID" title="Permalink to this definition">¶</a></dt>
+<dd><p>IP address of the master SAE (user application that requests keys)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="api.kme.KME.slave_SAE_ID">
+<code class="sig-name descname">slave_SAE_ID</code><a class="headerlink" href="#api.kme.KME.slave_SAE_ID" title="Permalink to this definition">¶</a></dt>
+<dd><p>IP address of the slave SAE.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="api.kme.KME.key_size">
+<code class="sig-name descname">key_size</code><a class="headerlink" href="#api.kme.KME.key_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Size of each key in bits in the KME.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="api.kme.KME.max_key_per_request">
+<code class="sig-name descname">max_key_per_request</code><a class="headerlink" href="#api.kme.KME.max_key_per_request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum number of keys per request</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="api.kme.KME.max_key_size">
+<code class="sig-name descname">max_key_size</code><a class="headerlink" href="#api.kme.KME.max_key_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum size of each key in bits that can be requested.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="api.kme.KME.min_key_size">
+<code class="sig-name descname">min_key_size</code><a class="headerlink" href="#api.kme.KME.min_key_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Minimum size of each key in bits that can be requested.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="api.kme.KME.max_SAE_ID_count">
+<code class="sig-name descname">max_SAE_ID_count</code><a class="headerlink" href="#api.kme.KME.max_SAE_ID_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum number of additional SAEs allowed (0 at the moment).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="api.kme.KME.status_extension">
+<code class="sig-name descname">status_extension</code><a class="headerlink" href="#api.kme.KME.status_extension" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optional field for future use (unclear what it should be used for at the moment)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="api.kme.KME.rd">
+<code class="sig-name descname">rd</code><a class="headerlink" href="#api.kme.KME.rd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Object to initialize random seed and pass to UUID generator to generate UUIDs as the key IDs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>random (object, from random Python library)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="api.kme.KME.get_key">
+<code class="sig-name descname">get_key</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">number</span></em>, <em class="sig-param"><span class="n">size</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.kme.KME.get_key" title="Permalink to this definition">¶</a></dt>
+<dd><p>Master function that returns the key container of keys from KME.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>number</strong> (<em>str</em>) – The number of keys requested.</p></li>
+<li><p><strong>size</strong> (<em>str</em>) – The size of each key in bits.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Key container containing the keys requested.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="api.kme.KME.get_key_with_id">
+<code class="sig-name descname">get_key_with_id</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key_ids</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.kme.KME.get_key_with_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the key container of keys from KME given the key IDs.</p>
+<p>Function will be called by the ‘slave’ application requesting for keys.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>key_ids</strong> (<em>str</em>) – Array of dictionaries containing the key ids. Each dictionary contains one key id, in the format:
+{ “key_id”: &lt;key_id&gt; }</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Key container containing the keys requested.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="api.kme.KME.get_keys_helper">
+<code class="sig-name descname">get_keys_helper</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">number</span></em>, <em class="sig-param"><span class="n">size</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.kme.KME.get_keys_helper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function for get_key.</p>
+<p>Function that handles the logic for actually retrieving the keys from qcrypto files. If the size of each key
+is a multiple of 32, then the keys need to be concatenated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>number</strong> (<em>int</em>) – Number of keys requested</p></li>
+<li><p><strong>size</strong> (<em>int</em>) – Size of each key in bits</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Key container containing the keys requested.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="api.kme.KME.get_status">
+<code class="sig-name descname">get_status</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#api.kme.KME.get_status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns status of KME according to the ETSI specification.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Dictionary containing status properties of KME.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-api.routes">
+<span id="api-routes-module"></span><h2>api.routes module<a class="headerlink" href="#module-api.routes" title="Permalink to this headline">¶</a></h2>
+<p>Functions that handle routing for the Flask web server hosting the API.</p>
+<dl class="py function">
+<dt id="api.routes.get_key">
+<code class="sig-prename descclassname">api.routes.</code><code class="sig-name descname">get_key</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.routes.get_key" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="api.routes.get_key_with_id">
+<code class="sig-prename descclassname">api.routes.</code><code class="sig-name descname">get_key_with_id</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.routes.get_key_with_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="api.routes.get_status">
+<code class="sig-prename descclassname">api.routes.</code><code class="sig-name descname">get_status</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.routes.get_status" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="api.routes.home">
+<code class="sig-prename descclassname">api.routes.</code><code class="sig-name descname">home</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#api.routes.home" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Alvin
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
