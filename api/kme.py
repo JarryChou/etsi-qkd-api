@@ -69,7 +69,7 @@ class KME:
 
         # read attributes from config file
         config = configparser.ConfigParser()
-        config.read('config.ini')
+        config.read('/home/alvin/PycharmProjects/etsi-qkd-api/api/config.ini')
         default_section = config['DEFAULT']
 
         # class attributes
