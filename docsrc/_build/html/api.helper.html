@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>api &mdash; etsi-qkd-api v0.0.1 documentation</title>
+  <title>api.helper &mdash; etsi-qkd-api v0.0.1 documentation</title>
   
 
   
@@ -35,7 +35,9 @@
 
     
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="api.routes" href="api.routes.html" />
+    <link rel="prev" title="api.kme" href="api.kme.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -80,9 +82,9 @@
               
             
             
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="api.kme.html">api.kme</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.helper.html">api.helper</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">api.helper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.routes.html">api.routes</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Tutorial :</span></p>
@@ -136,13 +138,13 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>api</li>
+      <li>api.helper</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/modules.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/api.helper.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -155,20 +157,39 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="api">
-<h1>api<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="api.html">api package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#module-api.helper">api.helper module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#module-api.kme">api.kme module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#module-api.routes">api.routes module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#module-api">Module contents</a></li>
-</ul>
-</li>
-</ul>
-</div>
+  <div class="section" id="module-api.helper">
+<span id="api-helper"></span><h1>api.helper<a class="headerlink" href="#module-api.helper" title="Permalink to this headline">¶</a></h1>
+<p>Collection of helper functions to handle the logic for the KME.</p>
+<p class="rubric">Functions</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/api.html#api.helper.bin_to_int" title="api.helper.bin_to_int"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bin_to_int</span></code></a>(x)</p></td>
+<td><p>Convert from a binary string to a integer.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="modules/api.html#api.helper.bitstring_to_bytes" title="api.helper.bitstring_to_bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bitstring_to_bytes</span></code></a>(s)</p></td>
+<td><p>Converts a string to a byte object.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/api.html#api.helper.concat_keys" title="api.helper.concat_keys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">concat_keys</span></code></a>(key_array, size_of_key)</p></td>
+<td><p>Helper function to concatenate keys.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="modules/api.html#api.helper.concat_two_int" title="api.helper.concat_two_int"><code class="xref py py-obj docutils literal notranslate"><span class="pre">concat_two_int</span></code></a>(int1, int2)</p></td>
+<td><p>Concatenate two integers <cite>in their 32-bit binary form</cite>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/api.html#api.helper.int_to_base64" title="api.helper.int_to_base64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int_to_base64</span></code></a>(x)</p></td>
+<td><p>Converts an integer to a base64 string.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="modules/api.html#api.helper.int_to_bitstring" title="api.helper.int_to_bitstring"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int_to_bitstring</span></code></a>(x)</p></td>
+<td><p>Function to convert an integer to AT LEAST a 32-bit binary string.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/api.html#api.helper.retrieve_keys_from_file" title="api.helper.retrieve_keys_from_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">retrieve_keys_from_file</span></code></a>(…)</p></td>
+<td><p>Helper function to retrieve keys from the actual qcrypto binary key files.</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 
 
@@ -176,6 +197,15 @@
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="api.routes.html" class="btn btn-neutral float-right" title="api.routes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="api.kme.html" class="btn btn-neutral float-left" title="api.kme" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

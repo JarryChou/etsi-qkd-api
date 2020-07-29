@@ -61,7 +61,7 @@ to be the IP of the SAE, but for now I have programmed it to allow any arbitrary
 The returned JSON provides information such as the number of stored keys, minimum key size etc. This is in adherence to the ETSI API's
 ``Get status`` function call.
 
-To retrieve keys, let us call the ``Get key`` method to retrieve a single key of size 32bits. Navigate to http://127.0.0.1:5000/api/v1/keys/2/enc_keys.
+To retrieve keys, let us call the ``Get key`` method to retrieve a single key of size 32bits (each key in qcrypto is 32bits). Navigate to http://127.0.0.1:5000/api/v1/keys/2/enc_keys.
 You should see something like
 
 .. code-block:: json
@@ -114,5 +114,5 @@ request can be done using `Postman <https://www.postman.com>`_. To obtain 3 keys
 
     }
 
-We see 3 keys returned, and as 128bit keys can be formed by appending 4 32bit keys, the ``key_ID`` of each key is formed by appending
+We see 3 keys returned, and as 128bit keys can be formed by concatenating 4 32bit keys, the ``key_ID`` of each key is formed by appending
 the UUIDs of 4 keys, separated by a '+' delimiter. Another check with ``Get status`` should show the key count updated accordingly.
