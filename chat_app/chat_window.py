@@ -3,10 +3,12 @@ from PyQt5.QtCore import QThread
 import socket
 from AES_class import AESCipher
 import base64
-import requests
 from chat_worker import ChatWorker
 from msg_box import msg_box
 from chat_gui import Ui_ChatWindow
+import sys
+sys.path.insert(0, "..")
+from api import kme
 
 
 class ChatWindow(QtWidgets.QMainWindow, Ui_ChatWindow):
@@ -16,11 +18,6 @@ class ChatWindow(QtWidgets.QMainWindow, Ui_ChatWindow):
     """
 
     def __init__(self, other_ip_addr, your_username, other_username):
-
-        # ======================= CHANGE THESE=========================================
-        KME_IP = '10.0.1.30'
-        path_to_cert = '/etc/ssl/certs/certA.pem'
-        # =============================================================================
 
         super(ChatWindow, self).__init__()
 
@@ -39,15 +36,11 @@ class ChatWindow(QtWidgets.QMainWindow, Ui_ChatWindow):
         self.send_button.clicked.connect(self.send_message)
 
         # Retrieve a 256-bit qcrypto key as symmetric key for AES256 for this chat session from ETSI QKD API server
-        # Form the GET request API URL
-        URL = 'https://' + KME_IP + '/api/v1/keys/1/enc_keys'
+        # Create instance of KME class
+        self.kme = kme.KME("config.ini")
 
-        # AESCipher takes in a single 32bytes (256bit) bytes object as private key
-        PARAMS = {'number': 1, 'size': 256}
-
-        # call GET request. include path to certificate file for TLS handshake to work
-        r = requests.get(url=URL, params=PARAMS, verify=path_to_cert)
-        key_container = r.json()
+        # get keys directly from KME
+        key_container = kme.get_key(1, 256) # one key of 256 bits
         key = key_container['keys'][0]['key']
         key = base64.b64decode(key)  # key is in base64 encoding (according to ETSI API), so decode to UTF8 bytes object
         self.AES_obj = AESCipher(key)
