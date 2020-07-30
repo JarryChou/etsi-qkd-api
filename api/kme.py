@@ -1,4 +1,4 @@
-"""Class implementing the KME.
+"""Class implementing the Key Management Entity (KME).
 """
 import random
 import uuid
@@ -16,8 +16,8 @@ class KME:
 
     Parameters
     ----------
-    key_file_path : str
-        Relative file path to the directory storing qcrypto key files.
+    config_path : str
+        ABSOLUTE file path to config.ini that is contained in the etsi-qkd-api/api folder.
 
     Attributes
     ----------
@@ -55,22 +55,22 @@ class KME:
         Object to initialize random seed and pass to UUID generator to generate UUIDs as the key IDs.
     """
 
-    def __init__(self, key_file_path):
-
-        self.key_file_path = key_file_path
-
-        # read and count keys from qcrypto files available at key_file_path
-        self.stored_key_count = 0
-        for filename in os.listdir(key_file_path):
-            file_path = os.path.join(key_file_path, filename)
-            with open(file_path, 'rb') as f:
-                data = np.fromfile(file=f, dtype='<u4')
-                self.stored_key_count += len(data) - 4  # minus 4 due to header information
+    def __init__(self, config_path):
 
         # read attributes from config file
         config = configparser.ConfigParser()
-        config.read('/home/alvin/PycharmProjects/etsi-qkd-api/api/config.ini')
+        config.read(config_path)
         default_section = config['DEFAULT']
+
+        self.key_file_path = default_section.get('key_file_path')
+
+        # read and count keys from qcrypto files available at key_file_path
+        self.stored_key_count = 0
+        for filename in os.listdir(self.key_file_path):
+            file_path = os.path.join(self.key_file_path, filename)
+            with open(file_path, 'rb') as f:
+                data = np.fromfile(file=f, dtype='<u4')
+                self.stored_key_count += len(data) - 4  # minus 4 due to header information
 
         # class attributes
         self.max_key_count = self.stored_key_count

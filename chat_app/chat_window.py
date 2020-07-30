@@ -16,6 +16,12 @@ class ChatWindow(QtWidgets.QMainWindow, Ui_ChatWindow):
     """
 
     def __init__(self, other_ip_addr, your_username, other_username):
+
+        # ======================= CHANGE THESE=========================================
+        KME_IP = '10.0.1.30'
+        path_to_cert = '/etc/ssl/certs/certA.pem'
+        # =============================================================================
+
         super(ChatWindow, self).__init__()
 
         # Set up the user interface from Designer.
@@ -33,13 +39,14 @@ class ChatWindow(QtWidgets.QMainWindow, Ui_ChatWindow):
         self.send_button.clicked.connect(self.send_message)
 
         # Retrieve a 256-bit qcrypto key as symmetric key for AES256 for this chat session from ETSI QKD API server
-        URL = 'https://10.0.1.30/api/v1/keys/1/enc_keys'
+        # Form the GET request API URL
+        URL = 'https://' + KME_IP + '/api/v1/keys/1/enc_keys'
 
-        # AESCipher takes in a 32bytes (256bit) bytes object as private key
+        # AESCipher takes in a single 32bytes (256bit) bytes object as private key
         PARAMS = {'number': 1, 'size': 256}
 
         # call GET request. include path to certificate file for TLS handshake to work
-        r = requests.get(url=URL, params=PARAMS, verify='/etc/ssl/certs/certA.pem')
+        r = requests.get(url=URL, params=PARAMS, verify=path_to_cert)
         key_container = r.json()
         key = key_container['keys'][0]['key']
         key = base64.b64decode(key)  # key is in base64 encoding (according to ETSI API), so decode to UTF8 bytes object

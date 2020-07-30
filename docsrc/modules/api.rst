@@ -1,6 +1,9 @@
 api package
 ===========
 
+Submodules
+----------
+
 api.helper module
 -----------------
 
@@ -25,3 +28,11 @@ api.routes module
    :undoc-members:
    :show-inheritance:
 
+
+Module contents
+---------------
+
+.. automodule:: api
+   :members:
+   :undoc-members:
+   :show-inheritance:
