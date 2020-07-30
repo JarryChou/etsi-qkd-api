@@ -1,4 +1,8 @@
+## Introduction
+
 The chat-demo branch is intended for demo-ing the chat app with a working QKD/qcrypto setup. This demo will work without needing to set up a web server hosting the ETSI API, as the chat app will retrieve keys directly from the qcrypto files that exists locally. As such, certain files specific to the web server are omitted in this branch. We will call Alice and Bob the two parties trying to chat with each other in this demo.
+
+## Installation and Setup
 
 To install just this branch, 
 
@@ -18,7 +22,9 @@ Next, you need to ensure your qcrypto key files on both Alice's and Bob's machin
 
 For example, if a single 256bit key is requested by both Alice's and Bob's chat app (as is the case here), the KME class for both will simply go to ``key_file_path`` and retrieve the _first_ 8 32bit keys (concatenate 8 32bit keys = 256bit). Hence, to ensure both Alice and Bob retrieve the same 8 keys for symmetric encryption, the qcrypto files need to be identically ordered.
 
-Once this is done, ``cd etsi-qkd-api/chat_app`` and run ``python main.py`` on both Alice and Bob. You should see
+## Run
+
+Once you are done with the setup, ``cd etsi-qkd-api/chat_app`` and run ``python main.py`` on both Alice and Bob. You should see
 
 ![connectwindow](/images/connectwindow.png)
 
