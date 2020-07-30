@@ -37,10 +37,10 @@ class ChatWindow(QtWidgets.QMainWindow, Ui_ChatWindow):
 
         # Retrieve a 256-bit qcrypto key as symmetric key for AES256 for this chat session from ETSI QKD API server
         # Create instance of KME class
-        self.kme = kme.KME("config.ini")
+        self.kme = kme.KME("../api/config.ini")
 
         # get keys directly from KME
-        key_container = kme.get_key(1, 256) # one key of 256 bits
+        key_container = self.kme.get_key(1, 256) # one key of 256 bits
         key = key_container['keys'][0]['key']
         key = base64.b64decode(key)  # key is in base64 encoding (according to ETSI API), so decode to UTF8 bytes object
         self.AES_obj = AESCipher(key)
