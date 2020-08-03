@@ -6,7 +6,7 @@ from api import app
 
 @app.route('/')
 def home():
-    return "Hello World!"
+    return "Hello World from SpeQtral's ETSI QKD API!"
 
 
 @app.route('/api/v1/keys/<id>/enc_keys', methods=['GET', 'POST'])
@@ -23,8 +23,16 @@ def get_key(id):
             number = request.args.get('number')
             size = request.args.get('size')
 
-        # if size is not None and size % 32 != 0:
-        #     return 'Key size not multiple of 32 bits', 400
+            # convert from string to int.
+            # if number or size is None, int(None) will throw TypeError
+            if number is not None:
+                number = int(number)
+
+            if size is not None:
+                size = int(size)
+
+        if size is not None and size % 32 != 0:
+            return 'Key size not multiple of 32 bits', 400
 
         key_container = app.config['kme'].get_key(number, size)
 

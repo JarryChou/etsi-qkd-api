@@ -22,7 +22,7 @@
   
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
-    <![endif]-->
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -81,9 +81,15 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="modules/api.kme.html">api.kme</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules/api.helper.html">api.helper</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules/api.routes.html">api.routes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.kme.html">api.kme</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.helper.html">api.helper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.routes.html">api.routes</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorial :</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contents/apache.html">1. Installing Apache</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/quickstart.html">2. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/quickstart.html#etsi-api-calls">3. ETSI API Calls</a></li>
 </ul>
 
             
@@ -151,6 +157,9 @@
             
   <div class="section" id="api-package">
 <h1>api package<a class="headerlink" href="#api-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
 <div class="section" id="module-api.helper">
 <span id="api-helper-module"></span><h2>api.helper module<a class="headerlink" href="#module-api.helper" title="Permalink to this headline">¶</a></h2>
 <p>Collection of helper functions to handle the logic for the KME.</p>
@@ -324,17 +333,17 @@ See: <a class="reference external" href="https://github.com/kurtsiefer/qcrypto/b
 </div>
 <div class="section" id="module-api.kme">
 <span id="api-kme-module"></span><h2>api.kme module<a class="headerlink" href="#module-api.kme" title="Permalink to this headline">¶</a></h2>
-<p>Class implementing the KME.</p>
+<p>Class implementing the Key Management Entity (KME).</p>
 <dl class="py class">
 <dt id="api.kme.KME">
-<em class="property">class </em><code class="sig-prename descclassname">api.kme.</code><code class="sig-name descname">KME</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key_file_path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.kme.KME" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">api.kme.</code><code class="sig-name descname">KME</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">config_path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.kme.KME" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Class for the KME on each node. This class also defines the related methods for manipulating
 the keys. Most of the configurations for the KME, such as the IP address of the web server hosting the API,
 IP address of the SAE etc. is stored in a <cite>config.ini</cite> file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>key_file_path</strong> (<em>str</em>) – Relative file path to the directory storing qcrypto key files.</p>
+<dd class="field-odd"><p><strong>config_path</strong> (<em>str</em>) – ABSOLUTE file path to config.ini that is contained in the etsi-qkd-api/api folder.</p>
 </dd>
 </dl>
 <dl class="py attribute">
@@ -559,6 +568,9 @@ is a multiple of 32, then the keys need to be concatenated.</p>
 <code class="sig-prename descclassname">api.routes.</code><code class="sig-name descname">home</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#api.routes.home" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+</div>
+<div class="section" id="module-api">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-api" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 

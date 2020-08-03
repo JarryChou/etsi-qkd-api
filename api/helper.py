@@ -3,9 +3,10 @@
 import base64
 import os
 import numpy as np
+from typing import List
 
 
-def concat_keys(key_array, size_of_key):
+def concat_keys(key_array: List[int], size_of_key: int) -> List[int]:
     """ Helper function to concatenate keys.
 
     Parameters
@@ -51,7 +52,7 @@ def concat_keys(key_array, size_of_key):
     return concatenated_keys
 
 
-def retrieve_keys_from_file(num_of_keys_to_retrieve: int, key_file_path: str):
+def retrieve_keys_from_file(num_of_keys_to_retrieve: int, key_file_path: str) -> List[int]:
     """ Helper function to retrieve keys from the actual qcrypto binary key files.
 
     This function will parse the qcrypto binary files appropriately and return the keys in integer representation.
@@ -102,7 +103,7 @@ def retrieve_keys_from_file(num_of_keys_to_retrieve: int, key_file_path: str):
             keys_retrieved = np.concatenate([keys_retrieved, keys_available[:]])
             num_of_keys_to_retrieve -= len_of_key_file
 
-    keys_retrieved = np.array(keys_retrieved, dtype=int)  # Cast type to integer as they tend to become floats
+    keys_retrieved = [int(i) for i in keys_retrieved]  # Cast type to list of ints as they tend to become floats
     return keys_retrieved
 
 
@@ -160,7 +161,7 @@ def bin_to_int(x: str) -> int:
     return int(x, 2)
 
 
-def concat_two_int(int1, int2):
+def concat_two_int(int1: int, int2: int) -> int:
     """ Concatenate two integers `in their 32-bit binary form`.
 
     Parameters

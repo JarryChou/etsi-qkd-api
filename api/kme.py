@@ -1,4 +1,4 @@
-"""Class implementing the KME.
+"""Class implementing the Key Management Entity (KME).
 """
 import random
 import uuid
@@ -6,18 +6,19 @@ import os
 import numpy as np
 from api import helper
 import configparser
+from typing import List
 
 
 class KME:
     """
     Class for the KME on each node. This class also defines the related methods for manipulating
     the keys. Most of the configurations for the KME, such as the IP address of the web server hosting the API,
-    IP address of the SAE etc. is stored in a `config.ini` file.
+    IP address of the SAE etc. is stored in a ``config.ini`` file.
 
     Parameters
     ----------
-    key_file_path : str
-        Relative file path to the directory storing qcrypto key files.
+    config_path : str
+        ABSOLUTE file path to config.ini that is contained in the etsi-qkd-api/api folder.
 
     Attributes
     ----------
@@ -55,22 +56,22 @@ class KME:
         Object to initialize random seed and pass to UUID generator to generate UUIDs as the key IDs.
     """
 
-    def __init__(self, key_file_path):
-
-        self.key_file_path = key_file_path
-
-        # read and count keys from qcrypto files available at key_file_path
-        self.stored_key_count = 0
-        for filename in os.listdir(key_file_path):
-            file_path = os.path.join(key_file_path, filename)
-            with open(file_path, 'rb') as f:
-                data = np.fromfile(file=f, dtype='<u4')
-                self.stored_key_count += len(data) - 4  # minus 4 due to header information
+    def __init__(self, config_path: str):
 
         # read attributes from config file
         config = configparser.ConfigParser()
-        config.read('/home/alvin/PycharmProjects/etsi-qkd-api/api/config.ini')
+        config.read(config_path)
         default_section = config['DEFAULT']
+
+        self.key_file_path = default_section.get('key_file_path')
+
+        # read and count keys from qcrypto files available at key_file_path
+        self.stored_key_count = 0
+        for filename in os.listdir(self.key_file_path):
+            file_path = os.path.join(self.key_file_path, filename)
+            with open(file_path, 'rb') as f:
+                data = np.fromfile(file=f, dtype='<u4')
+                self.stored_key_count += len(data) - 4  # minus 4 due to header information
 
         # class attributes
         self.max_key_count = self.stored_key_count
@@ -89,14 +90,14 @@ class KME:
         self.rd = random.Random()
         self.rd.seed(0)  # fix initial seed to be 0 for both master and slave
 
-    def get_key(self, number, size):
+    def get_key(self, number: int, size: int) -> dict:
         """Master function that returns the key container of keys from KME.
 
          Parameters
          ----------
-         number : str
+         number : int
              The number of keys requested.
-         size : str
+         size : int
              The size of each key in bits.
 
          Returns
@@ -104,32 +105,33 @@ class KME:
          dict
              Key container containing the keys requested.
 
+         Raises
+         ------
+         ValueError
+            Error if there are insufficient keys. Error raised from :func:`~get_key_helper`
+
          """
         if number is None:
             number = 1
-        else:
-            number = int(number)
 
         if size is None:
             size = self.key_size
-        else:
-            size = int(size)
 
         try:
-            key_container = self.get_keys_helper(number, size) # Pass to helper function to actually retrieve keys
+            key_container = self.get_key_helper(number, size)  # Pass to helper function to actually retrieve keys
         except ValueError:
             raise
 
         return key_container
 
-    def get_key_with_id(self, key_ids):
+    def get_key_with_id(self, key_ids: List[dict]) -> dict:
         """ Returns the key container of keys from KME given the key IDs.
 
         Function will be called by the 'slave' application requesting for keys.
 
         Parameters
         ---------
-        key_ids: str
+        key_ids: List[dict]
             Array of dictionaries containing the key ids. Each dictionary contains one key id, in the format:
             { "key_id": <key_id> }
 
@@ -137,6 +139,11 @@ class KME:
         -------
         dict
             Key container containing the keys requested.
+
+        Raises
+        ------
+        ValueError
+            Error if there are insufficient keys.
         """
 
         number = len(key_ids)
@@ -149,11 +156,13 @@ class KME:
 
         return key_container
 
-    def get_keys_helper(self, number, size):
-        """ Helper function for get_key.
+    def get_key_helper(self, number: int, size: int) -> dict:
+        """ Helper function for :func:`~get_key`.
 
-        Function that handles the logic for actually retrieving the keys from qcrypto files. If the size of each key
-        is a multiple of 32, then the keys need to be concatenated.
+        Helper function that handles the logic for retrieving the keys from qcrypto files. If the size of each key
+        is a multiple of 32, then the keys need to be concatenated. This helper function will call another helper
+        function, :func:`~api.helper.retrieve_keys_from_file`, that actually opens the qcrypto file and retrieves the
+        keys.
 
         Parameters
         ----------
@@ -166,6 +175,11 @@ class KME:
         -------
         dict
              Key container containing the keys requested.
+
+        Raises
+        ------
+        ValueError
+            Error if there are insufficient keys. Error raised from :func:`~get_key_helper`
         """
 
         # Number of keys you must concatenate to get key of desired size
@@ -197,8 +211,8 @@ class KME:
 
             key_ID = ""
             for num_key in range(num_of_keys_to_concat):
-                key_ID += str(uuid.UUID(int=self.rd.getrandbits(128))) # UUID requires 128 random bits to generate
-                if num_key < num_of_keys_to_concat-1: # add a '+' delimiter to link UUIDs of concatenated keys
+                key_ID += str(uuid.UUID(int=self.rd.getrandbits(128)))  # UUID requires 128 random bits to generate
+                if num_key < num_of_keys_to_concat-1:  # add a '+' delimiter to link UUIDs of concatenated keys
                     key_ID += "+"
 
             temp_dict = {"key_ID": key_ID, "key": key}
@@ -209,7 +223,7 @@ class KME:
 
         return key_container
 
-    def get_status(self):
+    def get_status(self) -> dict:
         """Returns status of KME according to the ETSI specification.
 
         Returns

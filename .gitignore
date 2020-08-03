@@ -6,4 +6,4 @@ __pycache__
 *.ipynb
 *.pyc
 key_files/
-test_AES_class.py
+.vscode
