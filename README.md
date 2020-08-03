@@ -28,7 +28,7 @@ sudo apt-get install build-essentials
 
 Now we are done with installation and we can proceed with configuring the chat app. 
 
-First, there are two ports that are used in this app, shown in ``chat_app/port_config.ini``, one for establishing connection with your partner and one for sending encrypted messages. The defaults are ``6180`` and ``6190`` respectively, but feel free to change them in this file. You would probably have to do so for port forwarding if your two PCs are not on the same local network. Otherwise, if they are on the same network (eg. two VMs on the same PC, or two PCs connected to the same Wifi network), then the default should work.
+First, there are two ports that are used in this app, shown in ``chat_app/port_config.ini``, one for establishing connection with your partner and one for sending encrypted messages. The defaults are ``6180`` and ``6190`` respectively, but feel free to change them in this file. You would probably have to do so for port forwarding if your two PCs are not on the same local network. Otherwise, if they are on the same network then the default should work.
 
 Secondly, we need to configure the variable ``key_file_path`` in  ``config.ini``, located at ``etsi-qkd-api/api``, to point to the directory storing the qcrypto files. 
 
