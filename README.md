@@ -18,7 +18,7 @@ sudo apt-get install qt5-default
 pip install -r requirements.txt
 ```
 
-You might get some OS-specific depedency errors while installing the requirements. For example, on a new Ubuntu VM I had some errors due to missing GNU/GCC compilers. These errors might be different depending on your OS, but on Ubuntu you can resolve them typically by
+As evident, the app uses the [Qt5](www.qt.io) software to code the GUI. You might get some OS-specific depedency errors while installing the requirements. For example, on a new Ubuntu VM I had some errors due to missing GNU/GCC compilers. These errors might be different depending on your OS, but on Ubuntu you can resolve them typically by
 
 ```
 sudo apt-get update
