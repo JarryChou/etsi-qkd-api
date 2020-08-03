@@ -9,11 +9,15 @@ class ConnectWorker(QObject):
     other_ip_addr = pyqtSignal(str)
     finished = pyqtSignal()
 
+    def __init__(self, connect_port):
+        super().__init__()
+        self.connect_port = connect_port
+
     @pyqtSlot()
     def connect_listening_server(self):
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            s.bind(('', 6180))
+            s.bind(('', self.connect_port))
             s.listen(1)
 
         except socket.error:

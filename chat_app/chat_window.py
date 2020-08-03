@@ -9,7 +9,7 @@ from chat_gui import Ui_ChatWindow
 import sys
 sys.path.insert(0, "..")
 from api import kme
-
+import configparser
 
 class ChatWindow(QtWidgets.QMainWindow, Ui_ChatWindow):
     """
@@ -28,8 +28,13 @@ class ChatWindow(QtWidgets.QMainWindow, Ui_ChatWindow):
         self.other_username = other_username
         self.other_ip_addr = other_ip_addr
 
+        config = configparser.ConfigParser()
+        config.read("port_config.ini")
+        default_section = config['DEFAULT']
+        self.chat_port = default_section.getint('chat_port')
+
         # start chat server worker and thread
-        self.chat_worker = ChatWorker()  # no parent!
+        self.chat_worker = ChatWorker(self.chat_port)  # no parent!
         self.chat_thread = QThread()  # no parent!
 
         # Add more functionality to UI elements. These are inherited from chat_gui.py.
@@ -42,6 +47,7 @@ class ChatWindow(QtWidgets.QMainWindow, Ui_ChatWindow):
         # get keys directly from KME
         key_container = self.kme.get_key(1, 256) # one key of 256 bits
         key = key_container['keys'][0]['key']
+        print(key)
         key = base64.b64decode(key)  # key is in base64 encoding (according to ETSI API), so decode to UTF8 bytes object
         self.AES_obj = AESCipher(key)
 
@@ -71,7 +77,7 @@ class ChatWindow(QtWidgets.QMainWindow, Ui_ChatWindow):
         c = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
         try:
-            c.connect((self.other_ip_addr, 6190))
+            c.connect((self.other_ip_addr, self.chat_port))
         except Exception as e:
             msg_box("Connection Refused", "Failed to connect to IP " + self.other_ip_addr + ", error msg is " + str(e))
             return

@@ -7,11 +7,15 @@ class ChatWorker(QObject):
 
     encrypted_msg = pyqtSignal(bytes)
 
+    def __init__(self, chat_port):
+        super().__init__()
+        self.chat_port = chat_port
+
     @pyqtSlot()
     def chat_listening_server(self):
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            s.bind(('', 6190))
+            s.bind(('', self.chat_port))
             s.listen(1)
         except socket.error:
             msg_box("Socket Error !!", "Unable to setup local socket. Port in use")

@@ -6,6 +6,7 @@ from connect_worker import ConnectWorker
 from checker_worker import CheckerWorker
 from msg_box import msg_box
 from chat_window import ChatWindow
+import configparser
 
 
 class ConnectWindow(QtWidgets.QMainWindow, Ui_ConnectWindow):
@@ -13,7 +14,13 @@ class ConnectWindow(QtWidgets.QMainWindow, Ui_ConnectWindow):
     def __init__(self):
         super(ConnectWindow, self).__init__()
 
-        self.connect_worker = ConnectWorker()  # no parent!
+        config = configparser.ConfigParser()
+        config.read("port_config.ini")
+        default_section = config['DEFAULT']
+
+        self.connect_port = default_section.getint('connect_port')
+
+        self.connect_worker = ConnectWorker(self.connect_port)  # no parent!
         self.connect_thread = QThread()  # no parent!
 
         self.checker_worker = CheckerWorker()  # no parent!
@@ -25,6 +32,8 @@ class ConnectWindow(QtWidgets.QMainWindow, Ui_ConnectWindow):
         self.setup_connect_server()
         self.setup_checker_server()
 
+
+
     def connect_to(self):
 
         while True:
@@ -34,7 +43,7 @@ class ConnectWindow(QtWidgets.QMainWindow, Ui_ConnectWindow):
             c = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
             try:
-                c.connect((self.other_ip_addr, 6180))
+                c.connect((self.other_ip_addr, self.connect_port))
             except Exception as e:
                 msg_box("Connection Refused", "Failed to connect to IP " + self.other_ip_addr + ", error msg is " + str(e))
                 return

@@ -15,7 +15,7 @@ MarkupSafe==1.1.1
 numpy==1.19.0
 packaging==20.4
 pycparser==2.20
-pycrypto==2.6.1
+pycryptodome==3.9.8
 Pygments==2.6.1
 pyOpenSSL==19.1.0
 pyparsing==2.4.7
