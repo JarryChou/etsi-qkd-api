@@ -10,7 +10,7 @@ To install just this branch,
 git clone --single-branch --branch chat-demo https://github.com/SpeQtral/etsi-qkd-api.git
 ```
 
-Then, proceed to install the requirements. It is best to do so in a virtual environment. Assuming you are on Ubuntu,
+Then, proceed to install the requirements. It is best to do so in a virtual environment. This tutorial will assume an Ubuntu 18.04 installation.
 ```
 cd etsi-qkd-api
 python3 -m venv venv
