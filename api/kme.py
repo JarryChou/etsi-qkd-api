@@ -1,7 +1,6 @@
 """Class implementing the Key Management Entity (KME).
 """
 import random
-import uuid
 import os
 import numpy as np
 from api import helper
@@ -93,6 +92,11 @@ class KME:
     def get_key(self, number: int, size: int) -> dict:
         """Master function that returns the key container of keys from KME.
 
+         Function that handles the logic for retrieving the keys from qcrypto files. If the size of each key
+         is a multiple of 32, then the keys need to be concatenated. The file retrieving is done by a helper
+         function, :func:`~api.helper.retrieve_keys_from_file`, that actually opens the qcrypto file and retrieves the
+         keys.
+
          Parameters
          ----------
          number : int
@@ -108,7 +112,7 @@ class KME:
          Raises
          ------
          ValueError
-            Error if there are insufficient keys. Error raised from :func:`~get_key_helper`
+            Error if there are insufficient keys.
 
          """
         if number is None:
@@ -117,17 +121,45 @@ class KME:
         if size is None:
             size = self.key_size
 
-        try:
-            key_container = self.get_key_helper(number, size)  # Pass to helper function to actually retrieve keys
-        except ValueError:
-            raise
+        num_key_in_each = int(size/self.key_size)
+
+        # If insufficient keys raise ValueError
+        if num_key_in_each*number > self.stored_key_count:
+            raise ValueError
+
+        # Pass to helper function to retrieve key from the qcrypto binary key files
+        keys_retrieved = helper.retrieve_keys_from_file(number, num_key_in_each, self.key_file_path)
+
+        # Each key in keys_retrieved is 32bits, so if you want longer keys then pass to
+        # helper function to concatenate the keys
+        # concatenated_keys will be an array of integers
+        concatenated_keys = helper.concat_keys(keys_retrieved)
+
+        # convert each key to base64
+        concatenated_keys = [helper.int_to_base64(x) for x in concatenated_keys]
+
+        # create the keys object as per key container specification in API
+        keys_array = []
+        for ind, val in enumerate(zip(concatenated_keys, keys_retrieved)):
+            concat_key = val[0]
+            constituent_keys = val[1]
+            list_of_uuids = [helper.convert_int_to_uuid(x) for x in constituent_keys]
+            separator = '+'
+            key_ID = separator.join(list_of_uuids)  # delimit each key with '+'
+            temp_dict = {"key_ID": key_ID, "key": concat_key}
+            keys_array.append(temp_dict)
+
+        key_container = {'keys': keys_array}
+
+        self.stored_key_count -= number*num_key_in_each  # update how many keys retrieved from kme
 
         return key_container
 
     def get_key_with_id(self, key_ids: List[dict]) -> dict:
         """ Returns the key container of keys from KME given the key IDs.
 
-        Function will be called by the 'slave' application requesting for keys.
+        Function will be called by the 'slave' application requesting for keys. The actual retrieving of keys
+        is passed to the helper function :func:`~api.helper.retrieve_keys_given_uuid`.
 
         Parameters
         ---------
@@ -142,84 +174,39 @@ class KME:
 
         Raises
         ------
-        ValueError
-            Error if there are insufficient keys.
+        KeyError
+            Error if the keys requested cannot be found. Thrown by :func:`~api.helper.retrieve_keys_given_uuid`.
         """
 
-        number = len(key_ids)
+        num_keys_retrieved = 0
+        uuid_array = []
 
-        first_key_ID = key_ids[0]["key_ID"]
-        num_keys_concatenated = len(first_key_ID.split("+"))
-        size = num_keys_concatenated*self.key_size
+        # uuid_array is a 2D list, where each row contains the constituent key IDs (UUIDs) that make up each key
+        for val in key_ids:
+            concat_key_id = val["key_ID"]
+            key_ids_arr = concat_key_id.split("+")  # remember key IDs are concatenated with '+'
+            # key_ids_arr = textwrap.wrap(concat_key_id, 36)
+            num_keys_retrieved += len(key_ids_arr)
+            uuid_array.append(key_ids_arr)
 
-        key_container = self.get_key(number, size)
+        # pass to helper
+        keys_retrieved = helper.retrieve_keys_given_uuid(uuid_array, self.key_file_path)
 
-        return key_container
-
-    def get_key_helper(self, number: int, size: int) -> dict:
-        """ Helper function for :func:`~get_key`.
-
-        Helper function that handles the logic for retrieving the keys from qcrypto files. If the size of each key
-        is a multiple of 32, then the keys need to be concatenated. This helper function will call another helper
-        function, :func:`~api.helper.retrieve_keys_from_file`, that actually opens the qcrypto file and retrieves the
-        keys.
-
-        Parameters
-        ----------
-        number: int
-            Number of keys requested
-        size: int
-            Size of each key in bits
-
-        Returns
-        -------
-        dict
-             Key container containing the keys requested.
-
-        Raises
-        ------
-        ValueError
-            Error if there are insufficient keys. Error raised from :func:`~get_key_helper`
-        """
-
-        # Number of keys you must concatenate to get key of desired size
-        num_of_keys_to_concat = int(size/self.key_size)
-
-        # Number of keys to retrieve
-        num_of_entries = num_of_keys_to_concat*number
-
-        # If insufficient keys raise ValueError
-        if num_of_entries > self.stored_key_count:
-            raise ValueError
-
-        # Pass to helper function to retrieve key from the qcrypto binary key files
-        # keys_retrieved will be an array of 32-bit integers
-        keys_retrieved = helper.retrieve_keys_from_file(num_of_entries, self.key_file_path)
-        self.stored_key_count -= num_of_entries
-
-        # Each key in keys_retrieved is 32bits, so if you want longer keys then pass to
-        # helper function to concatenate the keys
-        # concatenated_keys will be an array of integers
-        concatenated_keys = helper.concat_keys(keys_retrieved, num_of_keys_to_concat)
-
-        # convert each key to base64
+        # rest of code is similar to retrieve_key_from_file
+        concatenated_keys = helper.concat_keys(keys_retrieved)
         concatenated_keys = [helper.int_to_base64(x) for x in concatenated_keys]
-
-        # create the keys object as per key container specification in API
         keys_array = []
-        for key in concatenated_keys:
-
-            key_ID = ""
-            for num_key in range(num_of_keys_to_concat):
-                key_ID += str(uuid.UUID(int=self.rd.getrandbits(128)))  # UUID requires 128 random bits to generate
-                if num_key < num_of_keys_to_concat-1:  # add a '+' delimiter to link UUIDs of concatenated keys
-                    key_ID += "+"
-
-            temp_dict = {"key_ID": key_ID, "key": key}
+        for ind, val in enumerate(zip(concatenated_keys, keys_retrieved)):
+            concat_key = val[0]
+            constituent_keys = val[1]
+            list_of_uuids = [helper.convert_int_to_uuid(x) for x in constituent_keys]
+            separator = '+'
+            key_ID = separator.join(list_of_uuids)  # delimit each key with '+'
+            temp_dict = {"key_ID": key_ID, "key": concat_key}
             keys_array.append(temp_dict)
 
-        # add the size of each key as parameter under 'key_container_extension'
         key_container = {'keys': keys_array}
+        self.stored_key_count -= num_keys_retrieved # update how many keys retrieved from kme
 
         return key_container
 

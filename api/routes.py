@@ -2,6 +2,7 @@
 """
 from flask import jsonify, request
 from api import app
+import sys
 
 
 @app.route('/')
@@ -41,6 +42,8 @@ def get_key(id):
     except ValueError:
         return 'Requesting for more keys than there are available', 400
 
+    sys.stdout = open('/home/alvin/get_output.logs', 'a')
+    print(key_container, flush=True)
     return jsonify(key_container)
 
 
@@ -55,8 +58,13 @@ def get_key_with_id(id):
     try:
         if request.method == 'POST':
             req_data = request.get_json()
-            key_id = req_data['keys_IDs']
+            key_id = req_data['key_IDs']
             # key_IDs_extension = req_data['key_IDs_extension']
+
+            sys.stdout = open('/home/alvin/post_output.logs', 'a')
+            print(req_data,flush=True)
+
+            key_id = req_data['key_IDs']
         else:
             key_id = request.args.get('key_ID')
 

@@ -4,55 +4,51 @@ import base64
 import os
 import numpy as np
 from typing import List
+from hashlib import shake_128
+import uuid
 
 
-def concat_keys(key_array: List[int], size_of_key: int) -> List[int]:
+def concat_keys(key_array: List[List[int]]) -> List[int]:
     """ Helper function to concatenate keys.
+
+    The function will concatenate integers in the same row of the 2D list ``key_array`` using :func:`~api.helper.concat_two_int`.
 
     Parameters
     ----------
-    key_array: array-like
-        Array of keys, where each key is in decimal (integer) form.
-
-    size_of_key: int
-        How many keys to concatenate together to one key at a time (eg. if 64bit and each key
-        is 32bit, then size_of_key=2)
+    key_array: 2D list
+        2D list of keys. Each row are the integers to be concatenated.
 
     Returns
     -------
-    array
-        Array of concatenated keys in integer type. The number of keys will be ``len(key_array)/size_of_key``.
+    list
+        List of concatenated keys in integer type. The number of keys will be ``len(key_array)`` (number of rows).
 
     Notes
     -----
-    This function takes in array of keys in their integer representation, and concatenates *consecutive* keys based on
-    ``size_of_key``. For example,
+    This function takes in a 2D array of keys in their integer form, and concatenates keys in the same row.
 
     .. highlight:: python
     .. code-block:: python
 
-        >>> arr = [1122334455, 2233445566, 3344556677, 4455667788]
-        >>> concat_keys(arr, 2)
+        >>> arr = [[1122334455, 2233445566], [3344556677, 4455667788]]
+        >>> concat_keys(arr)
         [4820389781632429246, 28729523099122538572]
 
-    Notice that the output array has length ``len(key_array)/size_of_key``. As ``size_of_key`` is 2, keys are grouped
-    consecutively into groups of 2 and concatenated. For example, 4820389781632429246 is the integer result of
-    concatenating 1122334455 and 2233445566 with the function ``concat_two_int``.
+    Here, 4820389781632429246 is the integer result of concatenating 1122334455 and 2233445566 with the function
+    :func:`~api.helper.concat_two_int`. Similarly 28729523099122538572 is the result of concatenating 3344556677 and 4455667788.
     """
 
     concatenated_keys = []
-    for i, _ in enumerate(key_array):
-        if i % size_of_key == 0:
-            key1 = key_array[i]
-            for j in range(1, size_of_key):
-                key2 = key_array[i+j]
-                key1 = concat_two_int(key1, key2)
-            concatenated_keys.append(key1)
+    for row in key_array:
+        key1 = row[0]
+        for _, key2 in enumerate(row[1:]):
+            key1 = concat_two_int(key1, key2)
+        concatenated_keys.append(key1)
 
     return concatenated_keys
 
 
-def retrieve_keys_from_file(num_of_keys_to_retrieve: int, key_file_path: str) -> List[int]:
+def retrieve_keys_from_file(number: int, num_key_in_each: int, key_file_path: str) -> List[List[int]]:
     """ Helper function to retrieve keys from the actual qcrypto binary key files.
 
     This function will parse the qcrypto binary files appropriately and return the keys in integer representation.
@@ -64,47 +60,117 @@ def retrieve_keys_from_file(num_of_keys_to_retrieve: int, key_file_path: str) ->
     key_file_path: str
         Path to directory containing qcrypto key files.
 
-    num_of_keys_to_retrieve: int
-        Total number of keys to retrieve.
+    number: int
+        Number of keys requested
+
+    num_key_in_each: int
+        How many 32bit keys each key is made of.
 
     Returns
     -------
-    array
-        Array of keys in decimal (integer) form.
+    2D list
+        List of keys in decimal (integer) form. Each row represents one key and has ``num_key_in_each`` integers,
+        and there are ``number`` rows.
 
     """
-    keys_retrieved = np.array([])
+    keys_retrieved = np.array([], dtype=int)
+    tot_keys_to_retrieve = number * num_key_in_each
 
-    while num_of_keys_to_retrieve > 0:
+    while tot_keys_to_retrieve > 0:
 
         sorted_key_files = sorted(os.listdir(key_file_path))
         key_file_name = sorted_key_files[0]  # Retrieve first key file in sorted list
-        key_file_path = os.path.join(key_file_path, key_file_name)
+        _key_file_path = os.path.join(key_file_path, key_file_name)
 
-        with open(key_file_path, 'rb') as f:
+        with open(_key_file_path, 'rb') as f:
             key_file = np.fromfile(file=f, dtype='<u4')
-        os.remove(key_file_path)  # Delete the file. Rewrite back modified file later
+        os.remove(_key_file_path)  # Delete the file. Rewrite back modified file later
 
         header = key_file[:4]  # Header has 4 elements. The rest are key material.
         keys_available = key_file[4:]
         len_of_key_file = len(keys_available)
 
-        if len_of_key_file >= num_of_keys_to_retrieve:  # Sufficient keys in this file alone
-            keys_retrieved = np.concatenate([keys_retrieved, keys_available[:num_of_keys_to_retrieve]])
-            keys_available = keys_available[num_of_keys_to_retrieve:]  # Remaining keys
-            num_of_keys_to_retrieve = 0
-            header[3] -= num_of_keys_to_retrieve  # Update header about number of keys in this file left
+        if len_of_key_file >= tot_keys_to_retrieve:  # Sufficient keys in this file alone
+            keys_retrieved = np.concatenate([keys_retrieved, keys_available[:tot_keys_to_retrieve]])
+            keys_available = keys_available[tot_keys_to_retrieve:]  # Remaining keys
+            header[3] -= tot_keys_to_retrieve  # Update header about number of keys in this file left
+            tot_keys_to_retrieve = 0
 
             # Write updated file back with the same name
             key_file = np.concatenate([header, keys_available])
-            key_file.tofile(key_file_path)
+            key_file.tofile(_key_file_path)
 
         else:
             keys_retrieved = np.concatenate([keys_retrieved, keys_available[:]])
-            num_of_keys_to_retrieve -= len_of_key_file
+            tot_keys_to_retrieve -= len_of_key_file
 
-    keys_retrieved = [int(i) for i in keys_retrieved]  # Cast type to list of ints as they tend to become floats
-    return keys_retrieved
+    keys_retrieved = keys_retrieved.reshape(number, num_key_in_each)  # reshape to 2D array  # return as list
+    return keys_retrieved.tolist()  # return as list
+
+
+def retrieve_keys_given_uuid(uuid_array: List[List[str]], key_file_path: str) -> List[List[int]]:
+    """ Helper function to retrieve keys given the UUIDs of the keys.
+
+    This function
+
+    Parameters
+    ----------
+    uuid_array: 2D list
+        2D list of strings. Each row represents a single key, and the elements in the row are UUIDs of the individual
+        keys that concatenate to make the full key.
+
+    key_file_path: str
+        Path to directory containing qcrypto key files.
+
+    Returns
+    -------
+    2D list
+        List of keys in decimal (integer) form. Each row represents a single key, and each element in a row is the
+        actual key that will be eventually concatenated to form the final key.
+
+    """
+
+    uuid_array = np.array(uuid_array, dtype=str)  # convert to numpy array for easier manipulation
+    keys_retrieved = np.zeros_like(uuid_array, dtype=int)
+    sorted_key_files = sorted(os.listdir(key_file_path))
+
+    for key_file_name in sorted_key_files:
+
+        _key_file_path = os.path.join(key_file_path, key_file_name)
+
+        with open(_key_file_path, 'rb') as f:
+            key_file = np.fromfile(file=f, dtype='<u4')
+        os.remove(_key_file_path)
+
+        header = key_file[:4]
+        keys_available = key_file[4:]
+
+        keys_to_remove = []  # store index of keys to remove if found to have matching UUIDS
+        count = 0  # count how many keys are being removed this file
+        for index, key in enumerate(keys_available):  # iterate over every key in the key file
+            uuid_ = convert_int_to_uuid(key)  # convert each key to UUID
+            if uuid_ in uuid_array:  # if the UUID matches
+
+                item_index = np.where(uuid_array == uuid_)
+                row, col = item_index[0][0], item_index[1][0]  # get the index of the first occurrence, incase of repeat
+
+                count += 1
+                keys_retrieved[row][col] = key
+                keys_to_remove.append(index)
+                uuid_array[row][col] = '0'  # 0 to signify it has been retrieved
+
+            if np.all(uuid_array == '0'):  # if uuid_array is all 0, stop searching as you have found all keys
+                break
+
+        keys_available = np.delete(keys_available, keys_to_remove)
+        header[3] -= count
+        key_file = np.concatenate([header, keys_available])
+        key_file.tofile(_key_file_path)
+
+        if np.all(uuid_array == '0'):
+            return keys_retrieved.tolist()
+
+    raise KeyError  # if it hasn't returned after looping over all key files, then the key(s) cant be found
 
 
 def int_to_bitstring(x: int) -> str:
@@ -228,3 +294,63 @@ def bitstring_to_bytes(s: str) -> bytes:
         Corresponding string in bytes format.
     """
     return int(s, 2).to_bytes((len(s)+7) // 8, byteorder='big')
+
+
+def int_to_bytes(x: int) -> bytes:
+    """ Converts an integer to a byte object
+
+    Parameter
+    ---------
+    x: int
+        Integer to be converted.
+
+    Returns
+    -------
+    bytes
+        Corresponding integer in bytes format.
+    """
+    binary = int_to_bitstring(x)
+    bytes_ = bitstring_to_bytes(binary)
+    return bytes_
+
+
+def convert_int_to_uuid(x: int) -> str:
+    """Uses an integer as a seed to generate a UUID.
+
+    This function first hashes the integer using the  `hashlib.shake_128 <https://docs.python.org/3/library/hashlib.html#shake-variable-length-digests>`_
+    hashing algorithm. This allows us to generate a 128bit hash that the `uuid <https://docs.python.org/3/library/uuid.html>`_
+    library requires as seed to generate a unique UUID.
+
+    Parameters
+    ----------
+    x: int
+        Integer as seed.
+
+    Returns
+    -------
+    str
+        UUID in string format.
+    """
+    x_byte = int_to_bytes(x)
+    m = shake_128()
+    m.update(x_byte)
+    digest = m.digest(16)
+    u = str(uuid.UUID(bytes=digest))
+    return u
+
+
+def flatten_2d_list(l: List[List]) -> List:
+    """ Flattens a 2D list into a 1D list.
+
+    Parameters
+    ----------
+    l: 2D list
+        2D list to flatten
+
+    Returns
+    -------
+    1D list
+        Flattened list.
+    """
+    return [item for sublist in l for item in sublist]
+
