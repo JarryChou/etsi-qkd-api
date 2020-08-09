@@ -201,34 +201,29 @@ which are often expressed in UTF-8 or ASCII formats.</p>
 
 <dl class="py function">
 <dt id="api.helper.concat_keys">
-<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">concat_keys</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key_array</span></em>, <em class="sig-param"><span class="n">size_of_key</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.helper.concat_keys" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">concat_keys</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key_array</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.helper.concat_keys" title="Permalink to this definition">¶</a></dt>
 <dd><p>Helper function to concatenate keys.</p>
+<p>The function will concatenate integers in the same row of the 2D list <code class="docutils literal notranslate"><span class="pre">key_array</span></code> using <a class="reference internal" href="#api.helper.concat_two_int" title="api.helper.concat_two_int"><code class="xref py py-func docutils literal notranslate"><span class="pre">concat_two_int()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>key_array</strong> (<em>array-like</em>) – Array of keys, where each key is in decimal (integer) form.</p></li>
-<li><p><strong>size_of_key</strong> (<em>int</em>) – How many keys to concatenate together to one key at a time (eg. if 64bit and each key
-is 32bit, then size_of_key=2)</p></li>
-</ul>
+<dd class="field-odd"><p><strong>key_array</strong> (<em>2D list</em>) – 2D list of keys. Each row are the integers to be concatenated.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Array of concatenated keys in integer type. The number of keys will be <code class="docutils literal notranslate"><span class="pre">len(key_array)/size_of_key</span></code>.</p>
+<dd class="field-even"><p>List of concatenated keys in integer type. The number of keys will be <code class="docutils literal notranslate"><span class="pre">len(key_array)</span></code> (number of rows).</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>array</p>
+<dd class="field-odd"><p>list</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>This function takes in array of keys in their integer representation, and concatenates <em>consecutive</em> keys based on
-<code class="docutils literal notranslate"><span class="pre">size_of_key</span></code>. For example,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1122334455</span><span class="p">,</span> <span class="mi">2233445566</span><span class="p">,</span> <span class="mi">3344556677</span><span class="p">,</span> <span class="mi">4455667788</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">concat_keys</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<p>This function takes in a 2D array of keys in their integer form, and concatenates keys in the same row.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">arr</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1122334455</span><span class="p">,</span> <span class="mi">2233445566</span><span class="p">],</span> <span class="p">[</span><span class="mi">3344556677</span><span class="p">,</span> <span class="mi">4455667788</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">concat_keys</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
 <span class="go">[4820389781632429246, 28729523099122538572]</span>
 </pre></div>
 </div>
-<p>Notice that the output array has length <code class="docutils literal notranslate"><span class="pre">len(key_array)/size_of_key</span></code>. As <code class="docutils literal notranslate"><span class="pre">size_of_key</span></code> is 2, keys are grouped
-consecutively into groups of 2 and concatenated. For example, 4820389781632429246 is the integer result of
-concatenating 1122334455 and 2233445566 with the function <code class="docutils literal notranslate"><span class="pre">concat_two_int</span></code>.</p>
+<p>Here, 4820389781632429246 is the integer result of concatenating 1122334455 and 2233445566 with the function
+<a class="reference internal" href="#api.helper.concat_two_int" title="api.helper.concat_two_int"><code class="xref py py-func docutils literal notranslate"><span class="pre">concat_two_int()</span></code></a>. Similarly 28729523099122538572 is the result of concatenating 3344556677 and 4455667788.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -253,6 +248,43 @@ concatenating 1122334455 and 2233445566 with the function <code class="docutils 
 The binary concatenated form is
 0000000000000000000000000111101100000000000000000000000111001000,
 which in base 10 is 528280977864.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="api.helper.convert_int_to_uuid">
+<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">convert_int_to_uuid</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.helper.convert_int_to_uuid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uses an integer as a seed to generate a UUID.</p>
+<p>This function first hashes the integer using the  <a class="reference external" href="https://docs.python.org/3/library/hashlib.html#shake-variable-length-digests">hashlib.shake_128</a>
+hashing algorithm. This allows us to generate a 128bit hash that the <a class="reference external" href="https://docs.python.org/3/library/uuid.html">uuid</a>
+library requires as seed to generate a unique UUID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>int</em>) – Integer as seed.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>UUID in string format.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="api.helper.flatten_2d_list">
+<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">flatten_2d_list</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">l</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.helper.flatten_2d_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flattens a 2D list into a 1D list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>l</strong> (<em>2D list</em>) – 2D list to flatten</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Flattened list.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>1D list</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
@@ -308,8 +340,26 @@ hence the function returns the full binary representation.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt id="api.helper.int_to_bytes">
+<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">int_to_bytes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.helper.int_to_bytes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts an integer to a byte object</p>
+<dl class="simple">
+<dt>x: int</dt><dd><p>Integer to be converted.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Corresponding integer in bytes format.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>bytes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt id="api.helper.retrieve_keys_from_file">
-<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">retrieve_keys_from_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num_of_keys_to_retrieve</span></em>, <em class="sig-param"><span class="n">key_file_path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.helper.retrieve_keys_from_file" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">retrieve_keys_from_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">number</span></em>, <em class="sig-param"><span class="n">num_key_in_each</span></em>, <em class="sig-param"><span class="n">key_file_path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.helper.retrieve_keys_from_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Helper function to retrieve keys from the actual qcrypto binary key files.</p>
 <p>This function will parse the qcrypto binary files appropriately and return the keys in integer representation.
 It will also update the header files appropriately after consuming the keys.
@@ -318,14 +368,39 @@ See: <a class="reference external" href="https://github.com/kurtsiefer/qcrypto/b
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>key_file_path</strong> (<em>str</em>) – Path to directory containing qcrypto key files.</p></li>
-<li><p><strong>num_of_keys_to_retrieve</strong> (<em>int</em>) – Total number of keys to retrieve.</p></li>
+<li><p><strong>number</strong> (<em>int</em>) – Number of keys requested</p></li>
+<li><p><strong>num_key_in_each</strong> (<em>int</em>) – How many 32bit keys each key is made of.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Array of keys in decimal (integer) form.</p>
+<dd class="field-even"><p>List of keys in decimal (integer) form. Each row represents one key and has <code class="docutils literal notranslate"><span class="pre">num_key_in_each</span></code> integers,
+and there are <code class="docutils literal notranslate"><span class="pre">number</span></code> rows.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>array</p>
+<dd class="field-odd"><p>2D list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="api.helper.retrieve_keys_given_uuid">
+<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">retrieve_keys_given_uuid</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">uuid_array</span></em>, <em class="sig-param"><span class="n">key_file_path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.helper.retrieve_keys_given_uuid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function to retrieve keys given the UUIDs of the keys.</p>
+<p>This function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>uuid_array</strong> (<em>2D list</em>) – 2D list of strings. Each row represents a single key, and the elements in the row are UUIDs of the individual
+keys that concatenate to make the full key.</p></li>
+<li><p><strong>key_file_path</strong> (<em>str</em>) – Path to directory containing qcrypto key files.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of keys in decimal (integer) form. Each row represents a single key, and each element in a row is the
+actual key that will be eventually concatenated to form the final key.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>2D list</p>
 </dd>
 </dl>
 </dd></dl>
@@ -471,6 +546,10 @@ IP address of the SAE etc. is stored in a <code class="docutils literal notransl
 <dt id="api.kme.KME.get_key">
 <code class="sig-name descname">get_key</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">number</span></em>, <em class="sig-param"><span class="n">size</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.kme.KME.get_key" title="Permalink to this definition">¶</a></dt>
 <dd><p>Master function that returns the key container of keys from KME.</p>
+<p>Function that handles the logic for retrieving the keys from qcrypto files. If the size of each key
+is a multiple of 32, then the keys need to be concatenated. The file retrieving is done by a helper
+function, <a class="reference internal" href="#api.helper.retrieve_keys_from_file" title="api.helper.retrieve_keys_from_file"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrieve_keys_from_file()</span></code></a>, that actually opens the qcrypto file and retrieves the
+keys.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -485,34 +564,7 @@ IP address of the SAE etc. is stored in a <code class="docutils literal notransl
 <dd class="field-odd"><p>dict</p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><strong>ValueError</strong> – Error if there are insufficient keys. Error raised from <a class="reference internal" href="#api.kme.KME.get_key_helper" title="api.kme.KME.get_key_helper"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_key_helper()</span></code></a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="api.kme.KME.get_key_helper">
-<code class="sig-name descname">get_key_helper</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">number</span></em>, <em class="sig-param"><span class="n">size</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.kme.KME.get_key_helper" title="Permalink to this definition">¶</a></dt>
-<dd><p>Helper function for <a class="reference internal" href="#api.kme.KME.get_key" title="api.kme.KME.get_key"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_key()</span></code></a>.</p>
-<p>Helper function that handles the logic for retrieving the keys from qcrypto files. If the size of each key
-is a multiple of 32, then the keys need to be concatenated. This helper function will call another helper
-function, <a class="reference internal" href="#api.helper.retrieve_keys_from_file" title="api.helper.retrieve_keys_from_file"><code class="xref py py-meth docutils literal notranslate"><span class="pre">retrieve_keys_from_file()</span></code></a>, that actually opens the qcrypto file and retrieves the
-keys.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>number</strong> (<em>int</em>) – Number of keys requested</p></li>
-<li><p><strong>size</strong> (<em>int</em>) – Size of each key in bits</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Key container containing the keys requested.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>dict</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><strong>ValueError</strong> – Error if there are insufficient keys. Error raised from <a class="reference internal" href="#api.kme.KME.get_key_helper" title="api.kme.KME.get_key_helper"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_key_helper()</span></code></a></p>
+<dd class="field-even"><p><strong>ValueError</strong> – Error if there are insufficient keys.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -521,7 +573,8 @@ keys.</p>
 <dt id="api.kme.KME.get_key_with_id">
 <code class="sig-name descname">get_key_with_id</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key_ids</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.kme.KME.get_key_with_id" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the key container of keys from KME given the key IDs.</p>
-<p>Function will be called by the ‘slave’ application requesting for keys.</p>
+<p>Function will be called by the ‘slave’ application requesting for keys. The actual retrieving of keys
+is passed to the helper function <a class="reference internal" href="#api.helper.retrieve_keys_given_uuid" title="api.helper.retrieve_keys_given_uuid"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrieve_keys_given_uuid()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>key_ids</strong> (<em>List[dict]</em>) – Array of dictionaries containing the key ids. Each dictionary contains one key id, in the format:
@@ -534,7 +587,7 @@ keys.</p>
 <dd class="field-odd"><p>dict</p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><strong>ValueError</strong> – Error if there are insufficient keys.</p>
+<dd class="field-even"><p><strong>KeyError</strong> – Error if the keys requested cannot be found. Thrown by <a class="reference internal" href="#api.helper.retrieve_keys_given_uuid" title="api.helper.retrieve_keys_given_uuid"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrieve_keys_given_uuid()</span></code></a>.</p>
 </dd>
 </dl>
 </dd></dl>
