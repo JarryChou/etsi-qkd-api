@@ -34,7 +34,7 @@ Then deploy the Flask app with the built-in Werkzeug web server:
 Navigate to http://127.0.0.1:5000/ on your web browser and you should be greeted with a message: "Hello World from SpeQtral's ETSI QKD API!".
 
 ETSI API Calls
-==============
+++++++++++++++
 
 Now that Hello World is working, let's check the various API calls specified by the ETSI document. Ensure that you have valid qcrypto key files in the key file path
 you specified earlier. Navigate to http://127.0.0.1:5000/api/v1/keys/_ID_/status, where _ID_ can be *any number you want* (it is supposed

@@ -86,11 +86,11 @@
 <li class="toctree-l1"><a class="reference internal" href="modules/api.helper.html">api.helper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules/api.routes.html">api.routes</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Tutorial :</span></p>
+<p class="caption"><span class="caption-text">Guides</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="contents/apache.html">1. Installing Apache</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contents/quickstart.html">2. Quickstart</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contents/quickstart.html#etsi-api-calls">3. ETSI API Calls</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/quickstart.html">1. Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/api_description.html">2. Design of API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/apache.html">3. Installing Apache</a></li>
 </ul>
 
             
@@ -161,44 +161,56 @@
 <p>This is an implementation of the <a class="reference external" href="https://www.etsi.org/deliver/etsi_gs/QKD/001_099/014/01.01.01_60/gs_qkd014v010101p.pdf">ETSI QKD API</a>.
 The API implementation is contained within the <code class="docutils literal notranslate"><span class="pre">api</span></code> module that has three submodules shown below. It uses the <a class="reference external" href="flask.palletsprojects.com">Flask</a>
 framework and is hosted on an <a class="reference external" href="www.apache.org">Apache</a> web server.</p>
+</div>
+<div class="section" id="git-branches">
+<h1>Git Branches<a class="headerlink" href="#git-branches" title="Permalink to this headline">¶</a></h1>
+<p>Currently, the repository contains 3 branches:</p>
+<p><code class="docutils literal notranslate"><span class="pre">master</span></code> - the master branch that contains a working version of the ETSI API.</p>
+<p><code class="docutils literal notranslate"><span class="pre">dev</span></code> - a development branch where experimental features are tested before being merged with master.</p>
+<p><code class="docutils literal notranslate"><span class="pre">chat-demo</span></code> - contains only the code needed to run a very minimal chat app that consumes qcrypto keys to send encrypted
+messages. Keys are consumed locally for the chat app–the web server functionality has been stripped from this branch for simplicity.</p>
+</div>
+<div class="section" id="folders">
+<h1>Folders<a class="headerlink" href="#folders" title="Permalink to this headline">¶</a></h1>
+<p>There are several main folders in <code class="docutils literal notranslate"><span class="pre">master</span></code> that are relevant to the functionality of the API. The <code class="docutils literal notranslate"><span class="pre">api</span></code> folder is where the
+bulk of the QKD API logic is contained. <code class="docutils literal notranslate"><span class="pre">key_files</span></code> is where the qcrypto key files are stored by default, although this is left up to the user
+and can be changed. The <code class="docutils literal notranslate"><span class="pre">tests</span></code> folder contains unit tests for several of the API functions defined in <code class="docutils literal notranslate"><span class="pre">api</span></code>.
+The <code class="docutils literal notranslate"><span class="pre">docs</span></code> and <code class="docutils literal notranslate"><span class="pre">docsrc</span></code> folders contain the build and source files for the documentation, which is what you are reading now.</p>
+</div>
+<div class="section" id="documentation">
+<h1>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h1>
 <table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="modules/api.html#module-api.kme" title="api.kme"><code class="xref py py-obj docutils literal notranslate"><span class="pre">api.kme</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/api.kme.html#module-api.kme" title="api.kme"><code class="xref py py-obj docutils literal notranslate"><span class="pre">api.kme</span></code></a></p></td>
 <td><p>Class implementing the Key Management Entity (KME).</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="modules/api.helper.html#module-api.helper" title="api.helper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">api.helper</span></code></a></p></td>
 <td><p>Collection of helper functions to handle the logic for the KME.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="modules/api.html#module-api.routes" title="api.routes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">api.routes</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/api.routes.html#module-api.routes" title="api.routes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">api.routes</span></code></a></p></td>
 <td><p>Functions that handle routing for the Flask web server hosting the API.</p></td>
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="overview">
-<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
-<p>From a high-level perspective, the <code class="docutils literal notranslate"><span class="pre">etsi-akd-api</span></code> contains several different folders. The <code class="docutils literal notranslate"><span class="pre">api</span></code> folder is where the
-bulk of the QKD API logic is contained. The <code class="docutils literal notranslate"><span class="pre">chat-app</span></code> folder contains a simple GUI-based chat app implemented using PyQt, the Python
-implement of the popular <a class="reference external" href="https://www.qt.io/">Qt</a> GUI framework. The chat app makes requests to the
-QKD API as a minimal working demo. The <code class="docutils literal notranslate"><span class="pre">tests</span></code> folder contains unit tests for several of the API functions defined in <code class="docutils literal notranslate"><span class="pre">api</span></code>.
-The <code class="docutils literal notranslate"><span class="pre">docs</span></code> and <code class="docutils literal notranslate"><span class="pre">docsrc</span></code> folders contain the build and source files for the documentation, which is what you are reading now.</p>
-<p><code class="docutils literal notranslate"><span class="pre">api.routes</span></code> - handles the URL routing when the API is called. These URLs are defined in adherence to the ETSI API, which can
-be verified by referring to the <code class="docutils literal notranslate"><span class="pre">&#64;app.route()</span></code> Flask decorators above every function definition in the source code.</p>
-<p><code class="docutils literal notranslate"><span class="pre">api.kme</span></code> - contains the <code class="docutils literal notranslate"><span class="pre">KME</span></code> class, whose methods are called by <code class="docutils literal notranslate"><span class="pre">api.routes</span></code> when the API is called by a user. The class
-contains most of the logic for handling and manipulating qcrypto keys, but will delegate some of logic to the <code class="docutils literal notranslate"><span class="pre">api.helper</span></code>
-functions.</p>
-<p><code class="docutils literal notranslate"><span class="pre">api.helper</span></code> - a collection of convenient helper functions that aid primarily in retrieval of keys from qcrypto key files, and conversion
-between various data types such as <code class="docutils literal notranslate"><span class="pre">str</span></code>, <code class="docutils literal notranslate"><span class="pre">int</span></code> or <code class="docutils literal notranslate"><span class="pre">bytes</span></code> and so on.</p>
 <div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Tutorial :</span></p>
+<p class="caption"><span class="caption-text">Guides</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="contents/apache.html">1. Installing Apache</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contents/quickstart.html">2. Quickstart</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contents/quickstart.html#etsi-api-calls">3. ETSI API Calls</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/quickstart.html">1. Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contents/quickstart.html#etsi-api-calls">1.1. ETSI API Calls</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contents/api_description.html">2. Design of API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contents/api_description.html#api-modules">2.1. API modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/api_description.html#how-keys-are-read">2.2. How keys are read</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/api_description.html#concatenating-keys">2.3. Concatenating keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/api_description.html#uuids-as-key-ids">2.4. UUIDs as key IDs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contents/apache.html">3. Installing Apache</a></li>
 </ul>
 </div>
 </div>

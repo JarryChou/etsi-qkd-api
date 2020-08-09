@@ -10,6 +10,27 @@ This is an implementation of the `ETSI QKD API <https://www.etsi.org/deliver/ets
 The API implementation is contained within the ``api`` module that has three submodules shown below. It uses the `Flask <flask.palletsprojects.com>`_
 framework and is hosted on an `Apache <www.apache.org>`_ web server.
 
+Git Branches
+============
+Currently, the repository contains 3 branches:
+
+``master`` - the master branch that contains a working version of the ETSI API.
+
+``dev`` - a development branch where experimental features are tested before being merged with master.
+
+``chat-demo`` - contains only the code needed to run a very minimal chat app that consumes qcrypto keys to send encrypted
+messages. Keys are consumed locally for the chat app--the web server functionality has been stripped from this branch for simplicity.
+
+Folders
+=======
+There are several main folders in ``master`` that are relevant to the functionality of the API. The ``api`` folder is where the
+bulk of the QKD API logic is contained. ``key_files`` is where the qcrypto key files are stored by default, although this is left up to the user
+and can be changed. The ``tests`` folder contains unit tests for several of the API functions defined in ``api``.
+The ``docs`` and ``docsrc`` folders contain the build and source files for the documentation, which is what you are reading now.
+
+
+Documentation
+=============
 .. autosummary::
    :toctree: modules
 
@@ -17,31 +38,14 @@ framework and is hosted on an `Apache <www.apache.org>`_ web server.
     api.helper
     api.routes
 
-Overview
-========
-From a high-level perspective, the ``etsi-akd-api`` contains several different folders. The ``api`` folder is where the
-bulk of the QKD API logic is contained. The ``chat-app`` folder contains a simple GUI-based chat app implemented using PyQt, the Python
-implement of the popular `Qt <https://www.qt.io/>`_ GUI framework. The chat app makes requests to the
-QKD API as a minimal working demo. The ``tests`` folder contains unit tests for several of the API functions defined in ``api``.
-The ``docs`` and ``docsrc`` folders contain the build and source files for the documentation, which is what you are reading now.
-
-``api.routes`` - handles the URL routing when the API is called. These URLs are defined in adherence to the ETSI API, which can
-be verified by referring to the ``@app.route()`` Flask decorators above every function definition in the source code.
-
-``api.kme`` - contains the ``KME`` class, whose methods are called by ``api.routes`` when the API is called by a user. The class
-contains most of the logic for handling and manipulating qcrypto keys, but will delegate some of logic to the ``api.helper``
-functions.
-
-``api.helper`` - a collection of convenient helper functions that aid primarily in retrieval of keys from qcrypto key files, and conversion
-between various data types such as ``str``, ``int`` or ``bytes`` and so on.
-
 .. toctree::
-   :caption: Tutorial :
-   :maxdepth: 2
+   :caption: Guides
    :glob:
    :numbered:
 
-   contents/*
+   contents/quickstart.rst
+   contents/api_description
+   contents/apache.rst
 
 Indices and tables
 ==================
