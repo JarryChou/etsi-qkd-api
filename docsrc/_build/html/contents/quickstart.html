@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>2. Quickstart &mdash; etsi-qkd-api v0.0.1 documentation</title>
+  <title>1. Quickstart &mdash; etsi-qkd-api v0.0.1 documentation</title>
   
 
   
@@ -36,7 +36,8 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="1. Installing Apache" href="apache.html" /> 
+    <link rel="next" title="2. Design of API" href="api_description.html" />
+    <link rel="prev" title="api.routes" href="../modules/api.routes.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -86,11 +87,14 @@
 <li class="toctree-l1"><a class="reference internal" href="../modules/api.helper.html">api.helper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../modules/api.routes.html">api.routes</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Tutorial :</span></p>
+<p class="caption"><span class="caption-text">Guides</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="apache.html">1. Installing Apache</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">2. Quickstart</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#etsi-api-calls">3. ETSI API Calls</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#etsi-api-calls">1.1. ETSI API Calls</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api_description.html">2. Design of API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apache.html">3. Installing Apache</a></li>
 </ul>
 
             
@@ -137,7 +141,7 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li><span class="section-number">2. </span>Quickstart</li>
+      <li><span class="section-number">1. </span>Quickstart</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -157,7 +161,7 @@
            <div itemprop="articleBody">
             
   <div class="section" id="quickstart">
-<h1><span class="section-number">2. </span>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h1>
+<h1><span class="section-number">1. </span>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h1>
 <p>First, start by cloning the repository, then installing the pre-requisites in a virtual environment (recommended):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git clone https://github.com/SpeQtral/etsi-qkd-api.git
 $ cd etsi-qkd-api
@@ -182,9 +186,8 @@ to <code class="docutils literal notranslate"><span class="pre">config.ini</span
 </pre></div>
 </div>
 <p>Navigate to <a class="reference external" href="http://127.0.0.1:5000/">http://127.0.0.1:5000/</a> on your web browser and you should be greeted with a message: “Hello World from SpeQtral’s ETSI QKD API!”.</p>
-</div>
 <div class="section" id="etsi-api-calls">
-<h1><span class="section-number">3. </span>ETSI API Calls<a class="headerlink" href="#etsi-api-calls" title="Permalink to this headline">¶</a></h1>
+<h2><span class="section-number">1.1. </span>ETSI API Calls<a class="headerlink" href="#etsi-api-calls" title="Permalink to this headline">¶</a></h2>
 <p>Now that Hello World is working, let’s check the various API calls specified by the ETSI document. Ensure that you have valid qcrypto key files in the key file path
 you specified earlier. Navigate to <a class="reference external" href="http://127.0.0.1:5000/api/v1/keys/_ID_/status">http://127.0.0.1:5000/api/v1/keys/_ID_/status</a>, where _ID_ can be <em>any number you want</em> (it is supposed
 to be the IP of the SAE, but for now I have programmed it to allow any arbitrary ID). You should see something like</p>
@@ -257,6 +260,7 @@ request can be done using <a class="reference external" href="https://www.postma
 <p>We see 3 keys returned, and as 128bit keys can be formed by concatenating 4 32bit keys, the <code class="docutils literal notranslate"><span class="pre">key_ID</span></code> of each key is formed by appending
 the UUIDs of 4 keys, separated by a ‘+’ delimiter. Another check with <code class="docutils literal notranslate"><span class="pre">Get</span> <span class="pre">status</span></code> should show the key count updated accordingly.</p>
 </div>
+</div>
 
 
            </div>
@@ -266,8 +270,10 @@ the UUIDs of 4 keys, separated by a ‘+’ delimiter. Another check with <code 
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
+        <a href="api_description.html" class="btn btn-neutral float-right" title="2. Design of API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-        <a href="apache.html" class="btn btn-neutral float-left" title="1. Installing Apache" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+        <a href="../modules/api.routes.html" class="btn btn-neutral float-left" title="api.routes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -1,0 +1,252 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>2. Design of API &mdash; etsi-qkd-api v0.0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3. Installing Apache" href="apache.html" />
+    <link rel="prev" title="1. Quickstart" href="quickstart.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> etsi-qkd-api
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules/api.kme.html">api.kme</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/api.helper.html">api.helper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/api.routes.html">api.routes</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Guides</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">1. Quickstart</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. Design of API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#api-modules">2.1. API modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-keys-are-read">2.2. How keys are read</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#concatenating-keys">2.3. Concatenating keys</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="apache.html">3. Installing Apache</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">etsi-qkd-api</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li><span class="section-number">2. </span>Design of API</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/contents/api_description.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="design-of-api">
+<h1><span class="section-number">2. </span>Design of API<a class="headerlink" href="#design-of-api" title="Permalink to this headline">¶</a></h1>
+<p>This section will explain further about certain details of the API. There are many ways the API can be implemented owing to the vagueness
+of the ETSI standard, so the hope of this is to give the reader enough information to understand and potentially modify the source code in the future.</p>
+<div class="section" id="api-modules">
+<h2><span class="section-number">2.1. </span>API modules<a class="headerlink" href="#api-modules" title="Permalink to this headline">¶</a></h2>
+<p>Here we give a summary of what each module in the <code class="docutils literal notranslate"><span class="pre">api</span></code> folder does:</p>
+<p><code class="docutils literal notranslate"><span class="pre">api.routes</span></code> - handles the URL routing when the API is called. These URLs are defined in adherence to the ETSI API, which can
+be verified by referring to the <code class="docutils literal notranslate"><span class="pre">&#64;app.route()</span></code> Flask decorators above every function definition in the source code.</p>
+<p><code class="docutils literal notranslate"><span class="pre">api.kme</span></code> - contains the <code class="docutils literal notranslate"><span class="pre">KME</span></code> class, whose methods are called by <code class="docutils literal notranslate"><span class="pre">api.routes</span></code> when the API is called by a user. The class
+contains most of the logic for handling and manipulating qcrypto keys, but will delegate some of logic to the <code class="docutils literal notranslate"><span class="pre">api.helper</span></code>
+functions.</p>
+<p><code class="docutils literal notranslate"><span class="pre">api.helper</span></code> - a collection of convenient helper functions that aid primarily in retrieval of keys from qcrypto key files, and conversion
+between various data types such as <code class="docutils literal notranslate"><span class="pre">str</span></code>, <code class="docutils literal notranslate"><span class="pre">int</span></code> or <code class="docutils literal notranslate"><span class="pre">bytes</span></code> and so on.</p>
+</div>
+<div class="section" id="how-keys-are-read">
+<h2><span class="section-number">2.2. </span>How keys are read<a class="headerlink" href="#how-keys-are-read" title="Permalink to this headline">¶</a></h2>
+<p>Keys are read directly from qcrypto key files, with no database for intermediate storage. When X amount of keys are requested,
+the API will read and remove X keys from the key file, then <em>immediately</em> rewrites the updated key file back
+to the directory. This ensures that even if the API is stopped abruptly, no key material is lost as the files are never held in memory.
+The code that does this is contained in <a class="reference internal" href="../modules/api.html#api.helper.retrieve_keys_from_file" title="api.helper.retrieve_keys_from_file"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrieve_keys_from_file()</span></code></a> and <a class="reference internal" href="../modules/api.html#api.helper.retrieve_keys_given_uuid" title="api.helper.retrieve_keys_given_uuid"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrieve_keys_given_uuid()</span></code></a>.</p>
+</div>
+<div class="section" id="concatenating-keys">
+<h2><span class="section-number">2.3. </span>Concatenating keys<a class="headerlink" href="#concatenating-keys" title="Permalink to this headline">¶</a></h2>
+<p>We work with base keys of size 32bits, as this is what qcrypto provides. However, the ETSI standard demands that keys of variable lengths
+can be requested. More practically, we know 128 and 256bits keys are more commonly used, for eg. in AES. As such, this API will allow
+keys of sizes in 32bits multiples to be requested (no odd key sizes like 116bits). When such keys are requested, the individual keys
+will be concatenated to form the larger key.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="apache.html" class="btn btn-neutral float-right" title="3. Installing Apache" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="quickstart.html" class="btn btn-neutral float-left" title="1. Quickstart" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Alvin
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

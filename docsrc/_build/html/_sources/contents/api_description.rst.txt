@@ -1,0 +1,36 @@
+Design of API
+=============
+
+This section will explain further about certain details of the API. There are many ways the API can be implemented owing to the vagueness
+of the ETSI standard, so the hope of this is to give the reader enough information to understand and potentially modify the source code in the future.
+
+API modules
++++++++++++
+Here we give a summary of what each module in the ``api`` folder does:
+
+``api.routes`` - handles the URL routing when the API is called. These URLs are defined in adherence to the ETSI API, which can
+be verified by referring to the ``@app.route()`` Flask decorators above every function definition in the source code.
+
+``api.kme`` - contains the ``KME`` class, whose methods are called by ``api.routes`` when the API is called by a user. The class
+contains most of the logic for handling and manipulating qcrypto keys, but will delegate some of logic to the ``api.helper``
+functions.
+
+``api.helper`` - a collection of convenient helper functions that aid primarily in retrieval of keys from qcrypto key files, and conversion
+between various data types such as ``str``, ``int`` or ``bytes`` and so on.
+
+How keys are read
++++++++++++++++++
+Keys are read directly from qcrypto key files, with no database for intermediate storage. When X amount of keys are requested,
+the API will read and remove X keys from the key file, then *immediately* rewrites the updated key file back
+to the directory. This ensures that even if the API is stopped abruptly, no key material is lost as the files are never held in memory.
+The code that does this is contained in :func:`~.api.helper.retrieve_keys_from_file` and :func:`~api.helper.retrieve_keys_given_uuid`.
+
+Concatenating keys
+++++++++++++++++++
+We work with base keys of size 32bits, as this is what qcrypto provides. However, the ETSI standard demands that keys of variable lengths
+can be requested. More practically, we know 128 and 256bits keys are more commonly used, for eg. in AES. As such, this API will allow
+keys of sizes in 32bits multiples to be requested (no odd key sizes like 116bits). When such keys are requested, the individual keys
+will be concatenated to form the larger key.
+
+
+
