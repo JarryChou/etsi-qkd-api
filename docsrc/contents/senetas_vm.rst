@@ -80,5 +80,10 @@ To enable QKD functionality, under System, tick the checkbox for 'ETSI Quantum K
 Under Certificates, ensure that the correct certificate is selected for each encryptor, especially if you have certified it earlier with the RSA certificate in the lab exercise.
 One way is to check that the certificate is of Signature Algorithm ecdsa-with-SHA256.
 
-Lastly, under the QKD section, we need to key in the relevant IP addresses. Make sure to match the certificates to the ones in the Certificate tab.
+Lastly, under the QKD section, we need to key in the relevant IP addresses. Make sure to match the certificates to the ones in the Certificate tab. A finished setup
+should look like this:
 
+.. image:: /images/qkd_pane.png
+
+If you have done the setup correctly, you should see successful QKD requests. There will be a few failed QKD requests, which will be discussed further in the
+next section.
