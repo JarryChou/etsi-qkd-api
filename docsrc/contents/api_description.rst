@@ -33,4 +33,11 @@ keys of sizes in 32bits multiples to be requested. When such keys are requested,
 
 UUIDs as key IDs
 ++++++++++++++++
+The key ids specified in the ETSI standard are of `UUID <https://en.wikipedia.org/wiki/Universally_unique_identifier>`_ (universally unique identifier) standard. The UUID for each
+key is generated using the Python `uuid <https://docs.python.org/3/library/uuid.html>`_ library. Specifically, it requires a 128bit seed to generate a UUID. Therefore, each key
+is hashed with `Shake 128 <https://docs.python.org/3/library/hashlib.html#shake-variable-length-digests>`_ to produce a 128bit hash, and then used to create a UUID. Since Shake 128
+*and* the UUID generator involve irreversible hashing algorithms, there is no danger of the key leaking from its UUID when generated this way. When keys of 32bit-size multiples are requested,
+the individual UUIDs are concatenated with a '+' delimiter. This will allow the receiving ('slave') node to retrieve the UUIDs of each constituent key and obtain the same
+keys as the 'master' with :func:`~api.routes.get_key_with_id` method.
+
 
