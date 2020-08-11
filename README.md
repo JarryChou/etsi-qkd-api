@@ -15,6 +15,7 @@ Then, proceed to install the requirements. It is best to do so in a virtual envi
 cd etsi-qkd-api
 python3 -m venv venv
 sudo apt-get install qt5-default
+source venv/bin/activate
 pip install -r requirements.txt
 ```
 
@@ -26,7 +27,7 @@ sudo apt-get upgrade
 sudo apt-get install build-essentials
 ```
 
-Now we are done with installation and we can proceed with configuring the chat app. 
+You may also get some errors with the PyQt installations but I found that the installation and chat app still worked fine. Now we are done with installation and we can proceed with configuring the chat app. 
 
 First, there are two ports that are used in this app, shown in ``chat_app/port_config.ini``, one for establishing connection with your partner and one for sending encrypted messages. The defaults are ``6180`` and ``6190`` respectively, but feel free to change them in this file. You would probably have to do so for port forwarding if your two PCs are not on the same local network. Otherwise, if they are on the same network then the default should work.
 
