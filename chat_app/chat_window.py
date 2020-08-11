@@ -47,7 +47,6 @@ class ChatWindow(QtWidgets.QMainWindow, Ui_ChatWindow):
         # get keys directly from KME
         key_container = self.kme.get_key(1, 256) # one key of 256 bits
         key = key_container['keys'][0]['key']
-        print(key)
         key = base64.b64decode(key)  # key is in base64 encoding (according to ETSI API), so decode to UTF8 bytes object
         self.AES_obj = AESCipher(key)
 
