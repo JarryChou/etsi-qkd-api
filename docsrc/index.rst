@@ -46,6 +46,7 @@ Documentation
    contents/quickstart.rst
    contents/api_description
    contents/apache.rst
+   contents/senetas_vm.rst
 
 Indices and tables
 ==================
