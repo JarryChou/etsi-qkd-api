@@ -9,16 +9,20 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import resource
 
 
 class Ui_ChatWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1008, 600)
+        MainWindow.resize(998, 676)
+        MainWindow.setStyleSheet("")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.main_frame = QtWidgets.QFrame(self.centralwidget)
-        self.main_frame.setGeometry(QtCore.QRect(10, 0, 991, 551))
+        self.main_frame.setGeometry(QtCore.QRect(0, 80, 991, 551))
+        self.main_frame.setAutoFillBackground(False)
+        self.main_frame.setStyleSheet("selection-color: rgb(117, 80, 123);")
         self.main_frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.main_frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.main_frame.setObjectName("main_frame")
@@ -41,9 +45,15 @@ class Ui_ChatWindow(object):
         self.label_2 = QtWidgets.QLabel(self.main_frame)
         self.label_2.setGeometry(QtCore.QRect(720, 10, 111, 17))
         self.label_2.setObjectName("label_2")
+        self.label_3 = QtWidgets.QLabel(self.centralwidget)
+        self.label_3.setGeometry(QtCore.QRect(350, 0, 301, 81))
+        self.label_3.setText("")
+        self.label_3.setPixmap(QtGui.QPixmap(":/newPrefix/logo/logo.png"))
+        self.label_3.setScaledContents(True)
+        self.label_3.setObjectName("label_3")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1008, 22))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 998, 22))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -55,17 +65,8 @@ class Ui_ChatWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "SpeQtral Chat"))
         self.send_button.setText(_translate("MainWindow", "Send"))
         self.label.setText(_translate("MainWindow", "Decrypted Chat"))
         self.label_2.setText(_translate("MainWindow", "Encrypted Chat"))
 
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_ChatWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
