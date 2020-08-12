@@ -2,15 +2,29 @@
 
 The chat-demo branch is intended for demo-ing the chat app with a working QKD/qcrypto setup. This demo will work without needing to set up a web server hosting the ETSI API, as the chat app will retrieve keys directly from the qcrypto files that exists locally. As such, certain files specific to the web server are omitted in this branch. We will call Alice and Bob the two parties trying to chat with each other in this demo. 
 
-## Installation and Setup
+## Easy Installation
 
-To install just this branch, 
+The easy installation involves downloading an Ubuntu 18.04 image preloaded with the Git branch and relevant software dependencies. Go to the SharePoint at this [link](https://teams.microsoft.com/_#/files/Internship%20projects?threadId=19%3A4b9049ba56274e5da9d68f78c95fde5a%40thread.skype&ctx=channel&context=chat-demo-vm&rootfolder=%252Fsites%252Ftechnical%252FShared%2520Documents%252FInternship%2520projects%252FSenetas%252Fchat-demo-vm) and download the .ovf file.
+
+Assuming you are using VirtualBox, go to File > Import Appliance and import the .ovf. The account and password for the Ubuntu image is 'test' and '123' respectively. Once you are inside Ubuntu, fire up the terminal
+
+```
+cd etsi-qkd-api
+source venv/bin/activate
+cd chat_app
+python main.py
+```
+and the connection window should appear. You can obtain the IP of this VM in your terminal with the ``ifconfig`` command.
+
+## Manual Installation from Git Repository
+
+This is if you would like to install it onto your own system. To install just this branch, 
 
 ```
 git clone --single-branch --branch chat-demo https://github.com/SpeQtral/etsi-qkd-api.git
 ```
 
-Then, proceed to install the requirements. It is best to do so in a virtual environment. This tutorial will assume an Ubuntu 18.04 installation.
+Then, proceed to install the requirements. It is best to do so in a virtual environment. This tutorial will assume an Ubuntu 18.04 installation (on other Ubuntu versions you may face some issues due to the different Python version bundled with the OS).
 ```
 cd etsi-qkd-api
 python3 -m venv venv
@@ -19,7 +33,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-As evident, the app uses the [Qt5](https://www.qt.io) software to code the GUI. You might get some OS-specific depedency errors while installing the requirements. For example, on a new Ubuntu VM I had some errors due to missing GNU/GCC compilers. These errors might be different depending on your OS, but on Ubuntu you can resolve them typically by
+The app uses the [Qt5](https://www.qt.io) software to code the GUI. You might get some OS-specific depedency errors while installing the requirements. For example, on a new Ubuntu VM I had some errors due to missing GNU/GCC compilers. These errors might be different depending on your OS, but on Ubuntu you can resolve them typically by
 
 ```
 sudo apt-get update
@@ -28,6 +42,8 @@ sudo apt-get install build-essentials
 ```
 
 You may also get some errors with the PyQt installations but I found that the installation and chat app still worked fine. Now we are done with installation and we can proceed with configuring the chat app. 
+
+## Setup
 
 First, there are two ports that are used in this app, shown in ``chat_app/port_config.ini``, one for establishing connection with your partner and one for sending encrypted messages. The defaults are ``6180`` and ``6190`` respectively, but feel free to change them in this file. You would probably have to do so for port forwarding if your two PCs are not on the same local network. Otherwise, if they are on the same network then the default should work.
 
