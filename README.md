@@ -33,15 +33,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-The app uses the [Qt5](https://www.qt.io) software to code the GUI. You might get some OS-specific depedency errors while installing the requirements. For example, on a new Ubuntu VM I had some errors due to missing GNU/GCC compilers. These errors might be different depending on your OS, but on Ubuntu you can resolve them typically by
-
-```
-sudo apt-get update
-sudo apt-get upgrade
-sudo apt-get install build-essentials
-```
-
-You may also get some errors with the PyQt installations but I found that the installation and chat app still worked fine. Now we are done with installation and we can proceed with configuring the chat app. 
+The app uses the [Qt5](https://www.qt.io) software to code the GUI. You may find that during installation of requirements there are some errors regarding missing ``wheel`` dependencies. The chat app still works without these dependencies so it does not seem to be an issue. Now we are done with installation and we can proceed with configuring the chat app. 
 
 ## Setup
 
