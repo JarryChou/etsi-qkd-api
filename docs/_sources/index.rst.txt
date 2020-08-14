@@ -36,6 +36,7 @@ Documentation
 
     api.kme
     api.helper
+    api.crawler
     api.routes
 
 .. toctree::

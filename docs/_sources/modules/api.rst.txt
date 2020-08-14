@@ -12,6 +12,15 @@ api.helper module
    :undoc-members:
    :show-inheritance:
 
+api.crawler module
+-----------------
+
+.. automodule:: api.crawler
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
 api.kme module
 --------------
 

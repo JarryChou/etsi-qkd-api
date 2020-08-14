@@ -83,6 +83,7 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="api.kme.html">api.kme</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.helper.html">api.helper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.crawler.html">api.crawler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.routes.html">api.routes</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Guides</span></p>
@@ -184,15 +185,15 @@
 <dl class="py function">
 <dt id="api.helper.bitstring_to_bytes">
 <code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">bitstring_to_bytes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.helper.bitstring_to_bytes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts a string to a byte object.</p>
+<dd><p>Converts a bitstring to a byte object.</p>
 <p>This function is necessary as certain libraries (specifically the base64 library) accepts byte objects, not strings
 which are often expressed in UTF-8 or ASCII formats.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>s</strong> (<em>str</em>) – String to be converted to bytes object.</p>
+<dd class="field-odd"><p><strong>s</strong> (<em>str</em>) – Bitstring to be converted to bytes object.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Corresponding string in bytes format.</p>
+<dd class="field-even"><p>Corresponding bitstring in bytes format.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>bytes</p>
@@ -404,6 +405,37 @@ actual key that will be eventually concatenated to form the final key.</p>
 <dd class="field-odd"><p>2D list</p>
 </dd>
 </dl>
+</dd></dl>
+
+</div>
+<div class="section" id="api-crawler-module">
+<h2>api.crawler module<a class="headerlink" href="#api-crawler-module" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-api.crawler"></span><p>Class implementing a key file crawler.</p>
+<dl class="py class">
+<dt id="api.crawler.KeyFileCrawler">
+<em class="property">class </em><code class="sig-prename descclassname">api.crawler.</code><code class="sig-name descname">KeyFileCrawler</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key_file_path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.crawler.KeyFileCrawler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class implements a key file crawler that counts the number of keys available stored in qcrypto files. This is a
+helper class for KME.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>key_file_path</strong> (<em>str</em>) – Absolute file path to directory storing qcrypto key files.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="api.crawler.KeyFileCrawler.get_stored_key_count">
+<code class="sig-name descname">get_stored_key_count</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#api.crawler.KeyFileCrawler.get_stored_key_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method that counts the number of keys available from qcrypto files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Amount of keys available.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </div>

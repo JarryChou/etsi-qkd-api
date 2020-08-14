@@ -85,6 +85,7 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../modules/api.kme.html">api.kme</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../modules/api.helper.html">api.helper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/api.crawler.html">api.crawler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../modules/api.routes.html">api.routes</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Guides</span></p>
@@ -184,7 +185,7 @@ between various data types such as <code class="docutils literal notranslate"><s
 <p>Keys are read directly from qcrypto key files, with no database for intermediate storage. When X amount of keys are requested,
 the API will read and remove X keys from the key file, then <em>immediately</em> rewrites the updated key file back
 to the directory. This ensures that even if the API is stopped abruptly, no key material is lost as the files are never held in memory.
-The code that does this is contained in <a class="reference internal" href="../modules/api.html#api.helper.retrieve_keys_from_file" title="api.helper.retrieve_keys_from_file"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrieve_keys_from_file()</span></code></a> and <a class="reference internal" href="../modules/api.html#api.helper.retrieve_keys_given_uuid" title="api.helper.retrieve_keys_given_uuid"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrieve_keys_given_uuid()</span></code></a>.</p>
+The code that does this is contained in <code class="xref py py-func docutils literal notranslate"><span class="pre">retrieve_keys_from_file()</span></code> and <code class="xref py py-func docutils literal notranslate"><span class="pre">retrieve_keys_given_uuid()</span></code>.</p>
 </div>
 <div class="section" id="concatenating-keys">
 <h2><span class="section-number">2.3. </span>Concatenating keys<a class="headerlink" href="#concatenating-keys" title="Permalink to this headline">¶</a></h2>
@@ -199,7 +200,7 @@ key is generated using the Python <a class="reference external" href="https://do
 is hashed with <a class="reference external" href="https://docs.python.org/3/library/hashlib.html#shake-variable-length-digests">Shake 128</a> to produce a 128bit hash, and then used to create a UUID. Since Shake 128
 <em>and</em> the UUID generator involve irreversible hashing algorithms, there is no danger of the key leaking from its UUID when generated this way. When keys of 32bit-size multiples are requested,
 the individual UUIDs are concatenated with a ‘+’ delimiter. This will allow the receiving (‘slave’) node to retrieve the UUIDs of each constituent key and obtain the same
-keys as the ‘master’ with <a class="reference internal" href="../modules/api.html#api.routes.get_key_with_id" title="api.routes.get_key_with_id"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_key_with_id()</span></code></a> method.</p>
+keys as the ‘master’ with <a class="reference internal" href="../api.html#api.routes.get_key_with_id" title="api.routes.get_key_with_id"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_key_with_id()</span></code></a> method.</p>
 </div>
 </div>
 

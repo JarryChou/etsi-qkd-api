@@ -78,16 +78,12 @@ You should see something like
     }
 
 which adheres to the ETSI key container specification containing a single key. The key is supplied in ``base64`` format, and the key ID as a UUID.
-Now if we call ``Get status`` again, you should see ``stored_key_count`` updated:
+Now if we call ``Get status`` again, you should see ``stored_key_count`` updated (omitting the other lines):
 
 .. code-block:: json
 
     {
-
-        ...
         "stored_key_count": 3001,
-        ...
-
     }
 
 To retrieve multiple keys, you can pass the desired number and size of each key in a ``GET`` or ``POST`` request. We will demonstrate a ``GET`` request here; a ``POST``

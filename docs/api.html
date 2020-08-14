@@ -83,6 +83,7 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="modules/api.kme.html">api.kme</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules/api.helper.html">api.helper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/api.crawler.html">api.crawler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules/api.routes.html">api.routes</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Guides</span></p>
@@ -158,12 +159,15 @@
             
   <div class="section" id="api-package">
 <h1>api package<a class="headerlink" href="#api-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-api.helper">
-<span id="api-helper-module"></span><h2>api.helper module<a class="headerlink" href="#module-api.helper" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="api-helper-module">
+<h2>api.helper module<a class="headerlink" href="#api-helper-module" title="Permalink to this headline">¶</a></h2>
 <p>Collection of helper functions to handle the logic for the KME.</p>
 <dl class="py function">
-<dt id="api.helper.bin_to_int">
-<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">bin_to_int</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.helper.bin_to_int" title="Permalink to this definition">¶</a></dt>
+<dt>
+<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">bin_to_int</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span></dt>
 <dd><p>Convert from a binary string to a integer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -179,17 +183,17 @@
 </dd></dl>
 
 <dl class="py function">
-<dt id="api.helper.bitstring_to_bytes">
-<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">bitstring_to_bytes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.helper.bitstring_to_bytes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts a string to a byte object.</p>
+<dt>
+<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">bitstring_to_bytes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span></em><span class="sig-paren">)</span></dt>
+<dd><p>Converts a bitstring to a byte object.</p>
 <p>This function is necessary as certain libraries (specifically the base64 library) accepts byte objects, not strings
 which are often expressed in UTF-8 or ASCII formats.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>s</strong> (<em>str</em>) – String to be converted to bytes object.</p>
+<dd class="field-odd"><p><strong>s</strong> (<em>str</em>) – Bitstring to be converted to bytes object.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Corresponding string in bytes format.</p>
+<dd class="field-even"><p>Corresponding bitstring in bytes format.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>bytes</p>
@@ -198,10 +202,10 @@ which are often expressed in UTF-8 or ASCII formats.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="api.helper.concat_keys">
-<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">concat_keys</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key_array</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.helper.concat_keys" title="Permalink to this definition">¶</a></dt>
+<dt>
+<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">concat_keys</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key_array</span></em><span class="sig-paren">)</span></dt>
 <dd><p>Helper function to concatenate keys.</p>
-<p>The function will concatenate integers in the same row of the 2D list <code class="docutils literal notranslate"><span class="pre">key_array</span></code> using <a class="reference internal" href="modules/api.html#api.helper.concat_two_int" title="api.helper.concat_two_int"><code class="xref py py-func docutils literal notranslate"><span class="pre">concat_two_int()</span></code></a>.</p>
+<p>The function will concatenate integers in the same row of the 2D list <code class="docutils literal notranslate"><span class="pre">key_array</span></code> using <code class="xref py py-func docutils literal notranslate"><span class="pre">concat_two_int()</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>key_array</strong> (<em>2D list</em>) – 2D list of keys. Each row are the integers to be concatenated.</p>
@@ -221,12 +225,12 @@ which are often expressed in UTF-8 or ASCII formats.</p>
 </pre></div>
 </div>
 <p>Here, 4820389781632429246 is the integer result of concatenating 1122334455 and 2233445566 with the function
-<a class="reference internal" href="modules/api.html#api.helper.concat_two_int" title="api.helper.concat_two_int"><code class="xref py py-func docutils literal notranslate"><span class="pre">concat_two_int()</span></code></a>. Similarly 28729523099122538572 is the result of concatenating 3344556677 and 4455667788.</p>
+<code class="xref py py-func docutils literal notranslate"><span class="pre">concat_two_int()</span></code>. Similarly 28729523099122538572 is the result of concatenating 3344556677 and 4455667788.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="api.helper.concat_two_int">
-<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">concat_two_int</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">int1</span></em>, <em class="sig-param"><span class="n">int2</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.helper.concat_two_int" title="Permalink to this definition">¶</a></dt>
+<dt>
+<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">concat_two_int</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">int1</span></em>, <em class="sig-param"><span class="n">int2</span></em><span class="sig-paren">)</span></dt>
 <dd><p>Concatenate two integers <cite>in their 32-bit binary form</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -249,8 +253,8 @@ which in base 10 is 528280977864.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="api.helper.convert_int_to_uuid">
-<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">convert_int_to_uuid</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.helper.convert_int_to_uuid" title="Permalink to this definition">¶</a></dt>
+<dt>
+<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">convert_int_to_uuid</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span></dt>
 <dd><p>Uses an integer as a seed to generate a UUID.</p>
 <p>This function first hashes the integer using the  <a class="reference external" href="https://docs.python.org/3/library/hashlib.html#shake-variable-length-digests">hashlib.shake_128</a>
 hashing algorithm. This allows us to generate a 128bit hash that the <a class="reference external" href="https://docs.python.org/3/library/uuid.html">uuid</a>
@@ -269,8 +273,8 @@ library requires as seed to generate a unique UUID.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="api.helper.flatten_2d_list">
-<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">flatten_2d_list</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">l</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.helper.flatten_2d_list" title="Permalink to this definition">¶</a></dt>
+<dt>
+<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">flatten_2d_list</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">l</span></em><span class="sig-paren">)</span></dt>
 <dd><p>Flattens a 2D list into a 1D list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -286,8 +290,8 @@ library requires as seed to generate a unique UUID.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="api.helper.int_to_base64">
-<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">int_to_base64</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.helper.int_to_base64" title="Permalink to this definition">¶</a></dt>
+<dt>
+<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">int_to_base64</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span></dt>
 <dd><p>Converts an integer to a base64 string.</p>
 <p>This is helpful in converting the encryption key, often expressed as a large base 10 integer, into base64 as it
 is the format required by the ETSI QKD API.</p>
@@ -305,8 +309,8 @@ is the format required by the ETSI QKD API.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="api.helper.int_to_bitstring">
-<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">int_to_bitstring</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.helper.int_to_bitstring" title="Permalink to this definition">¶</a></dt>
+<dt>
+<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">int_to_bitstring</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span></dt>
 <dd><p>Function to convert an integer to AT LEAST a 32-bit binary string.</p>
 <p>For integer less than 32 bits, it will pad the integer with extra bits of 0s until it is of size 32bit.
 If the integer is greater than 32-bits, then return the binary representation with the minimum number of bits to
@@ -338,26 +342,25 @@ hence the function returns the full binary representation.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="api.helper.int_to_bytes">
-<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">int_to_bytes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.helper.int_to_bytes" title="Permalink to this definition">¶</a></dt>
+<dt>
+<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">int_to_bytes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span></dt>
 <dd><p>Converts an integer to a byte object</p>
-<dl class="simple">
-<dt>x: int</dt><dd><p>Integer to be converted.</p>
-</dd>
-</dl>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Corresponding integer in bytes format.</p>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>int</em>) – Integer to be converted.</p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>bytes</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Corresponding integer in bytes format.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bytes</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt id="api.helper.retrieve_keys_from_file">
-<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">retrieve_keys_from_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">number</span></em>, <em class="sig-param"><span class="n">num_key_in_each</span></em>, <em class="sig-param"><span class="n">key_file_path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.helper.retrieve_keys_from_file" title="Permalink to this definition">¶</a></dt>
+<dt>
+<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">retrieve_keys_from_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">number</span></em>, <em class="sig-param"><span class="n">num_key_in_each</span></em>, <em class="sig-param"><span class="n">key_file_path</span></em><span class="sig-paren">)</span></dt>
 <dd><p>Helper function to retrieve keys from the actual qcrypto binary key files.</p>
 <p>This function will parse the qcrypto binary files appropriately and return the keys in integer representation.
 It will also update the header files appropriately after consuming the keys.
@@ -381,8 +384,8 @@ and there are <code class="docutils literal notranslate"><span class="pre">numbe
 </dd></dl>
 
 <dl class="py function">
-<dt id="api.helper.retrieve_keys_given_uuid">
-<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">retrieve_keys_given_uuid</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">uuid_array</span></em>, <em class="sig-param"><span class="n">key_file_path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.helper.retrieve_keys_given_uuid" title="Permalink to this definition">¶</a></dt>
+<dt>
+<code class="sig-prename descclassname">api.helper.</code><code class="sig-name descname">retrieve_keys_given_uuid</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">uuid_array</span></em>, <em class="sig-param"><span class="n">key_file_path</span></em><span class="sig-paren">)</span></dt>
 <dd><p>Helper function to retrieve keys given the UUIDs of the keys.</p>
 <p>This function</p>
 <dl class="field-list simple">
@@ -401,6 +404,37 @@ actual key that will be eventually concatenated to form the final key.</p>
 <dd class="field-odd"><p>2D list</p>
 </dd>
 </dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-api.crawler">
+<span id="api-crawler-module"></span><h2>api.crawler module<a class="headerlink" href="#module-api.crawler" title="Permalink to this headline">¶</a></h2>
+<p>Class implementing a key file crawler.</p>
+<dl class="py class">
+<dt id="api.crawler.KeyFileCrawler">
+<em class="property">class </em><code class="sig-prename descclassname">api.crawler.</code><code class="sig-name descname">KeyFileCrawler</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key_file_path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.crawler.KeyFileCrawler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class implements a key file crawler that counts the number of keys available stored in qcrypto files. This is a
+helper class for KME.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>key_file_path</strong> (<em>str</em>) – Absolute file path to directory storing qcrypto key files.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="api.crawler.KeyFileCrawler.get_stored_key_count">
+<code class="sig-name descname">get_stored_key_count</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#api.crawler.KeyFileCrawler.get_stored_key_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method that counts the number of keys available from qcrypto files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Amount of keys available.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </div>
@@ -546,7 +580,7 @@ IP address of the SAE etc. is stored in a <code class="docutils literal notransl
 <dd><p>Master function that returns the key container of keys from KME.</p>
 <p>Function that handles the logic for retrieving the keys from qcrypto files. If the size of each key
 is a multiple of 32, then the keys need to be concatenated. The file retrieving is done by a helper
-function, <a class="reference internal" href="modules/api.html#api.helper.retrieve_keys_from_file" title="api.helper.retrieve_keys_from_file"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrieve_keys_from_file()</span></code></a>, that actually opens the qcrypto file and retrieves the
+function, <code class="xref py py-func docutils literal notranslate"><span class="pre">retrieve_keys_from_file()</span></code>, that actually opens the qcrypto file and retrieves the
 keys.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -572,7 +606,7 @@ keys.</p>
 <code class="sig-name descname">get_key_with_id</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key_ids</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.kme.KME.get_key_with_id" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the key container of keys from KME given the key IDs.</p>
 <p>Function will be called by the ‘slave’ application requesting for keys. The actual retrieving of keys
-is passed to the helper function <a class="reference internal" href="modules/api.html#api.helper.retrieve_keys_given_uuid" title="api.helper.retrieve_keys_given_uuid"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrieve_keys_given_uuid()</span></code></a>.</p>
+is passed to the helper function <code class="xref py py-func docutils literal notranslate"><span class="pre">retrieve_keys_given_uuid()</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>key_ids</strong> (<em>List[dict]</em>) – Array of dictionaries containing the key ids. Each dictionary contains one key id, in the format:
@@ -585,7 +619,7 @@ is passed to the helper function <a class="reference internal" href="modules/api
 <dd class="field-odd"><p>dict</p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><strong>KeyError</strong> – Error if the keys requested cannot be found. Thrown by <a class="reference internal" href="modules/api.html#api.helper.retrieve_keys_given_uuid" title="api.helper.retrieve_keys_given_uuid"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrieve_keys_given_uuid()</span></code></a>.</p>
+<dd class="field-even"><p><strong>KeyError</strong> – Error if the keys requested cannot be found. Thrown by <code class="xref py py-func docutils literal notranslate"><span class="pre">retrieve_keys_given_uuid()</span></code>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -630,6 +664,9 @@ is passed to the helper function <a class="reference internal" href="modules/api
 <code class="sig-prename descclassname">api.routes.</code><code class="sig-name descname">home</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#api.routes.home" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+</div>
+<div class="section" id="module-api">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-api" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
