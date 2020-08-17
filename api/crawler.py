@@ -19,15 +19,15 @@ class KeyFileCrawler:
         self.key_file_path = key_file_path
 
     def get_stored_key_count(self):
-        """
-        Method that counts the number of keys available from qcrypto files.
+    """
+    Method that counts the number of keys available from qcrypto files.
 
-        Returns
-        -------
-        int
-            Amount of keys available.
+    Returns
+    -------
+    int
+        Amount of keys available.
 
-        """
+    """
         stored_key_count = 0
         for filename in os.listdir(self.key_file_path):
             file_path = os.path.join(self.key_file_path, filename)
