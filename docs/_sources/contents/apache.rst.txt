@@ -2,8 +2,8 @@ Installing Apache
 =================
 
 Deploying the API on the Flask built-in Werkzeug server is fine. However, Werkzeug is mainly built for testing purposes,
-and if we want to deploy the API for real-world use, we will need to utilize production-ready servers such as `Apache <www.apache.org>`_
-or `NGINX <www.nginx.com>`_. For our purposes we choose Apache. We assume the user is running a Linux OS. To install,
+and if we want to deploy the API for real-world use, we will need to utilize production-ready servers such as `Apache <https://www.apache.org>`_
+or `NGINX <https://www.nginx.com>`_. For our purposes we choose Apache. We assume the user is running a Linux OS. To install,
 
 .. code-block::
 
