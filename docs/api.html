@@ -81,7 +81,10 @@
             
             
               <ul>
+<li class="toctree-l1"><a class="reference internal" href="modules/api.kme.html">api.kme</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules/api.helper.html">api.helper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/api.crawler.html">api.crawler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/api.routes.html">api.routes</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Guides</span></p>
 <ul>
@@ -404,17 +407,268 @@ actual key that will be eventually concatenated to form the final key.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="api-crawler-module">
-<h2>api.crawler module<a class="headerlink" href="#api-crawler-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-api.crawler">
+<span id="api-crawler-module"></span><h2>api.crawler module<a class="headerlink" href="#module-api.crawler" title="Permalink to this headline">¶</a></h2>
+<p>Class implementing a key file crawler.</p>
+<dl class="py class">
+<dt id="api.crawler.KeyFileCrawler">
+<em class="property">class </em><code class="sig-prename descclassname">api.crawler.</code><code class="sig-name descname">KeyFileCrawler</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key_file_path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.crawler.KeyFileCrawler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class implements a key file crawler that counts the number of keys available stored in qcrypto files. This is a
+helper class for KME.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>key_file_path</strong> (<em>str</em>) – Absolute file path to directory storing qcrypto key files.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="api.crawler.KeyFileCrawler.get_stored_key_count">
+<code class="sig-name descname">get_stored_key_count</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#api.crawler.KeyFileCrawler.get_stored_key_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method that counts the number of keys available from qcrypto files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Amount of keys available.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="api-kme-module">
-<h2>api.kme module<a class="headerlink" href="#api-kme-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-api.kme">
+<span id="api-kme-module"></span><h2>api.kme module<a class="headerlink" href="#module-api.kme" title="Permalink to this headline">¶</a></h2>
+<p>Class implementing the Key Management Entity (KME).</p>
+<dl class="py class">
+<dt id="api.kme.KME">
+<em class="property">class </em><code class="sig-prename descclassname">api.kme.</code><code class="sig-name descname">KME</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">config_path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.kme.KME" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class for the KME on each node. This class also defines the related methods for manipulating
+the keys. Most of the configurations for the KME, such as the IP address of the web server hosting the API,
+IP address of the SAE etc. is stored in a <code class="docutils literal notranslate"><span class="pre">config.ini</span></code> file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>config_path</strong> (<em>str</em>) – ABSOLUTE file path to config.ini that is contained in the etsi-qkd-api/api folder.</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="api.kme.KME.source_KME_ID">
+<code class="sig-name descname">source_KME_ID</code><a class="headerlink" href="#api.kme.KME.source_KME_ID" title="Permalink to this definition">¶</a></dt>
+<dd><p>IP address of the source (master) KME.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="api.kme.KME.target_KME_ID">
+<code class="sig-name descname">target_KME_ID</code><a class="headerlink" href="#api.kme.KME.target_KME_ID" title="Permalink to this definition">¶</a></dt>
+<dd><p>IP address of the target (slave) KME</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="api.kme.KME.master_SAE_ID">
+<code class="sig-name descname">master_SAE_ID</code><a class="headerlink" href="#api.kme.KME.master_SAE_ID" title="Permalink to this definition">¶</a></dt>
+<dd><p>IP address of the master SAE (user application that requests keys)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="api.kme.KME.slave_SAE_ID">
+<code class="sig-name descname">slave_SAE_ID</code><a class="headerlink" href="#api.kme.KME.slave_SAE_ID" title="Permalink to this definition">¶</a></dt>
+<dd><p>IP address of the slave SAE.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="api.kme.KME.key_size">
+<code class="sig-name descname">key_size</code><a class="headerlink" href="#api.kme.KME.key_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Size of each key in bits in the KME.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="api.kme.KME.max_key_per_request">
+<code class="sig-name descname">max_key_per_request</code><a class="headerlink" href="#api.kme.KME.max_key_per_request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum number of keys per request</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="api.kme.KME.max_key_size">
+<code class="sig-name descname">max_key_size</code><a class="headerlink" href="#api.kme.KME.max_key_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum size of each key in bits that can be requested.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="api.kme.KME.min_key_size">
+<code class="sig-name descname">min_key_size</code><a class="headerlink" href="#api.kme.KME.min_key_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Minimum size of each key in bits that can be requested.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="api.kme.KME.max_SAE_ID_count">
+<code class="sig-name descname">max_SAE_ID_count</code><a class="headerlink" href="#api.kme.KME.max_SAE_ID_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum number of additional SAEs allowed (0 at the moment).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="api.kme.KME.status_extension">
+<code class="sig-name descname">status_extension</code><a class="headerlink" href="#api.kme.KME.status_extension" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optional field for future use (unclear what it should be used for at the moment)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="api.kme.KME.rd">
+<code class="sig-name descname">rd</code><a class="headerlink" href="#api.kme.KME.rd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Object to initialize random seed and pass to UUID generator to generate UUIDs as the key IDs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>random (object, from random Python library)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="api.kme.KME.get_key">
+<code class="sig-name descname">get_key</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">number</span></em>, <em class="sig-param"><span class="n">size</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.kme.KME.get_key" title="Permalink to this definition">¶</a></dt>
+<dd><p>Master function that returns the key container of keys from KME.</p>
+<p>Function that handles the logic for retrieving the keys from qcrypto files. If the size of each key
+is a multiple of 32, then the keys need to be concatenated. The file retrieving is done by a helper
+function, <a class="reference internal" href="modules/api.html#api.helper.retrieve_keys_from_file" title="api.helper.retrieve_keys_from_file"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrieve_keys_from_file()</span></code></a>, that actually opens the qcrypto file and retrieves the
+keys.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>number</strong> (<em>int</em>) – The number of keys requested.</p></li>
+<li><p><strong>size</strong> (<em>int</em>) – The size of each key in bits.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Key container containing the keys requested.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – Error if there are insufficient keys.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="api.kme.KME.get_key_with_id">
+<code class="sig-name descname">get_key_with_id</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key_ids</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.kme.KME.get_key_with_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the key container of keys from KME given the key IDs.</p>
+<p>Function will be called by the ‘slave’ application requesting for keys. The actual retrieving of keys
+is passed to the helper function <a class="reference internal" href="modules/api.html#api.helper.retrieve_keys_given_uuid" title="api.helper.retrieve_keys_given_uuid"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrieve_keys_given_uuid()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>key_ids</strong> (<em>List[dict]</em>) – Array of dictionaries containing the key ids. Each dictionary contains one key id, in the format:
+{ “key_id”: &lt;key_id&gt; }</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Key container containing the keys requested.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>KeyError</strong> – Error if the keys requested cannot be found. Thrown by <a class="reference internal" href="modules/api.html#api.helper.retrieve_keys_given_uuid" title="api.helper.retrieve_keys_given_uuid"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrieve_keys_given_uuid()</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="api.kme.KME.get_status">
+<code class="sig-name descname">get_status</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#api.kme.KME.get_status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns status of KME according to the ETSI specification.</p>
+<p>Calls <code class="xref py py-func docutils literal notranslate"><span class="pre">get_stored_key_count()</span></code> and updates <code class="docutils literal notranslate"><span class="pre">stored_key_count</span></code>. This is to ensure updated key figures
+if a new key file is added.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Dictionary containing status properties of KME.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="api-routes-module">
-<h2>api.routes module<a class="headerlink" href="#api-routes-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-api.routes">
+<span id="api-routes-module"></span><h2>api.routes module<a class="headerlink" href="#module-api.routes" title="Permalink to this headline">¶</a></h2>
+<p>Functions that handle routing for the Flask web server hosting the API.</p>
+<dl class="py function">
+<dt id="api.routes.get_key">
+<code class="sig-prename descclassname">api.routes.</code><code class="sig-name descname">get_key</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.routes.get_key" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="api.routes.get_key_with_id">
+<code class="sig-prename descclassname">api.routes.</code><code class="sig-name descname">get_key_with_id</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.routes.get_key_with_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="api.routes.get_status">
+<code class="sig-prename descclassname">api.routes.</code><code class="sig-name descname">get_status</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.routes.get_status" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="api.routes.home">
+<code class="sig-prename descclassname">api.routes.</code><code class="sig-name descname">home</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#api.routes.home" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-api">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-api" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 

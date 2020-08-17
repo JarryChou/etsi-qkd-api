@@ -83,7 +83,10 @@
             
             
               <ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules/api.kme.html">api.kme</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../modules/api.helper.html">api.helper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/api.crawler.html">api.crawler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/api.routes.html">api.routes</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Guides</span></p>
 <ul class="current">
@@ -198,7 +201,7 @@ key is generated using the Python <a class="reference external" href="https://do
 is hashed with <a class="reference external" href="https://docs.python.org/3/library/hashlib.html#shake-variable-length-digests">Shake 128</a> to produce a 128bit hash, and then used to create a UUID. Since Shake 128
 <em>and</em> the UUID generator involve irreversible hashing algorithms, there is no danger of the key leaking from its UUID when generated this way. When keys of 32bit-size multiples are requested,
 the individual UUIDs are concatenated with a ‘+’ delimiter. This will allow the receiving (‘slave’) node to retrieve the UUIDs of each constituent key and obtain the same
-keys as the ‘master’ with <code class="xref py py-func docutils literal notranslate"><span class="pre">get_key_with_id()</span></code> method.</p>
+keys as the ‘master’ with <a class="reference internal" href="../modules/api.html#api.routes.get_key_with_id" title="api.routes.get_key_with_id"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_key_with_id()</span></code></a> method.</p>
 </div>
 </div>
 
