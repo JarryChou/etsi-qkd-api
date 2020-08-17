@@ -278,7 +278,7 @@ def int_to_base64(x: int) -> str:
 
 
 def bitstring_to_bytes(s: str) -> bytes:
-    """ Converts a string to a byte object.
+    """ Converts a bitstring to a byte object.
 
     This function is necessary as certain libraries (specifically the base64 library) accepts byte objects, not strings
     which are often expressed in UTF-8 or ASCII formats.
@@ -286,12 +286,12 @@ def bitstring_to_bytes(s: str) -> bytes:
     Parameters
     ----------
     s: str
-        String to be converted to bytes object.
+        Bitstring to be converted to bytes object.
 
     Returns
     -------
     bytes
-        Corresponding string in bytes format.
+        Corresponding bitstring in bytes format.
     """
     return int(s, 2).to_bytes((len(s)+7) // 8, byteorder='big')
 
@@ -299,8 +299,8 @@ def bitstring_to_bytes(s: str) -> bytes:
 def int_to_bytes(x: int) -> bytes:
     """ Converts an integer to a byte object
 
-    Parameter
-    ---------
+    Parameters
+    ----------
     x: int
         Integer to be converted.
 
@@ -334,7 +334,7 @@ def convert_int_to_uuid(x: int) -> str:
     x_byte = int_to_bytes(x)
     m = shake_128()
     m.update(x_byte)
-    digest = m.digest(16)
+    digest = m.digest(16)  # 16 bytes = 128 bits
     u = str(uuid.UUID(bytes=digest))
     return u
 
@@ -353,4 +353,3 @@ def flatten_2d_list(l: List[List]) -> List:
         Flattened list.
     """
     return [item for sublist in l for item in sublist]
-

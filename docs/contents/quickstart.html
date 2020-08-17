@@ -227,14 +227,10 @@ You should see something like</p>
 </pre></div>
 </div>
 <p>which adheres to the ETSI key container specification containing a single key. The key is supplied in <code class="docutils literal notranslate"><span class="pre">base64</span></code> format, and the key ID as a UUID.
-Now if we call <code class="docutils literal notranslate"><span class="pre">Get</span> <span class="pre">status</span></code> again, you should see <code class="docutils literal notranslate"><span class="pre">stored_key_count</span></code> updated:</p>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span>{
-
-    ...
-    &quot;stored_key_count&quot;: 3001,
-    ...
-
-}
+Now if we call <code class="docutils literal notranslate"><span class="pre">Get</span> <span class="pre">status</span></code> again, you should see <code class="docutils literal notranslate"><span class="pre">stored_key_count</span></code> updated (omitting the other lines):</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;stored_key_count&quot;</span><span class="p">:</span> <span class="mi">3001</span><span class="p">,</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>To retrieve multiple keys, you can pass the desired number and size of each key in a <code class="docutils literal notranslate"><span class="pre">GET</span></code> or <code class="docutils literal notranslate"><span class="pre">POST</span></code> request. We will demonstrate a <code class="docutils literal notranslate"><span class="pre">GET</span></code> request here; a <code class="docutils literal notranslate"><span class="pre">POST</span></code>

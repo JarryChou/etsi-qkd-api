@@ -60,8 +60,9 @@ Assuming you are on Ubuntu, you can place the private key in ``/etc/ssl/private`
 
 .. image:: /images/apacheconf.png
 
-Note that the variable ``WSGIDaemonProcess`` should point to the Python directory of *your Python virtual environment installation*. You will also have to change the path inserted
-under ``sys.path.insert`` in ``app.wsgi`` in the ``etsi-qkd-api`` project folder to the directory of the project in your system. With this, set up of the Apache servers are complete.
+You can find a copy of the file `here <https://speqtralquantum.sharepoint.com/:u:/s/technical/EX-hSB3uoaJDpUmuuNwaBhgB_CMYkz7WU5WRZAQi5jsa-Q?e=a9dKEN>`_. Note that the variable ``WSGIDaemonProcess`` should point to the Python directory
+of *your Python virtual environment installation*. You will also have to change the path inserted under ``sys.path.insert`` in ``app.wsgi`` in the ``etsi-qkd-api`` project folder to the directory of the project in your system.
+With this, set up of the Apache servers are complete.
 
 Configure CV1000s
 +++++++++++++++++

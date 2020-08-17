@@ -18,6 +18,8 @@ functions.
 ``api.helper`` - a collection of convenient helper functions that aid primarily in retrieval of keys from qcrypto key files, and conversion
 between various data types such as ``str``, ``int`` or ``bytes`` and so on.
 
+``api.crawler`` - contains the ``KeyFileCrawler`` class that crawls the key file directory and returns the number of keys available.
+
 How keys are read
 +++++++++++++++++
 Keys are read directly from qcrypto key files, with no database for intermediate storage. When X amount of keys are requested,
