@@ -46,6 +46,7 @@ Documentation
    contents/api_description
    contents/apache.rst
    contents/senetas_vm.rst
+   contents/failed_qkd.rst
 
 Indices and tables
 ==================
