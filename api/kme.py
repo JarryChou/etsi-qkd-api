@@ -1,11 +1,10 @@
 """Class implementing the Key Management Entity (KME).
 """
 import random
-import os
-import numpy as np
 from api import helper
 import configparser
 from typing import List
+from api import crawler
 
 
 class KME:
@@ -64,13 +63,9 @@ class KME:
 
         self.key_file_path = default_section.get('key_file_path')
 
-        # read and count keys from qcrypto files available at key_file_path
-        self.stored_key_count = 0
-        for filename in os.listdir(self.key_file_path):
-            file_path = os.path.join(self.key_file_path, filename)
-            with open(file_path, 'rb') as f:
-                data = np.fromfile(file=f, dtype='<u4')
-                self.stored_key_count += len(data) - 4  # minus 4 due to header information
+        # read and count keys from qcrypto files available at key_file_path by using KeyFileCrawler class
+        self.key_file_crawler = crawler.KeyFileCrawler(self.key_file_path)
+        self.stored_key_count = self.key_file_crawler.get_stored_key_count()
 
         # class attributes
         self.max_key_count = self.stored_key_count
@@ -213,11 +208,17 @@ class KME:
     def get_status(self) -> dict:
         """Returns status of KME according to the ETSI specification.
 
+        Calls :func:`~api.crawler.get_stored_key_count` and updates ``stored_key_count``. This is to ensure updated key figures
+        if a new key file is added.
+
         Returns
         -------
         dict
             Dictionary containing status properties of KME.
         """
+
+        # update stored key count when get_status is called
+        self.stored_key_count = self.key_file_crawler.get_stored_key_count()
 
         status = {
             "source_KME_ID": self.source_KME_ID,
