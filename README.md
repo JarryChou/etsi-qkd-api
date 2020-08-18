@@ -4,7 +4,7 @@ The chat-demo branch is intended for demo-ing the chat app with a working QKD/qc
 
 ## Easy Installation
 
-The easy installation involves downloading an Ubuntu 18.04 image preloaded with the Git branch and relevant software dependencies. Go to the SharePoint at this [link](https://speqtralquantum.sharepoint.com/:f:/s/technical/Em0XzC4ro7hHm6wWVxA_HxUBp1MkmHev0GZBAuziFKTkGA?e=UoTShF) and download the .ovf file.
+The easy installation involves downloading an Ubuntu 18.04 image preloaded with the Git branch and relevant software dependencies. Go to the SharePoint at this [link](https://speqtralquantum.sharepoint.com/:u:/s/technical/ER0GKNFqRd1BhRhVx0MMKPsBks06yyNBwlnQmvyb36hpBw?e=PoYFWS) and download the .ovf file.
 
 Assuming you are using VirtualBox, go to File > Import Appliance and import the .ovf. The account and password for the Ubuntu image is 'test' and '123' respectively. Once you are inside Ubuntu, fire up the terminal
 
