@@ -12,11 +12,9 @@ framework and is hosted on an `Apache <www.apache.org>`_ web server.
 
 Git Branches
 ============
-Currently, the repository contains 3 branches:
+Currently, the repository contains 2 branches:
 
 ``master`` - the master branch that contains a working version of the ETSI API.
-
-``dev`` - a development branch where experimental features are tested before being merged with master.
 
 ``chat-demo`` - contains only the code needed to run a very minimal chat app that consumes qcrypto keys to send encrypted
 messages. Keys are consumed locally for the chat app--the web server functionality has been stripped from this branch for simplicity.
