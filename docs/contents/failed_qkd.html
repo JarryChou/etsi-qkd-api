@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>5. Failed QKD Requests &mdash; etsi-qkd-api v0.0.1 documentation</title>
+  <title>5. Failed QKD Requests and Future Work &mdash; etsi-qkd-api v0.0.1 documentation</title>
   
 
   
@@ -93,8 +93,11 @@
 <li class="toctree-l1"><a class="reference internal" href="api_description.html">2. Design of API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="apache.html">3. Installing Apache</a></li>
 <li class="toctree-l1"><a class="reference internal" href="senetas_vm.html">4. Running Senetas VM with API</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">5. Failed QKD Requests</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#future-work">6. Future Work</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">5. Failed QKD Requests and Future Work</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#failed-requests">5.1. Failed requests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#future-work">5.2. Future work</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -141,7 +144,7 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li><span class="section-number">5. </span>Failed QKD Requests</li>
+      <li><span class="section-number">5. </span>Failed QKD Requests and Future Work</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -160,8 +163,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="failed-qkd-requests">
-<h1><span class="section-number">5. </span>Failed QKD Requests<a class="headerlink" href="#failed-qkd-requests" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="failed-qkd-requests-and-future-work">
+<h1><span class="section-number">5. </span>Failed QKD Requests and Future Work<a class="headerlink" href="#failed-qkd-requests-and-future-work" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="failed-requests">
+<h2><span class="section-number">5.1. </span>Failed requests<a class="headerlink" href="#failed-requests" title="Permalink to this headline">¶</a></h2>
 <p>The reason for failed QKD requests with Senetas’s VMs is due to the way the key UUIDs are concatenated. The CV1000 always expects
 a single 256-bit key, presumably for AES256. This was verified by inspecting the GET requests received by the API. Correspondingly, the VMs
 expect standard 32 base16 characters UUIDs to go with the keys. However, through our concatenation a 256bit key would have a UUID of length 32 x 8 = 256 base16 characters.
@@ -173,12 +178,13 @@ However, by inspecting the API calls, it seems the VMs first try to separate the
 be the source of the failed requests, as <code class="docutils literal notranslate"><span class="pre">Get</span> <span class="pre">key</span> <span class="pre">with</span> <span class="pre">key</span> <span class="pre">IDs</span></code> did not return 256-bit keys.</p>
 </div>
 <div class="section" id="future-work">
-<h1><span class="section-number">6. </span>Future Work<a class="headerlink" href="#future-work" title="Permalink to this headline">¶</a></h1>
+<h2><span class="section-number">5.2. </span>Future work<a class="headerlink" href="#future-work" title="Permalink to this headline">¶</a></h2>
 <p>Hence, it remains future work to devise a way to implement fixed UUID lengths for keys of arbitrary sizes. This is not an easy task as the KMEs need to infer the length
 of the keys solely based on the UUID. The current implementation determines the key length by the number of concatenations. However, losing this property, combined with
 the fact that UUID generation is generally irreversible, means inferring key sizes is not trivial. One avenue would be to pass key sizes as an additional entry in the JSON
 fed to <code class="docutils literal notranslate"><span class="pre">Get</span> <span class="pre">key</span> <span class="pre">with</span> <span class="pre">key</span> <span class="pre">IDs</span></code>.  For instance, there is a <code class="docutils literal notranslate"><span class="pre">key_container_extension</span></code> parameter allowed by the ETSI standard that is hitherto unused. The only caveat is to get the
 VMs to actually make use of the parameter–this requires liaising with Senetas engineers to implement this functionality.</p>
+</div>
 </div>
 
 

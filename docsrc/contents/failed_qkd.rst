@@ -1,5 +1,8 @@
-Failed QKD Requests
-===================
+Failed QKD Requests and Future Work
+===================================
+
+Failed requests
++++++++++++++++
 
 The reason for failed QKD requests with Senetas's VMs is due to the way the key UUIDs are concatenated. The CV1000 always expects
 a single 256-bit key, presumably for AES256. This was verified by inspecting the GET requests received by the API. Correspondingly, the VMs
@@ -13,8 +16,8 @@ However, by inspecting the API calls, it seems the VMs first try to separate the
 be the source of the failed requests, as ``Get key with key IDs`` did not return 256-bit keys.
 
 
-Future Work
-===========
+Future work
++++++++++++
 
 Hence, it remains future work to devise a way to implement fixed UUID lengths for keys of arbitrary sizes. This is not an easy task as the KMEs need to infer the length
 of the keys solely based on the UUID. The current implementation determines the key length by the number of concatenations. However, losing this property, combined with
