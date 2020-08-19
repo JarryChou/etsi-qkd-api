@@ -2,7 +2,7 @@
 This is an implementation of the ETSI QKD API.
 
 ## Online docs
-A comprehensive documentation is hosted at **https://speqtral.github.io/etsi-qkd-api/**, which covers installation, code documentation, design principles and open areas of improvement. 
+A comprehensive documentation is hosted at **https://speqtral.github.io/etsi-qkd-api/**, which covers installation, running with Senetas's CV1000 encryptor VMs, code documentation, design principles and open areas of improvement. 
 
 ## Build docs locally
 
