@@ -7,12 +7,34 @@ import sys
 
 @app.route('/')
 def home():
+    """
+    Hello World for API set as the 'home page URL'.
+
+    Return
+    ------
+    str
+        Returns *"Hello World from SpeQtral's ETSI QKD API!"* if API is running and called correctly.
+    """
     return "Hello World from SpeQtral's ETSI QKD API!"
 
 
 @app.route('/api/v1/keys/<id>/enc_keys', methods=['GET', 'POST'])
 def get_key(id):
+    """
+    Method for getting key, corresponding to ``Get key`` in ETSI standard. Both GET and POST requests are allowed.
 
+    Parameters
+    ----------
+    id: str
+        The ID (typically the IP address) of the caller. Currently any ID is allowed, hence this parameter is unused
+        in the function call. Ideally in a multi-user setup where different IPs call the same API, the API should have
+        logic for keeping track of different IDs, for eg. blocking off different keys for specific IPs.
+
+    Returns
+    -------
+    json
+        Key container containing the requested keys and key IDs, corresponding to the ETSI standard.
+    """
     try:
         if request.method == 'POST':
             # POST returns number and size in int
@@ -49,12 +71,37 @@ def get_key(id):
 
 @app.route('/api/v1/keys/<id>/status', methods=['GET'])
 def get_status(id):
+    """
+    Method for getting the status of the KME. Corresponds to ``Get status`` method in the ETSI standard/
+
+    Parameters
+    ----------
+    id: str
+        ID of the caller.
+
+    Returns
+    -------
+    json
+        Container containing status data formatted according to ETSI standard.
+    """
     return jsonify(app.config['kme'].get_status())
 
 
 @app.route('/api/v1/keys/<id>/dec_keys', methods=['GET', 'POST'])
 def get_key_with_id(id):
+    """
+    Method for getting key given the key IDs, corresponding to ``Get key with key IDs`` method in the ETSI standard.
 
+    Parameters
+    ---------
+    id: str
+        ID of the caller.
+
+    Returns
+    -------
+    json
+        Key container containing the requested keys and key IDs, corresponding to the ETSI standard.
+    """
     try:
         if request.method == 'POST':
             req_data = request.get_json()

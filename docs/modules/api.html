@@ -89,9 +89,10 @@
 <p class="caption"><span class="caption-text">Guides</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../contents/quickstart.html">1. Quickstart</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../contents/api_description.html">2. Design of API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contents/api_description.html">2. Description of API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contents/apache.html">3. Installing Apache</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contents/senetas_vm.html">4. Running Senetas VM with API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contents/failed_qkd.html">5. Failed QKD Requests and Future Work</a></li>
 </ul>
 
             
@@ -618,22 +619,69 @@ if a new key file is added.</p>
 <dl class="py function">
 <dt id="api.routes.get_key">
 <code class="sig-prename descclassname">api.routes.</code><code class="sig-name descname">get_key</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.routes.get_key" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Method for getting key, corresponding to <code class="docutils literal notranslate"><span class="pre">Get</span> <span class="pre">key</span></code> in ETSI standard. Both GET and POST requests are allowed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>id</strong> (<em>str</em>) – The ID (typically the IP address) of the caller. Currently any ID is allowed, hence this parameter is unused
+in the function call. Ideally in a multi-user setup where different IPs call the same API, the API should have
+logic for keeping track of different IDs, for eg. blocking off different keys for specific IPs.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Key container containing the requested keys and key IDs, corresponding to the ETSI standard.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>json</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt id="api.routes.get_key_with_id">
 <code class="sig-prename descclassname">api.routes.</code><code class="sig-name descname">get_key_with_id</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.routes.get_key_with_id" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Method for getting key given the key IDs, corresponding to <code class="docutils literal notranslate"><span class="pre">Get</span> <span class="pre">key</span> <span class="pre">with</span> <span class="pre">key</span> <span class="pre">IDs</span></code> method in the ETSI standard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>id</strong> (<em>str</em>) – ID of the caller.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Key container containing the requested keys and key IDs, corresponding to the ETSI standard.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>json</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt id="api.routes.get_status">
 <code class="sig-prename descclassname">api.routes.</code><code class="sig-name descname">get_status</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.routes.get_status" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Method for getting the status of the KME. Corresponds to <code class="docutils literal notranslate"><span class="pre">Get</span> <span class="pre">status</span></code> method in the ETSI standard/</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>id</strong> (<em>str</em>) – ID of the caller.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Container containing status data formatted according to ETSI standard.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>json</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt id="api.routes.home">
 <code class="sig-prename descclassname">api.routes.</code><code class="sig-name descname">home</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#api.routes.home" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Hello World for API set as the ‘home page URL’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Returns <em>“Hello World from SpeQtral’s ETSI QKD API!”</em> if API is running and called correctly.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
 
 </div>
 <div class="section" id="module-api">

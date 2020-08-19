@@ -1,5 +1,5 @@
-Design of API
-=============
+Description of API
+==================
 
 This section will explain further about certain details of the API. There are many ways the API can be implemented owing to the vagueness
 of the ETSI standard, so the hope of this is to give the reader enough information to understand and potentially modify the source code in the future.
@@ -19,6 +19,17 @@ functions.
 between various data types such as ``str``, ``int`` or ``bytes`` and so on.
 
 ``api.crawler`` - contains the ``KeyFileCrawler`` class that crawls the key file directory and returns the number of keys available.
+
+Unit tests
+++++++++++
+Unit tests are located in the ``tests`` folder. Testing uses the builtin `unittest <https://docs.python.org/3/library/unittest.html>`_ library. Currently tests are implemented
+for ``api.kme`` and ``api.helper``, as they are the most straightforward to test. To run the tests,
+
+.. code-block::
+
+    $ cd etsi-qkd-api/tests
+    $ python test_kme.py
+    $ python test_helper.py
 
 How keys are read
 +++++++++++++++++

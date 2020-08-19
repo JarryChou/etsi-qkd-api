@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>2. Design of API &mdash; etsi-qkd-api v0.0.1 documentation</title>
+  <title>2. Description of API &mdash; etsi-qkd-api v0.0.1 documentation</title>
   
 
   
@@ -91,15 +91,17 @@
 <p class="caption"><span class="caption-text">Guides</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">1. Quickstart</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">2. Design of API</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. Description of API</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#api-modules">2.1. API modules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#how-keys-are-read">2.2. How keys are read</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#concatenating-keys">2.3. Concatenating keys</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#uuids-as-key-ids">2.4. UUIDs as key IDs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#unit-tests">2.2. Unit tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-keys-are-read">2.3. How keys are read</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#concatenating-keys">2.4. Concatenating keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#uuids-as-key-ids">2.5. UUIDs as key IDs</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="apache.html">3. Installing Apache</a></li>
 <li class="toctree-l1"><a class="reference internal" href="senetas_vm.html">4. Running Senetas VM with API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="failed_qkd.html">5. Failed QKD Requests and Future Work</a></li>
 </ul>
 
             
@@ -146,7 +148,7 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li><span class="section-number">2. </span>Design of API</li>
+      <li><span class="section-number">2. </span>Description of API</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -165,8 +167,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="design-of-api">
-<h1><span class="section-number">2. </span>Design of API<a class="headerlink" href="#design-of-api" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="description-of-api">
+<h1><span class="section-number">2. </span>Description of API<a class="headerlink" href="#description-of-api" title="Permalink to this headline">¶</a></h1>
 <p>This section will explain further about certain details of the API. There are many ways the API can be implemented owing to the vagueness
 of the ETSI standard, so the hope of this is to give the reader enough information to understand and potentially modify the source code in the future.</p>
 <div class="section" id="api-modules">
@@ -181,21 +183,31 @@ functions.</p>
 between various data types such as <code class="docutils literal notranslate"><span class="pre">str</span></code>, <code class="docutils literal notranslate"><span class="pre">int</span></code> or <code class="docutils literal notranslate"><span class="pre">bytes</span></code> and so on.</p>
 <p><code class="docutils literal notranslate"><span class="pre">api.crawler</span></code> - contains the <code class="docutils literal notranslate"><span class="pre">KeyFileCrawler</span></code> class that crawls the key file directory and returns the number of keys available.</p>
 </div>
+<div class="section" id="unit-tests">
+<h2><span class="section-number">2.2. </span>Unit tests<a class="headerlink" href="#unit-tests" title="Permalink to this headline">¶</a></h2>
+<p>Unit tests are located in the <code class="docutils literal notranslate"><span class="pre">tests</span></code> folder. Testing uses the builtin <a class="reference external" href="https://docs.python.org/3/library/unittest.html">unittest</a> library. Currently tests are implemented
+for <code class="docutils literal notranslate"><span class="pre">api.kme</span></code> and <code class="docutils literal notranslate"><span class="pre">api.helper</span></code>, as they are the most straightforward to test. To run the tests,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd etsi-qkd-api/tests
+$ python test_kme.py
+$ python test_helper.py
+</pre></div>
+</div>
+</div>
 <div class="section" id="how-keys-are-read">
-<h2><span class="section-number">2.2. </span>How keys are read<a class="headerlink" href="#how-keys-are-read" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">2.3. </span>How keys are read<a class="headerlink" href="#how-keys-are-read" title="Permalink to this headline">¶</a></h2>
 <p>Keys are read directly from qcrypto key files, with no database for intermediate storage. When X amount of keys are requested,
 the API will read and remove X keys from the key file, then <em>immediately</em> rewrites the updated key file back
 to the directory. This ensures that even if the API is stopped abruptly, no key material is lost as the files are never held in memory.
 The code that does this is contained in <a class="reference internal" href="../modules/api.html#api.helper.retrieve_keys_from_file" title="api.helper.retrieve_keys_from_file"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrieve_keys_from_file()</span></code></a> and <a class="reference internal" href="../modules/api.html#api.helper.retrieve_keys_given_uuid" title="api.helper.retrieve_keys_given_uuid"><code class="xref py py-func docutils literal notranslate"><span class="pre">retrieve_keys_given_uuid()</span></code></a>.</p>
 </div>
 <div class="section" id="concatenating-keys">
-<h2><span class="section-number">2.3. </span>Concatenating keys<a class="headerlink" href="#concatenating-keys" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">2.4. </span>Concatenating keys<a class="headerlink" href="#concatenating-keys" title="Permalink to this headline">¶</a></h2>
 <p>We work with base keys of size 32bits, as this is what qcrypto provides. However, the ETSI standard demands that keys of variable lengths
 can be requested. More practically, we know 128 and 256bits keys are more commonly used, for eg. in AES. As such, this API will allow
 keys of sizes in 32bits multiples to be requested. When such keys are requested, the individual keys will be concatenated to form the larger key.</p>
 </div>
 <div class="section" id="uuids-as-key-ids">
-<h2><span class="section-number">2.4. </span>UUIDs as key IDs<a class="headerlink" href="#uuids-as-key-ids" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">2.5. </span>UUIDs as key IDs<a class="headerlink" href="#uuids-as-key-ids" title="Permalink to this headline">¶</a></h2>
 <p>The key ids specified in the ETSI standard are of <a class="reference external" href="https://en.wikipedia.org/wiki/Universally_unique_identifier">UUID</a> (universally unique identifier) standard. The UUID for each
 key is generated using the Python <a class="reference external" href="https://docs.python.org/3/library/uuid.html">uuid</a> library. Specifically, it requires a 128bit seed to generate a UUID. Therefore, each key
 is hashed with <a class="reference external" href="https://docs.python.org/3/library/hashlib.html#shake-variable-length-digests">Shake 128</a> to produce a 128bit hash, and then used to create a UUID. Since Shake 128
