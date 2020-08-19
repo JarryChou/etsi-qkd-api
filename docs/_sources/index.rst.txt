@@ -18,6 +18,7 @@ Currently, the repository contains 2 branches:
 
 ``chat-demo`` - contains only the code needed to run a very minimal chat app that consumes qcrypto keys to send encrypted
 messages. Keys are consumed locally for the chat app--the web server functionality has been stripped from this branch for simplicity.
+The instructions to run the chat app are found in the README of the branch on Github.
 
 Folders
 =======
