@@ -1,6 +1,12 @@
 # ETSI QKD API
+This is an implementation of the ETSI QKD API.
 
-This is an implementation of the ETSI QKD API. A comprehsensive documentation is hosted at https://speqtral.github.io/etsi-qkd-api/, which covers installation, code documentation, design principles and open areas of improvement. If you wish to build the docs locally, clone the repository and install the requirements in a virtual environment
+## Online docs
+A comprehensive documentation is hosted at **https://speqtral.github.io/etsi-qkd-api/**, which covers installation, code documentation, design principles and open areas of improvement. 
+
+## Build docs locally
+
+If you wish to build the docs locally, clone the repository and install the requirements in a virtual environment
 
 ```
 $ cd etsi-qkd-api
