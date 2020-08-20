@@ -181,7 +181,7 @@ A certificate can be obtained in many ways–through an official certificate aut
 you will need to give Apache access to the certificates. This can be set in the <code class="docutils literal notranslate"><span class="pre">/etc/apache2/sites-available/etsi-qkd-api.conf</span></code> file, which looks like
 this on my Ubuntu machine:</p>
 <img alt="../_images/apacheconf.png" src="../_images/apacheconf.png" />
-<p>Note the SSLParameters section. This will vary depending on how you configure your SSL certificates, but this should give you a rough idea. The configuration
+<p>You can find a copy of the file <a class="reference external" href="https://speqtralquantum.sharepoint.com/:u:/s/technical/EX-hSB3uoaJDpUmuuNwaBhgB_CMYkz7WU5WRZAQi5jsa-Q?e=a9dKEN">here</a>. Note the SSLParameters section. This will vary depending on how you configure your SSL certificates, but this should give you a rough idea. The configuration
 you see is using SSL certificates verified by Senetas’ CM7 software, so that the API can interface with their virtual encryptors. Also take note of the ServerName,
 which should be your desired server IP, and the relevant WSGI parameters such as the Python path to your virtual environment.</p>
 <p>Next, we can proceed to run the Apache server.</p>

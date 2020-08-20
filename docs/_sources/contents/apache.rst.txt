@@ -26,7 +26,7 @@ this on my Ubuntu machine:
 
 .. image:: /images/apacheconf.png
 
-Note the SSLParameters section. This will vary depending on how you configure your SSL certificates, but this should give you a rough idea. The configuration
+You can find a copy of the file `here <https://speqtralquantum.sharepoint.com/:u:/s/technical/EX-hSB3uoaJDpUmuuNwaBhgB_CMYkz7WU5WRZAQi5jsa-Q?e=a9dKEN>`_. Note the SSLParameters section. This will vary depending on how you configure your SSL certificates, but this should give you a rough idea. The configuration
 you see is using SSL certificates verified by Senetas' CM7 software, so that the API can interface with their virtual encryptors. Also take note of the ServerName,
 which should be your desired server IP, and the relevant WSGI parameters such as the Python path to your virtual environment.
 
