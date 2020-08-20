@@ -19,8 +19,28 @@ be the source of the failed requests, as ``Get key with key IDs`` did not return
 Future work
 +++++++++++
 
+Fixed length UUIDs
+------------------
+
 Hence, it remains future work to devise a way to implement fixed UUID lengths for keys of arbitrary sizes. This is not an easy task as the KMEs need to infer the length
 of the keys solely based on the UUID. The current implementation determines the key length by the number of concatenations. However, losing this property, combined with
 the fact that UUID generation is generally irreversible, means inferring key sizes is not trivial. One avenue would be to pass key sizes as an additional entry in the JSON
 fed to ``Get key with key IDs``.  For instance, there is a ``key_container_extension`` parameter allowed by the ETSI standard that is hitherto unused. The only caveat is to get the
 VMs to actually make use of the parameter--this requires liaising with Senetas engineers to implement this functionality.
+
+Application IDs
+---------------
+
+Another area of future work is in handling of application IDs, specifically in ``api.routes``. You may have noticed that the API routes defined in ``api.routes`` have an
+``id`` parameter which is currently unused. This ID is typically the IP address of the caller. Currently the API is designed to allow any IP to call it. However, one can imagine
+that as the number of applications grow, it is in the interest of the programmer to restrict access to only certain registered IP addresses, for eg. to prevent DDOS attacks. Logic can be implemented to
+filter IDs so only recognized IDs are allowed to call the API. One can also consider 'reserving' keys for certain IDs--for eg. if an application is of high priority, the KME
+can block off a set number of keys that can be obtained only by the caller of that IP address.
+
+Trusted nodes
+-------------
+
+Lastly, it will be interesting, for the further future, to consider how the ETSI API can integrate with trusted node systems, such as that proposed by `OpenQKDNetwork <https://openqkdnetwork.ca/>`_.
+As it is not feasible for satellite QKD systems (such as SpeQtral's) to establish direct quantum links between every pair of nodes, trusted nodes have become a leading proposal
+in establishing large-scale satellite QKD networks. ETSI has not provided guidelines on integrating its API with trusted nodes, so this would be an interesting area
+of research and future consideration.
