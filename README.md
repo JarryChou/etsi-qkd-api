@@ -32,3 +32,7 @@ or if you use Firefox,
 ```
 $ firefox _build/html/index.html
 ```
+
+## Publishing docs to Github Pages
+
+If the user has modified the docs and wishes to publish it to Github Pages, the user must copy *all* contents located in ``docsrc/_build/html`` created by ``make html``, and paste them into ``docs`` before pushing it to ``master``. Github Pages automatically reads html content off ``master/docs`` and publishes it on the webpage.
