@@ -8,6 +8,8 @@ The easy installation involves downloading an Ubuntu 18.04 image preloaded with 
 
 Assuming you are using VirtualBox, go to File > Import Appliance and import the .ovf. The account and password for the Ubuntu image is 'test' and '123' respectively. Once you are inside Ubuntu, fire up the terminal
 
+Alternatively, you can watch a setup video with step-by-step demonstration on how to run the chat app here: [link](https://speqtralquantum.sharepoint.com/:v:/s/technical/EeL1uog2GYVEnQZPFZ318KsBVjs95HBXlJNqUIV1lxcEug?e=f9lagc).
+
 ```
 cd etsi-qkd-api
 source venv/bin/activate
