@@ -10,7 +10,8 @@ First, start by cloning the repository, then installing the pre-requisites in a 
     $ python3 -m venv venv
     $ pip install -r requirements.txt
 
-Next, we need to configure the KME. There are two steps to this.
+You might get some warnings regarding ``wheel`` dependencies--you can ignore them as they do not affect any functionality. Next, we need to configure the KME.
+There are two steps to this.
 
 1. Navigate to the ``config.ini`` file located in the ``/api`` folder. Update ``key_file_path`` with the **ABSOLUTE** file
 path to the folder containing the qcrypto key files. You can ignore step b) denoted in the file as we are not yet looking to deploy

@@ -10,8 +10,8 @@ The user is encouraged to first familiarize with the VMs and its UI through the 
 
 All relevant files, such as setup docs and VM images, can be found in the SpeQtral SharePoint folder `here <https://speqtralquantum.sharepoint.com/:f:/s/technical/EnEUAteO0NNAvOdM-UdKQZwBIM7W9BGNpfz_gyiLzrKiAQ?e=Kf47JS>`_.
 First, go to ``Setup_docs`` to access the basic setup and GNS3 exercise on getting the VMs running. I have written a supplementary document that covers some areas of the original
-documents that may be missing or unclear. You will find the necessary VMs (such as the CV1000s and Ostinato) in the ``VM_images`` folder. Otherwise, the rest of the software
-should be freely available online (eg. GNS3).
+documents that may be missing or unclear. You will find the necessary VMs (such as CV1000 and Ostinato) in the ``VM_images`` folder. There is an associated description txt file that explains which VMs are which.
+Otherwise, the rest of the software should be freely available online (eg. GNS3).
 
 Configure KME for API
 +++++++++++++++++++++
