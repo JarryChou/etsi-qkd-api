@@ -18,7 +18,7 @@ and the connection window should appear. You can obtain the IP of this VM in you
 
 ## Video Tutorial
 
-Alternatively, you can watch a setup video with step-by-step demonstration on how to run the chat app here: [link](https://speqtralquantum.sharepoint.com/:v:/s/technical/EeL1uog2GYVEnQZPFZ318KsBVjs95HBXlJNqUIV1lxcEug?e=f9lagc).
+Alternatively, you can watch a setup video with step-by-step demonstrations on how to run the chat app here: [link](https://speqtralquantum.sharepoint.com/:v:/s/technical/EeL1uog2GYVEnQZPFZ318KsBVjs95HBXlJNqUIV1lxcEug?e=f9lagc).
 
 
 ## Manual Installation from Git Repository
